@@ -74,7 +74,6 @@
 /*    color: #bf616a; !* 柔和的红色 *!*/
 /*}*/
 
-
 /*#eceff4
 /*!* 顶部标题栏 *!*/
 .wy-side-nav-search {
@@ -91,7 +90,7 @@
 
 /* 设置项目名称的具体样式 */
 .wy-side-nav-search .icon-home {
-    color: #3b4252;          /* 项目名称颜色 */#a0d8ef #3b4252
+    color: #3b4252;          /* 项目名称颜色 */
     font-weight: bold;       /* 字体加粗 */
     font-size: 1em;          /* 调整字体大小 */
     margin-top: 5px;         /* 与 logo 之间的距离 */
