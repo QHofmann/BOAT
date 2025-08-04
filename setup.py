@@ -11,7 +11,11 @@ def get_install_requirements():
     requirements_path = path.join(current_directory, "requirements.txt")
     with open(requirements_path, encoding="utf-8") as fp:
         return fp.read().splitlines()
+<<<<<<< Updated upstream
 #aaa
+=======
+#ooo
+>>>>>>> Stashed changes
 
 setup(
     name="boat-torch",
