@@ -12,7 +12,7 @@ def get_install_requirements():
     with open(requirements_path, encoding="utf-8") as fp:
         return fp.read().splitlines()
 #aaa
-
+#666
 setup(
     name="boat-torch",
     version="0.0.1",
