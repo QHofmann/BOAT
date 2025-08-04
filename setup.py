@@ -11,8 +11,8 @@ def get_install_requirements():
     requirements_path = path.join(current_directory, "requirements.txt")
     with open(requirements_path, encoding="utf-8") as fp:
         return fp.read().splitlines()
-#aaa
-#666
+#6666
+
 setup(
     name="boat-torch",
     version="0.0.1",
