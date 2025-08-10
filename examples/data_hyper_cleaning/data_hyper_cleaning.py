@@ -58,13 +58,13 @@ def main():
     parser.add_argument(
         "--dynamic_method",
         type=str,
-        default="NGD,DI,GDA",
+        default="",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
         "--hyper_method",
         type=str,
-        default="CG,PTT",
+        default="",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
