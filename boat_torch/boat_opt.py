@@ -228,11 +228,6 @@ class Problem:
                 self._fo_gm_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
             )
             run_time = time.perf_counter() - start_time
-            ll_loss = self._ll_loss(ll_feed_dict, self._ul_model, self._ll_model,
-                                    params=list(self._ll_model.parameters()))
-            ul_loss = self._ul_loss(ul_feed_dict, self._ul_model, self._ll_model,
-                                    params=list(self._ll_model.parameters()))
-            print(f"ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}")
         else:
             run_time = 0
             if self.boat_configs["accumulate_grad"]:
@@ -313,15 +308,13 @@ class Problem:
             self._upper_opt.step()
             self._upper_opt.zero_grad()
         else:
-            ll_loss = self._ll_loss(ll_feed_dict, self._ul_model,auxiliary_model,params=list(auxiliary_model.parameters()))
-            ul_loss = self._ul_loss(ul_feed_dict, self._ul_model,auxiliary_model,params=list(auxiliary_model.parameters()))
+            ll_loss = self._ll_loss(ll_feed_dict, self._ul_model, self._ll_model)
+            ul_loss = self._ul_loss(ul_feed_dict, self._ul_model, self._ll_model)
             print(f"ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}")
             return [var.grad for var in list(self._ul_var)], run_time
 
-        ll_loss = self._ll_loss(ll_feed_dict, self._ul_model, auxiliary_model,
-                                params=list(auxiliary_model.parameters()))
-        ul_loss = self._ul_loss(ul_feed_dict, self._ul_model, auxiliary_model,
-                                params=list(auxiliary_model.parameters()))
+        ll_loss = self._ll_loss(ll_feed_dict, self._ul_model, self._ll_model)
+        ul_loss = self._ul_loss(ul_feed_dict, self._ul_model, self._ll_model)
         print(f"ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}")
         return self._log_results, run_time
 
