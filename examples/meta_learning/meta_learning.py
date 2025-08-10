@@ -114,13 +114,13 @@ def main():
     parser.add_argument(
         "--dynamic_method",
         type=str,
-        default="",
+        default="NGD,GDA",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
         "--hyper_method",
         type=str,
-        default="",
+        default="CG,IAD",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
@@ -171,6 +171,7 @@ def main():
             print("validation loss:", loss[-1][-1])
             if meta_iter >= 1:
                 break
+    b_optimizer.plot_losses()
 
 
 if __name__ == "__main__":
