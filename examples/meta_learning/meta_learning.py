@@ -126,7 +126,7 @@ def main():
     parser.add_argument(
         "--fo_gm",
         type=str,
-        default="PGDM",
+        default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     args = parser.parse_args()
