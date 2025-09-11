@@ -70,7 +70,7 @@ def main():
     parser.add_argument(
         "--fo_gm",
         type=str,
-        default=None,
+        default="MESM",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
 
