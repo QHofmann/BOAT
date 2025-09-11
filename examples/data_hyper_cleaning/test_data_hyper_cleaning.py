@@ -88,7 +88,6 @@ def test_combination_dynamic_hyper_method_dm(dynamic_method, hyper_method):
 def test_fogm_method(fogm_method):
     command = [
         "python",
-        #"/home/runner/work/BOAT/BOAT/examples/data_hyper_cleaning/data_hyper_cleaning.py",
         "/home/runner/work/BOAT/BOAT/examples/data_hyper_cleaning/data_hyper_cleaning.py",
         "--fo_gm",
         fogm_method[0],

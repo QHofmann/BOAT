@@ -94,7 +94,7 @@ def main():
     parser.add_argument(
         "--fo_gm",
         type=str,
-        default="",
+        default="BAMM",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
 

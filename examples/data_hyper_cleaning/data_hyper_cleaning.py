@@ -2,7 +2,7 @@ import sys
 import os
 import json
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 import boat_torch as boat
 import torch
 import torch.nn.functional as F
@@ -70,7 +70,7 @@ def main():
     parser.add_argument(
         "--fo_gm",
         type=str,
-        default="MESM",
+        default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
     )
 
