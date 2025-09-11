@@ -90,8 +90,9 @@ def main():
     boat_config["upper_level_opt"] = x_opt
     boat_config["lower_level_var"] = list(y.parameters())
     boat_config["upper_level_var"] = list(x.parameters())
-    if "DM" in boat_config["dynamic_op"] :
-        boat_config["lower_iters"] = 1
+    if boat_config["dynamic_op"] is not None:
+        if "DM" in boat_config["dynamic_op"] :
+            boat_config["lower_iters"] = 1
 
     b_optimizer = boat.Problem(boat_config, loss_config)
     if boat_config["fo_gm"] is not None and ("PGDM" in boat_config["fo_gm"]):
