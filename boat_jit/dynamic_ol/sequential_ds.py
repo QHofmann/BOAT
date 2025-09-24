@@ -51,21 +51,14 @@ class SequentialDS:
         Notes
         -----
         - The results of each gradient operator are passed as inputs to the subsequent operator.
-        - Results are stored in the `ResultStore` instance for further use or analysis.
-
-        Example
-        -------
-        >>> gradient_instances = [GradientOp1(), GradientOp2()]
-        >>> custom_order = ["op1", "op2"]
-        >>> sequential_ds = SequentialDS(gradient_instances, custom_order)
-        >>> results = sequential_ds.optimize(input_data=data)
+        - Only the final result is stored in the `ResultStore`.
         """
         self.result_store.clear()  # Reset the result store
         intermediate_result = None
 
         for idx, gradient_instance in enumerate(self.gradient_instances):
-            # Compute the gradient, passing the intermediate result as input
-            result = gradient_instance.optimize(
+            # 传递上一个算子的结果给下一个算子
+            intermediate_result = gradient_instance.optimize(
                 **(kwargs if idx == 0 else intermediate_result),
                 next_operation=(
                     self.custom_order[idx + 1]
@@ -73,11 +66,11 @@ class SequentialDS:
                     else None
                 ),
             )
-            # Store the result
-            self.result_store.add(f"dynamic_results_{idx}", result)
-            intermediate_result = result
 
+        # 只保存最终结果
+        self.result_store.add(f"dynamic_results_{idx}", intermediate_result)
         return self.result_store.get_results()
+
 
 
 def makes_functional_dynamical_system(

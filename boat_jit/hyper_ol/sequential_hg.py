@@ -28,8 +28,7 @@ class SequentialHG:
         """
         Compute hyper-gradients sequentially using the ordered instances.
 
-        This method processes the hyper-gradients in the defined order, passing intermediate
-        results between consecutive gradient operators.
+        This method processes the hyper-gradients in the defined order, passing intermediate results between consecutive gradient operators.
 
         Parameters
         ----------
@@ -46,7 +45,7 @@ class SequentialHG:
 
         for idx, gradient_instance in enumerate(self.gradient_instances):
             # Compute the gradient, passing the intermediate result as input
-            result = gradient_instance.compute_gradients(
+            intermediate_result = gradient_instance.compute_gradients(
                 **(kwargs if idx == 0 else intermediate_result),
                 next_operation=(
                     self.custom_order[idx + 1]
@@ -54,11 +53,12 @@ class SequentialHG:
                     else None
                 ),
             )
-            # Store the result
-            self.result_store.add(f"gradient_operator_results_{idx}", result)
-            intermediate_result = result
+            # 中间结果不再存储，每次直接覆盖 intermediate_result
 
+        # 只保存最后一次的结果
+        self.result_store.add(f"gradient_operator_results", intermediate_result)
         return self.result_store.get_results()
+
 
 
 def makes_functional_hyper_operation(custom_order: List[str], **kwargs) -> SequentialHG:

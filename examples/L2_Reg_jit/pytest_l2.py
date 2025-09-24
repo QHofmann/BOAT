@@ -1,0 +1,126 @@
+import pytest
+import subprocess
+
+# 动态方法组合
+dynamic_methodlist = (
+    ["GDA", "NGD", "DI"],
+    ["DI", "NGD", "GDA"],
+    ["NGD"],
+    ["DI", "NGD"],
+    ["GDA", "NGD"],
+)
+
+# 超参数方法组合
+hyper_methodlist = (
+    ["CG"],
+    ["CG", "PTT"],
+    ["RAD"],
+    ["RAD", "PTT"],
+    ["RAD", "RGT"],
+    ["PTT", "RAD", "RGT"],
+    ["FD"],
+    ["FD", "PTT"],
+    ["NS"],
+    ["NS", "PTT"],
+    ["IGA"],
+    ["IGA", "PTT"],
+)
+
+# 带 DM 的组合
+dynamic_method_dm = (
+    ["DM", "NGD"],
+    ["DM", "GDA", "NGD"],
+)
+hyper_method_dm = (
+    ["RAD"],
+    ["CG"],
+)
+
+# fo_gm 方法
+fogm_method = (
+    ["VSM"],
+    ["VFM"],
+    ["MESM"],
+    ["PGDM"],
+)
+
+# 脚本路径 (注意用 r'' 原始字符串，避免 \ 转义问题)
+#SCRIPT = r"/public/home/panjibao/project/jit/examples/L2_Reg_jit/l2_regularization_org.py"
+SCRIPT = r"/public/home/panjibao/project/jit/examples/L2_Reg_jit/l2_regularization.py"
+
+
+
+
+
+@pytest.mark.parametrize("fogm_method", fogm_method)
+def test_fogm_method(fogm_method):
+    command = [
+        "python",
+        SCRIPT,
+        "--fo_gm",
+        fogm_method[0],  # 取 tuple 里的单个字符串
+    ]
+    print(f"Running test with fo_gm={fogm_method}")
+    result = subprocess.run(command, capture_output=True, text=True)
+    assert result.returncode == 0, (
+        f"Test failed for fo_gm={fogm_method}\n"
+        f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+    )
+
+
+
+
+
+@pytest.mark.parametrize(
+    "dynamic_method, hyper_method",
+    [
+        (dynamic_method, hyper_method)
+        for dynamic_method in dynamic_method_dm
+        for hyper_method in hyper_method_dm
+    ],
+)
+def test_combination_dynamic_hyper_method_dm(dynamic_method, hyper_method):
+    command = [
+        "python",
+        SCRIPT,
+        "--dynamic_method",
+        ",".join(dynamic_method),
+        "--hyper_method",
+        ",".join(hyper_method),
+    ]
+    print(f"Running test with dynamic_method={dynamic_method}, hyper_method={hyper_method}")
+    result = subprocess.run(command, capture_output=True, text=True)
+    assert result.returncode == 0, (
+        f"Test failed for dynamic_method={dynamic_method}, hyper_method={hyper_method}\n"
+        f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+    )
+
+
+
+
+
+
+@pytest.mark.parametrize(
+    "dynamic_method, hyper_method",
+    [
+        (dynamic_method, hyper_method)
+        for dynamic_method in dynamic_methodlist
+        for hyper_method in hyper_methodlist
+    ],
+)
+def test_combination_dynamic_hyper_method(dynamic_method, hyper_method):
+    command = [
+        "python",
+        SCRIPT,
+        "--dynamic_method",
+        ",".join(dynamic_method),
+        "--hyper_method",
+        ",".join(hyper_method),
+    ]
+    print(f"Running test with dynamic_method={dynamic_method}, hyper_method={hyper_method}")
+    result = subprocess.run(command, capture_output=True, text=True)
+    assert result.returncode == 0, (
+        f"Test failed for dynamic_method={dynamic_method}, hyper_method={hyper_method}\n"
+        f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+    )
+

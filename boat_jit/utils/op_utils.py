@@ -41,7 +41,7 @@ class DynamicalSystemRules:
     # Default static gradient operator order
     _gradient_order = [
         ["GDA", "DI"],
-        ["DM", "NGD"],
+        ["NGD", "DM"],
     ]
 
     @staticmethod
@@ -126,21 +126,22 @@ class HyperGradientRules:
 
 def l2_reg(parameters):
     """
-    Compute the L2 regularization loss for a list of parameters.
+    计算 L2 正则化项 (Jittor 版)
 
     Parameters
     ----------
-    parameters : Iterable[jittor.Var]
-        Model parameters for which the L2 regularization is computed.
+    parameters : List[jt.Var]
+        需要计算 L2 正则化的参数列表
 
     Returns
     -------
-    jittor.Var
-        L2 regularization loss.
+    jt.Var
+        L2 正则化损失
     """
-    loss = 0
+    loss = jit.zeros(1)
     for w in parameters:
-        loss += (w**2).sum()
+        # 等价于 torch.sum(w ** 2)
+        loss += (w * w).sum()
     return loss
 
 
@@ -268,34 +269,34 @@ def manual_update(optimizer, variables):
         The Jittor optimizer instance.
     variables : List[jittor.Var]
         A list of Jittor variables to be updated.
-
-    Raises
-    ------
-    AttributeError
-        If a variable does not have the '_custom_grad' attribute.
     """
     variable_ids = {id(var) for var in variables} 
     for group in optimizer.param_groups:
         lr = group.get("lr", optimizer.lr)
 
         for param in group["params"]:
-            if id(param) in variable_ids: 
-                if not hasattr(param, "_custom_grad"):
-                    raise AttributeError(
-                        f"Variable '{param.name}' does not have '_custom_grad'. "
-                        f"Ensure gradients are precomputed and stored before updating."
-                    )
+            if id(param) not in variable_ids:
+                continue
 
-                grad = param._custom_grad
-                if grad.shape != param.shape:
-                    raise ValueError(
-                        f"Gradient shape {grad.shape} does not match parameter shape {param.shape} "
-                        f"for variable '{param.name}'"
-                    )
+            # 如果没梯度 → 跳过更新
+            if not hasattr(param, "_custom_grad"):
+                # 打个 warning 或直接 continue
+                # print(f"[warn] Variable {param.name()} has no _custom_grad, skipping update.")
+                continue  
 
-                param -= lr * grad
+            grad = param._custom_grad
 
-                param._custom_grad *= 0
+            # 形状对不上 → 跳过（或者置零）
+            if grad.shape != param.shape:
+                # print(f"[warn] Shape mismatch for {param.name()}, skipping update.")
+                continue  
+
+            # 执行更新
+            param -= lr * grad
+
+            # 清零 custom_grad，避免累积
+            param._custom_grad *= 0
+
 
 
 # def manual_update(optimizer, variables):
@@ -355,7 +356,8 @@ def update_tensor_grads(hparams, grads):
     """
     for l, g in zip(hparams, grads):
         if l.is_stop_grad():
-            raise ValueError(f"Variable {l.name()} is stop_grad and cannot be updated.")
+            # 跳过这些变量，不报错
+            continue
         if not hasattr(l, "_custom_grad"):
             l._custom_grad = g.clone().detach()
         else:

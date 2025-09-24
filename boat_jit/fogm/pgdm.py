@@ -3,6 +3,7 @@ from boat_jit.utils.op_utils import (
     require_model_grad,
     update_tensor_grads,
     manual_update,
+    l2_reg,
 )
 import jittor as jit
 from jittor import Module
@@ -73,6 +74,10 @@ class PGDM(DynamicalSystem):
         self.gamma_argmax_step = solver_config["PGDM"]["gamma_argmax_step"]
         self.gam = self.gamma_init
         self.device = solver_config["device"]
+        self.y_hat = copy.deepcopy(self.ll_model)
+        self.y_hat_opt = jit.optim.SGD(list(self.y_hat.parameters()), lr=self.y_hat_lr)
+        self.updata_y_ahead = solver_config["PGDM"]["updata_y_ahead"]
+        self.penalty = solver_config["PGDM"]["penalty"]
 
     def optimize(self, ll_feed_dict: Dict, ul_feed_dict: Dict, current_iter: int):
         """
@@ -94,8 +99,7 @@ class PGDM(DynamicalSystem):
         Dict
             A dictionary containing the upper-level objective and the status of hypergradient computation.
         """
-        y_hat = copy.deepcopy(self.ll_model)
-        y_hat_opt = jit.optim.SGD(list(y_hat.parameters()), lr=self.y_hat_lr)
+
 
         if self.gamma_init > self.gamma_max:
             self.gamma_max = self.gamma_init
@@ -104,22 +108,43 @@ class PGDM(DynamicalSystem):
             )
         step_gam = (self.gamma_max - self.gamma_init) / self.gamma_argmax_step
         lr_decay = min(1 / (self.gam + 1e-8), 1)
-        require_model_grad(y_hat)
+
+        if self.updata_y_ahead: # meta_learning need
+            for y_itr in range(self.lower_loop):
+                self.ll_opt.zero_grad()
+                tr_loss = self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
+                grads_hat = grad_unused_zero(tr_loss, list(self.ll_model.parameters()))
+                update_tensor_grads(list(self.ll_model.parameters()), grads_hat)
+                manual_update(self.ll_opt, list(self.ll_model.parameters()))
+
+
+        require_model_grad(self.y_hat)
         for y_itr in range(self.lower_loop):
-            tr_loss = self.ll_objective(ll_feed_dict, self.ul_model, y_hat)
-            grads_hat = grad_unused_zero(tr_loss, y_hat.parameters())
-            update_tensor_grads(list(y_hat.parameters()), grads_hat)
-            manual_update(y_hat_opt, list(y_hat.parameters()))
+            tr_loss = self.ll_objective(ll_feed_dict, self.ul_model, self.y_hat)
+            grads_hat = grad_unused_zero(tr_loss, self.y_hat.parameters())
+            update_tensor_grads(list(self.y_hat.parameters()), grads_hat)
+            manual_update(self.y_hat_opt, list(self.y_hat.parameters()))
 
         F_y = self.ul_objective(ul_feed_dict, self.ul_model, self.ll_model)
-        loss = lr_decay * (
-            F_y
-            + self.gam
-            * (
-                self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
-                - self.ll_objective(ll_feed_dict, self.ul_model, y_hat)
+        assert self.penalty in ["difference", "gradient"], "Set 'penalty' properly."
+        if self.penalty == "difference":
+            loss = lr_decay * (
+                    F_y
+                    + self.gam
+                    * (
+                            self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
+                            - self.ll_objective(ll_feed_dict, self.ul_model, self.y_hat)
+                    )
             )
-        )
+        elif self.penalty == "gradient":
+            tr_loss = self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
+            g_y = grad_unused_zero(tr_loss, list(self.ll_model.parameters()))
+            loss = lr_decay * (
+                    F_y
+                    + self.gam
+                    * l2_reg(g_y)
+            )
+
         grads_lower = grad_unused_zero(loss, self.ll_var)
         update_tensor_grads(self.ll_var, grads_lower)
         grads_upper = grad_unused_zero(loss, self.ul_var)
