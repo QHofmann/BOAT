@@ -8,6 +8,28 @@
 import os
 import sys
 
+
+from pathlib import Path
+
+
+#<project_root>/boat_torch, <project_root>/docs/source/conf.py
+CUR = Path(__file__).resolve()
+PROJECT_ROOT = CUR.parents[2]
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from unittest.mock import MagicMock
+
+autodoc_mock_imports = ["mindspore"]
+
+MOCK_MODULES = ["mindspore"]
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = MagicMock()
+
+    sys.modules[f"{mod_name}.nn"] = MagicMock()
+    sys.modules[f"{mod_name}.ops"] = MagicMock()
+    sys.modules[f"{mod_name}.dataset"] = MagicMock()
+
+
 # 将项目的根目录添加到 sys.path
 sys.path.insert(0, os.path.abspath("../../"))
 
