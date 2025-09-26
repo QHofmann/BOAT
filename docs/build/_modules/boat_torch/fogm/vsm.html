@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_torch.fogm.vsm &mdash; BOAT 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
+  <title>boat_torch.fogm.vsm &mdash; BOAT-Torch 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=dfc096c9" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=f6245a2f"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -32,7 +30,8 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            BOAT
+            BOAT-Torch
+              <img src="../../../_static/logo.jpg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -61,7 +60,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">BOAT</a>
+          <a href="../../../index.html">BOAT-Torch</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -80,19 +79,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for boat_torch.fogm.vsm</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">boat_torch.utils.op_utils</span> <span class="kn">import</span> <span class="n">l2_reg</span><span class="p">,</span><span class="n">update_grads</span><span class="p">,</span> <span class="n">update_tensor_grads</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Module</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">boat_torch.operation_registry</span> <span class="kn">import</span> <span class="n">register_class</span>
-<span class="kn">from</span> <span class="nn">boat_torch.dynamic_ol.dynamical_system</span> <span class="kn">import</span> <span class="n">DynamicalSystem</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boat_torch.utils.op_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">l2_reg</span><span class="p">,</span><span class="n">update_grads</span><span class="p">,</span> <span class="n">update_tensor_grads</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_torch.operation_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_torch.dynamic_ol.dynamical_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
-<div class="viewcode-block" id="VSM">
-<a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vsm.VSM">[docs]</a>
-<span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">VSM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<div class="viewcode-block" id="VSM"><a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vsm.VSM">[docs]</a><span class="nd">@register_class</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">VSM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the optimization procedure of Value-function based Sequential Method (VSM) [1].</span>
 
@@ -130,7 +127,7 @@
 <span class="sd">    [1] Liu B, Ye M, Wright S, et al. &quot;BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach&quot;, in NeurIPS, 2022.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ll_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
         <span class="n">lower_loop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -155,9 +152,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reg_decay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;reg_decay&quot;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;z_lr&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="VSM.optimize">
-<a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vsm.VSM.optimize">[docs]</a>
-    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="VSM.optimize"><a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vsm.VSM.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the optimization procedure using the provided data and model configurations.</span>
 
@@ -172,8 +167,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        None</span>
-<span class="sd">            This method performs in-place optimization and does not return a value.</span>
+<span class="sd">        Dict</span>
+<span class="sd">            A dictionary containing the upper-level objective and the status of hypergradient computation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reg_decay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg_decay</span> <span class="o">*</span> <span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">z_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_loop</span><span class="p">):</span>
@@ -224,9 +219,7 @@
         <span class="n">loss_x</span> <span class="o">=</span> <span class="n">loss_x_</span> <span class="o">-</span> <span class="n">loss_ln</span>
         <span class="n">grads</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">loss_x</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()))</span>
         <span class="n">update_tensor_grads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">loss_x_</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
-</div>
-
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;upper_loss&quot;</span><span class="p">:</span> <span class="n">loss_x_</span><span class="o">.</span><span class="n">item</span><span class="p">()}</span></div></div>
 </pre></div>
 
            </div>
