@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_torch.dynamic_ol.ngd &mdash; BOAT 0.0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
+  <title>boat_torch.dynamic_ol.ngd &mdash; BOAT-Torch 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=dfc096c9" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
-        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=f6245a2f"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -32,7 +30,8 @@
           
           
           <a href="../../../index.html" class="icon icon-home">
-            BOAT
+            BOAT-Torch
+              <img src="../../../_static/logo.jpg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -46,7 +45,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../description.html">BOAT Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install_guide.html">Installation and Usage Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../boat.html">BOAT Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../boat_torch.html">BOAT-Torch Structure</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Example:</span></p>
 <ul>
@@ -61,7 +60,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">BOAT</a>
+          <a href="../../../index.html">BOAT-Torch</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -80,21 +79,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for boat_torch.dynamic_ol.ngd</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch.autograd</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Module</span>
-<span class="kn">from</span> <span class="nn">higher.patch</span> <span class="kn">import</span> <span class="n">_MonkeyPatchBase</span>
-<span class="kn">from</span> <span class="nn">higher.optim</span> <span class="kn">import</span> <span class="n">DifferentiableOptimizer</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">boat_torch.utils.op_utils</span> <span class="kn">import</span> <span class="n">stop_grads</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.autograd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">higher.patch</span><span class="w"> </span><span class="kn">import</span> <span class="n">_MonkeyPatchBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">higher.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">DifferentiableOptimizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_torch.utils.op_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">stop_grads</span>
 
-<span class="kn">from</span> <span class="nn">boat_torch.operation_registry</span> <span class="kn">import</span> <span class="n">register_class</span>
-<span class="kn">from</span> <span class="nn">boat_torch.dynamic_ol.dynamical_system</span> <span class="kn">import</span> <span class="n">DynamicalSystem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_torch.operation_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_torch.dynamic_ol.dynamical_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
-<div class="viewcode-block" id="NGD">
-<a class="viewcode-back" href="../../../boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.ngd.NGD">[docs]</a>
-<span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">NGD</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<div class="viewcode-block" id="NGD"><a class="viewcode-back" href="../../../boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.ngd.NGD">[docs]</a><span class="nd">@register_class</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NGD</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the optimization procedure of the Naive Gradient Descent (NGD) [1].</span>
 
@@ -123,7 +120,7 @@
 <span class="sd">    [1] L. Franceschi, P. Frasconi, S. Salzo, R. Grazzi, and M. Pontil, &quot;Bilevel programming for hyperparameter optimization and meta-learning&quot;, in ICML, 2018.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ll_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
         <span class="n">ul_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
@@ -141,9 +138,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">foa</span> <span class="o">=</span> <span class="s2">&quot;FOA&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="NGD.optimize">
-<a class="viewcode-back" href="../../../boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.ngd.NGD.optimize">[docs]</a>
-    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+<div class="viewcode-block" id="NGD.optimize"><a class="viewcode-back" href="../../../boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.ngd.NGD.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
@@ -178,7 +173,7 @@
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">assert</span> <span class="n">next_operation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;NGD does not support next_operation&quot;</span>
+        <span class="c1"># assert next_operation is None, &quot;NGD does not support next_operation&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;gda_loss&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">gda_loss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;gda_loss&quot;</span><span class="p">]</span>
             <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span>
@@ -205,12 +200,20 @@
                 <span class="n">loss_f</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">auxiliary_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()):</span>
-                <span class="n">y</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ll_backup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()):</span>
-                <span class="n">y</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">()</span>
+            <span class="c1"># for x, y in zip(self.ll_model.parameters(), auxiliary_model.parameters()):</span>
+            <span class="c1">#     y.data = x.data.clone().detach().requires_grad_()</span>
+            <span class="c1"># for x, y in zip(ll_backup, self.ll_model.parameters()):</span>
+            <span class="c1">#     y.data = x.data.clone().detach().requires_grad_()</span>
+            <span class="c1"># 改为（不会制造新存储，也不会挂计算图）</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">auxiliary_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()):</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ll_backup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()):</span>
+                    <span class="n">y</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">ll_backup</span>  <span class="c1"># 显式释放临时备份引用</span>
 
-        <span class="c1"># truncate with PTT method</span>
+
+        <span class="c1"># # truncate with PTT method</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span><span class="p">:</span>
             <span class="n">ul_loss_list</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">lower_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lower_loop</span><span class="p">):</span>
@@ -226,11 +229,11 @@
                         <span class="n">ll_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span>
                     <span class="p">)</span>
                 <span class="n">auxiliary_opt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">loss_f</span><span class="p">)</span>
-
-                <span class="n">upper_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_objective</span><span class="p">(</span>
-                    <span class="n">ul_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span>
-                <span class="p">)</span>
-                <span class="n">ul_loss_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">upper_loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+                <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                    <span class="n">upper_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_objective</span><span class="p">(</span>
+                        <span class="n">ul_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span>
+                    <span class="p">)</span>
+                    <span class="n">ul_loss_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">upper_loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
             <span class="n">ll_step_with_max_ul_loss</span> <span class="o">=</span> <span class="n">ul_loss_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">ul_loss_list</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">ll_step_with_max_ul_loss</span> <span class="o">+</span> <span class="mi">1</span>
 
@@ -244,9 +247,17 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">loss_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_objective</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span><span class="p">)</span>
             <span class="n">auxiliary_opt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">loss_f</span><span class="p">,</span> <span class="n">grad_callback</span><span class="o">=</span><span class="n">stop_grads</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">foa</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
-</div>
-
+        <span class="k">if</span> <span class="n">next_operation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;ll_feed_dict&quot;</span><span class="p">:</span> <span class="n">ll_feed_dict</span><span class="p">,</span>
+                <span class="s2">&quot;ul_feed_dict&quot;</span><span class="p">:</span> <span class="n">ul_feed_dict</span><span class="p">,</span>
+                <span class="s2">&quot;auxiliary_model&quot;</span><span class="p">:</span> <span class="n">auxiliary_model</span><span class="p">,</span>
+                <span class="s2">&quot;auxiliary_opt&quot;</span><span class="p">:</span> <span class="n">auxiliary_opt</span><span class="p">,</span>
+                <span class="s2">&quot;current_iter&quot;</span><span class="p">:</span> <span class="n">current_iter</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">}</span></div></div>
 </pre></div>
 
            </div>
