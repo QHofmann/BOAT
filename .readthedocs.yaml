@@ -29,5 +29,5 @@ sphinx:
 
 python:
   install:
-    - requirements: docs/requirements_doc.txt  # 指定 requirements.txt 文件路径
-    - requorements: docs/requirements_list.txt
+    - requirements: docs/requirements_doc.txt
+    - requirements: docs/requirements_extra.txt
