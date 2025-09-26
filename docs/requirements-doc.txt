@@ -1,4 +1,0 @@
-sphinx
-sphinx-rtd-theme
-myst-parser
-m2r

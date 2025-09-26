@@ -36,13 +36,13 @@ extensions = [
     "myst_parser",  # 支持 Markdown (可选)
 ]
 
-autodoc_mock_imports = [
-    "numpy", "scipy", "sklearn",
-    "torch", "torchvision", "torchmeta", "higher",
-    "matplotlib"
-]
+# autodoc_mock_imports = [
+#     "numpy", "scipy", "sklearn",
+#     "torch", "torchvision", "torchmeta", "higher",
+#     "matplotlib"
+# ]
 
-autodoc_typehints = "none"
+# autodoc_typehints = "none"
 
 
 templates_path = ["_templates"]
