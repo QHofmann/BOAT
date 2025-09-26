@@ -33,7 +33,7 @@ The running example of l2 regularization is organized as follows.
    :caption: Example:
 
    l2_regularization_example.md
-   modules
+
 
 Indices and tables
 ==========================
