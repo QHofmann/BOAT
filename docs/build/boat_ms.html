@@ -49,55 +49,20 @@
 <li class="toctree-l1"><a class="reference internal" href="description.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install_guide.html">Installation and Usage Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">BOAT-MS Structure</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-boat_ms.boat_opt">Core Problem Class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#boat_ms.boat_opt.Problem"><code class="docutils literal notranslate"><span class="pre">Problem</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.boat_opt.Problem.build_ll_solver"><code class="docutils literal notranslate"><span class="pre">Problem.build_ll_solver()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.boat_opt.Problem.build_ul_solver"><code class="docutils literal notranslate"><span class="pre">Problem.build_ul_solver()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.boat_opt.Problem.plot_losses"><code class="docutils literal notranslate"><span class="pre">Problem.plot_losses()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.boat_opt.Problem.run_iter"><code class="docutils literal notranslate"><span class="pre">Problem.run_iter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.boat_opt.Problem.save_losses"><code class="docutils literal notranslate"><span class="pre">Problem.save_losses()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#core-problem-class">Core Problem Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#main-subpackages">Main Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="boat_ms.dynamic_ol.html">boat_ms.dynamic_ol</a></li>
 <li class="toctree-l3"><a class="reference internal" href="boat_ms.fogm.html">boat_ms.fogm</a></li>
 <li class="toctree-l3"><a class="reference internal" href="boat_ms.utils.html">boat_ms.utils</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-boat_ms.operation_registry">Extension with Operation_Registry</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#boat_ms.operation_registry.get_registered_operation"><code class="docutils literal notranslate"><span class="pre">get_registered_operation()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#boat_ms.operation_registry.register_class"><code class="docutils literal notranslate"><span class="pre">register_class()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#extension-with-operation-registry">Extension with Operation_Registry</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Example:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="l2_regularization_example.html">L2 Regularization with MindSpore</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">boat_ms</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">BOAT-MS Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-boat_ms.boat_opt">Core Problem Class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.boat_opt.Problem"><code class="docutils literal notranslate"><span class="pre">Problem</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#main-subpackages">Main Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.dynamic_ol.html">boat_ms.dynamic_ol</a></li>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.fogm.html">boat_ms.fogm</a></li>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.utils.html">boat_ms.utils</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-boat_ms.operation_registry">Extension with Operation_Registry</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.operation_registry.get_registered_operation"><code class="docutils literal notranslate"><span class="pre">get_registered_operation()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#boat_ms.operation_registry.register_class"><code class="docutils literal notranslate"><span class="pre">register_class()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 
         </div>
@@ -126,49 +91,8 @@
              
   <section id="boat-ms-structure">
 <h1>BOAT-MS Structure<a class="headerlink" href="#boat-ms-structure" title="Permalink to this heading"></a></h1>
-<section id="module-boat_ms.boat_opt">
-<span id="core-problem-class"></span><h2>Core Problem Class<a class="headerlink" href="#module-boat_ms.boat_opt" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="boat_ms.boat_opt.Problem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_ms.boat_opt.</span></span><span class="sig-name descname"><span class="pre">Problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/boat_opt.html#Problem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.boat_opt.Problem" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Enhanced bi-level optimization problem class supporting flexible loss functions and operation configurations.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="boat_ms.boat_opt.Problem.build_ll_solver">
-<span class="sig-name descname"><span class="pre">build_ll_solver</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/boat_opt.html#Problem.build_ll_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.boat_opt.Problem.build_ll_solver" title="Permalink to this definition"></a></dt>
-<dd><p>Configure the lower-level solver.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="boat_ms.boat_opt.Problem.build_ul_solver">
-<span class="sig-name descname"><span class="pre">build_ul_solver</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/boat_opt.html#Problem.build_ul_solver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.boat_opt.Problem.build_ul_solver" title="Permalink to this definition"></a></dt>
-<dd><p>Placeholder for UL solver configuration (FOGM manages updates internally in MindSpore setting).</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="boat_ms.boat_opt.Problem.plot_losses">
-<span class="sig-name descname"><span class="pre">plot_losses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/boat_opt.html#Problem.plot_losses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.boat_opt.Problem.plot_losses" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="boat_ms.boat_opt.Problem.run_iter">
-<span class="sig-name descname"><span class="pre">run_iter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/boat_opt.html#Problem.run_iter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.boat_opt.Problem.run_iter" title="Permalink to this definition"></a></dt>
-<dd><p>Run a single iteration of the bi-level optimization process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(results, run_time)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="boat_ms.boat_opt.Problem.save_losses">
-<span class="sig-name descname"><span class="pre">save_losses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_loss</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/boat_opt.html#Problem.save_losses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.boat_opt.Problem.save_losses" title="Permalink to this definition"></a></dt>
-<dd><p>Save the losses to a JSON file and update the loss history.</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="core-problem-class">
+<h2>Core Problem Class<a class="headerlink" href="#core-problem-class" title="Permalink to this heading"></a></h2>
 </section>
 <section id="main-subpackages">
 <h2>Main Subpackages<a class="headerlink" href="#main-subpackages" title="Permalink to this heading"></a></h2>
@@ -176,69 +100,27 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="boat_ms.dynamic_ol.html">boat_ms.dynamic_ol</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="boat_ms.dynamic_ol.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boat_ms.dynamic_ol.html#module-boat_ms.dynamic_ol.dynamical_system">boat_ms.dynamic_ol.dynamical_system</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="boat_ms.dynamic_ol.html#boat_ms.dynamic_ol.dynamical_system.DynamicalSystem"><code class="docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.dynamic_ol.html#boat_ms.dynamic_ol.dynamical_system.DynamicalSystem.optimize"><code class="docutils literal notranslate"><span class="pre">DynamicalSystem.optimize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="boat_ms.dynamic_ol.html#boat-ms-dynamic-ol-dynamical-system">boat_ms.dynamic_ol.dynamical_system</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="boat_ms.fogm.html">boat_ms.fogm</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#module-boat_ms.fogm.mesm">boat_ms.fogm.mesm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.mesm.MESM"><code class="docutils literal notranslate"><span class="pre">MESM</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.mesm.MESM.optimize"><code class="docutils literal notranslate"><span class="pre">MESM.optimize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#module-boat_ms.fogm.pgdm">boat_ms.fogm.pgdm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.pgdm.PGDM"><code class="docutils literal notranslate"><span class="pre">PGDM</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.pgdm.PGDM.optimize"><code class="docutils literal notranslate"><span class="pre">PGDM.optimize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#module-boat_ms.fogm.vfm">boat_ms.fogm.vfm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.vfm.VFM"><code class="docutils literal notranslate"><span class="pre">VFM</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.vfm.VFM.optimize"><code class="docutils literal notranslate"><span class="pre">VFM.optimize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#module-boat_ms.fogm.vsm">boat_ms.fogm.vsm</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.vsm.VSM"><code class="docutils literal notranslate"><span class="pre">VSM</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="boat_ms.fogm.html#boat_ms.fogm.vsm.VSM.optimize"><code class="docutils literal notranslate"><span class="pre">VSM.optimize()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#boat-ms-fogm-mesm">boat_ms.fogm.mesm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#boat-ms-fogm-pgdm">boat_ms.fogm.pgdm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#boat-ms-fogm-vfm">boat_ms.fogm.vfm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boat_ms.fogm.html#boat-ms-fogm-vsm">boat_ms.fogm.vsm</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="boat_ms.utils.html">boat_ms.utils</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="boat_ms.utils.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boat_ms.utils.html#module-boat_ms.utils.op_utils">boat_ms.utils.op_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boat_ms.utils.html#boat-ms-utils-op-utils">boat_ms.utils.op_utils</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </section>
-<section id="module-boat_ms.operation_registry">
-<span id="extension-with-operation-registry"></span><h2>Extension with Operation_Registry<a class="headerlink" href="#module-boat_ms.operation_registry" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="boat_ms.operation_registry.get_registered_operation">
-<span class="sig-prename descclassname"><span class="pre">boat_ms.operation_registry.</span></span><span class="sig-name descname"><span class="pre">get_registered_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/operation_registry.html#get_registered_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.operation_registry.get_registered_operation" title="Permalink to this definition"></a></dt>
-<dd><p>Retrieve a registered operation class by name.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="boat_ms.operation_registry.register_class">
-<span class="sig-prename descclassname"><span class="pre">boat_ms.operation_registry.</span></span><span class="sig-name descname"><span class="pre">register_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/operation_registry.html#register_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.operation_registry.register_class" title="Permalink to this definition"></a></dt>
-<dd><p>Register a new operation class to the global registry.</p>
-</dd></dl>
-
+<section id="extension-with-operation-registry">
+<h2>Extension with Operation_Registry<a class="headerlink" href="#extension-with-operation-registry" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 
