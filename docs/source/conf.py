@@ -20,18 +20,25 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # 将项目的根目录添加到 sys.path
 sys.path.insert(0, os.path.abspath("../../"))
 
-
 from unittest.mock import MagicMock
+import sys
 
-autodoc_mock_imports = ["mindspore", "boat_ms.utils.op_utils","matplotlib", "matplotlib.pyplot"]
+# mock mindspore
+sys.modules["mindspore"] = MagicMock()
 
-# 给 op_utils 打一个假的模块，补上需要的函数
+# mock boat_ms 和子模块
+sys.modules["boat_ms"] = MagicMock()
+sys.modules["boat_ms.utils"] = MagicMock()
+
+# mock op_utils，并补上需要的函数
 mock_op_utils = MagicMock()
 mock_op_utils.copy_parameter_from_list = MagicMock()
 mock_op_utils.require_model_grad = MagicMock()
 mock_op_utils.l2_reg = MagicMock()
 mock_op_utils.grad_unused_zero = MagicMock()
+
 sys.modules["boat_ms.utils.op_utils"] = mock_op_utils
+
 
 
 
