@@ -17,6 +17,10 @@ CUR = Path(__file__).resolve()
 PROJECT_ROOT = CUR.parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
+# 将项目的根目录添加到 sys.path
+sys.path.insert(0, os.path.abspath("../../"))
+
+
 from unittest.mock import MagicMock
 
 autodoc_mock_imports = ["mindspore"]
@@ -29,9 +33,13 @@ for mod_name in MOCK_MODULES:
     sys.modules[f"{mod_name}.ops"] = MagicMock()
     sys.modules[f"{mod_name}.dataset"] = MagicMock()
 
+autodoc_mock_imports = [
+    "matplotlib", "matplotlib.pyplot"
+]
 
-# 将项目的根目录添加到 sys.path
-sys.path.insert(0, os.path.abspath("../../"))
+autodoc_typehints = "none"
+
+
 
 html_logo = "_static/logo.jpg"
 
