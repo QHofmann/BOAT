@@ -118,39 +118,192 @@
 </section>
 <section id="module-boat_ms.fogm.mesm">
 <span id="boat-ms-fogm-mesm"></span><h2>boat_ms.fogm.mesm<a class="headerlink" href="#module-boat_ms.fogm.mesm" title="Permalink to this heading"></a></h2>
-<p>MagicMock is a subclass of Mock with default implementations
-of most of the magic methods. You can use MagicMock without having to
-configure the magic methods yourself.</p>
-<p>If you use the <cite>spec</cite> or <cite>spec_set</cite> arguments then <em>only</em> magic
-methods that exist in the spec will be created.</p>
-<p>Attributes and the return value of a <cite>MagicMock</cite> will also be <cite>MagicMocks</cite>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="boat_ms.fogm.mesm.MESM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_ms.fogm.mesm.</span></span><span class="sig-name descname"><span class="pre">MESM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/mesm.html#MESM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.mesm.MESM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="boat_ms.dynamic_ol.html#boat_ms.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_ms.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
+<p>Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESM) [1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ll_objective</strong> (<em>Callable</em>) – The lower-level objective of the BLO problem.</p></li>
+<li><p><strong>ul_objective</strong> (<em>Callable</em>) – The upper-level objective of the BLO problem.</p></li>
+<li><p><strong>ll_model</strong> (<em>mindspore.nn.Cell</em>) – The lower-level model of the BLO problem.</p></li>
+<li><p><strong>ul_model</strong> (<em>mindspore.nn.Cell</em>) – The upper-level model of the BLO problem.</p></li>
+<li><p><strong>ll_var</strong> (<em>List</em><em>[</em><em>mindspore.Tensor</em><em>]</em>) – The list of lower-level variables of the BLO problem.</p></li>
+<li><p><strong>ul_var</strong> (<em>List</em><em>[</em><em>mindspore.Tensor</em><em>]</em>) – The list of upper-level variables of the BLO problem.</p></li>
+<li><p><strong>lower_loop</strong> (<em>int</em>) – Number of iterations for lower-level optimization.</p></li>
+<li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>A dictionary containing solver configurations. Expected keys include:</p>
+<ul>
+<li><p>”lower_level_opt”: The optimizer for the lower-level model.</p></li>
+<li><dl class="simple">
+<dt>”MESM” (Dict): A dictionary containing the following keys:</dt><dd><ul>
+<li><p>”eta”: Learning rate for the MESM optimization procedure.</p></li>
+<li><p>”gamma_1”: Regularization parameter for the MESM algorithm.</p></li>
+<li><p>”c0”: Initial constant for the update steps.</p></li>
+<li><p>”y_hat_lr”: Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>[1] Liu R, Liu Z, Yao W, et al. “Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy,” ICML, 2024.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boat_ms.fogm.mesm.MESM.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/mesm.html#MESM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.mesm.MESM.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Execute the optimization procedure with the data from feed_dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ll_feed_dict</strong> (<em>Dict</em>) – Dictionary containing the lower-level data used for optimization. It typically includes training data, targets, and other information required to compute the LL objective.</p></li>
+<li><p><strong>ul_feed_dict</strong> (<em>Dict</em>) – Dictionary containing the upper-level data used for optimization. It typically includes validation data, targets, and other information required to compute the UL objective.</p></li>
+<li><p><strong>current_iter</strong> (<em>int</em>) – The current iteration number of the optimization process.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The upper-level loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-boat_ms.fogm.pgdm">
 <span id="boat-ms-fogm-pgdm"></span><h2>boat_ms.fogm.pgdm<a class="headerlink" href="#module-boat_ms.fogm.pgdm" title="Permalink to this heading"></a></h2>
-<p>MagicMock is a subclass of Mock with default implementations
-of most of the magic methods. You can use MagicMock without having to
-configure the magic methods yourself.</p>
-<p>If you use the <cite>spec</cite> or <cite>spec_set</cite> arguments then <em>only</em> magic
-methods that exist in the spec will be created.</p>
-<p>Attributes and the return value of a <cite>MagicMock</cite> will also be <cite>MagicMocks</cite>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="boat_ms.fogm.pgdm.PGDM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_ms.fogm.pgdm.</span></span><span class="sig-name descname"><span class="pre">PGDM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/pgdm.html#PGDM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.pgdm.PGDM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="boat_ms.dynamic_ol.html#boat_ms.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_ms.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
+<p>Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESM) [1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ll_objective</strong> (<em>Callable</em>) – The lower-level objective of the BLO problem.</p></li>
+<li><p><strong>ul_objective</strong> (<em>Callable</em>) – The upper-level objective of the BLO problem.</p></li>
+<li><p><strong>ll_model</strong> (<em>mindspore.nn.Cell</em>) – The lower-level model of the BLO problem.</p></li>
+<li><p><strong>ul_model</strong> (<em>mindspore.nn.Cell</em>) – The upper-level model of the BLO problem.</p></li>
+<li><p><strong>ll_var</strong> (<em>List</em><em>[</em><em>mindspore.Tensor</em><em>]</em>) – The list of lower-level variables of the BLO problem.</p></li>
+<li><p><strong>ul_var</strong> (<em>List</em><em>[</em><em>mindspore.Tensor</em><em>]</em>) – The list of upper-level variables of the BLO problem.</p></li>
+<li><p><strong>lower_loop</strong> (<em>int</em>) – Number of iterations for lower-level optimization.</p></li>
+<li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>A dictionary containing solver configurations. Expected keys include:</p>
+<ul>
+<li><p>”lower_level_opt”: The optimizer for the lower-level model.</p></li>
+<li><dl class="simple">
+<dt>”PGDM” (Dict): A dictionary containing the following keys:</dt><dd><ul>
+<li><p>”y_hat_lr”: Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
+<li><p>”gamma_init”: Initial value of the hyperparameter <cite>gamma</cite>.</p></li>
+<li><p>”gamma_max”: Maximum value of the hyperparameter <cite>gamma</cite>.</p></li>
+<li><p>”gamma_argmax_step”: Step size of the hyperparameter <cite>gamma</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>[1] Shen H, Chen T. “On penalty-based bilevel gradient descent method,” in ICML, 2023.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boat_ms.fogm.pgdm.PGDM.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/pgdm.html#PGDM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.pgdm.PGDM.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Execute the optimization procedure with the data from feed_dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ll_feed_dict</strong> (<em>Dict</em>) – Dictionary containing the lower-level data used for optimization. It typically includes training data, targets, and other information required to compute the LL objective.</p></li>
+<li><p><strong>ul_feed_dict</strong> (<em>Dict</em>) – Dictionary containing the upper-level data used for optimization. It typically includes validation data, targets, and other information required to compute the UL objective.</p></li>
+<li><p><strong>current_iter</strong> (<em>int</em>) – The current iteration number of the optimization process.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The upper-level loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-boat_ms.fogm.vfm">
 <span id="boat-ms-fogm-vfm"></span><h2>boat_ms.fogm.vfm<a class="headerlink" href="#module-boat_ms.fogm.vfm" title="Permalink to this heading"></a></h2>
-<p>MagicMock is a subclass of Mock with default implementations
-of most of the magic methods. You can use MagicMock without having to
-configure the magic methods yourself.</p>
-<p>If you use the <cite>spec</cite> or <cite>spec_set</cite> arguments then <em>only</em> magic
-methods that exist in the spec will be created.</p>
-<p>Attributes and the return value of a <cite>MagicMock</cite> will also be <cite>MagicMocks</cite>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="boat_ms.fogm.vfm.VFM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_ms.fogm.vfm.</span></span><span class="sig-name descname"><span class="pre">VFM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/vfm.html#VFM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.vfm.VFM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="boat_ms.dynamic_ol.html#boat_ms.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_ms.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
+<p>Implements the optimization procedure of Value-function based First-Order Method (VFM) [1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ll_objective</strong> (<em>Callable</em>) – The lower-level objective function of the BLO problem.</p></li>
+<li><p><strong>ul_objective</strong> (<em>Callable</em>) – The upper-level objective function of the BLO problem.</p></li>
+<li><p><strong>ll_model</strong> (<em>mindspore.nn.Cell</em>) – The lower-level model of the BLO problem.</p></li>
+<li><p><strong>ul_model</strong> (<em>mindspore.nn.Cell</em>) – The upper-level model of the BLO problem.</p></li>
+<li><p><strong>ll_var</strong> (<em>List</em><em>[</em><em>mindspore.Tensor</em><em>]</em>) – A list of lower-level variables of the BLO problem.</p></li>
+<li><p><strong>ul_var</strong> (<em>List</em><em>[</em><em>mindspore.Tensor</em><em>]</em>) – A list of upper-level variables of the BLO problem.</p></li>
+<li><p><strong>lower_loop</strong> (<em>int</em>) – The number of iterations for lower-level optimization.</p></li>
+<li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>A dictionary containing configurations for the solver. Expected keys include:</p>
+<ul>
+<li><p>”lower_level_opt” (mindspore.nn.optim.Optimizer): Optimizer for the lower-level model.</p></li>
+<li><dl class="simple">
+<dt>”VFM” (Dict): Configuration for the VFM algorithm:</dt><dd><ul>
+<li><p>”y_hat_lr” (float): Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
+<li><p>”eta” (float): Step size for value-function updates.</p></li>
+<li><p>”u1” (float): Hyperparameter controlling the penalty in the value function.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>”device” (str): Device on which computations are performed, e.g., “cpu” or “cuda”.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>[1] R. Liu, X. Liu, X. Yuan, S. Zeng and J. Zhang, “A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization,” in ICML, 2021.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boat_ms.fogm.vfm.VFM.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/vfm.html#VFM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.vfm.VFM.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Execute the optimization procedure with the data from feed_dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ll_feed_dict</strong> (<em>Dict</em>) – Dictionary containing the lower-level data used for optimization. It typically includes training data, targets, and other information required to compute the LL objective.</p></li>
+<li><p><strong>ul_feed_dict</strong> (<em>Dict</em>) – Dictionary containing the upper-level data used for optimization. It typically includes validation data, targets, and other information required to compute the UL objective.</p></li>
+<li><p><strong>current_iter</strong> (<em>int</em>) – The current iteration number of the optimization process.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The upper-level loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-boat_ms.fogm.vsm">
 <span id="boat-ms-fogm-vsm"></span><h2>boat_ms.fogm.vsm<a class="headerlink" href="#module-boat_ms.fogm.vsm" title="Permalink to this heading"></a></h2>
-<p>MagicMock is a subclass of Mock with default implementations
-of most of the magic methods. You can use MagicMock without having to
-configure the magic methods yourself.</p>
-<p>If you use the <cite>spec</cite> or <cite>spec_set</cite> arguments then <em>only</em> magic
-methods that exist in the spec will be created.</p>
-<p>Attributes and the return value of a <cite>MagicMock</cite> will also be <cite>MagicMocks</cite>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="boat_ms.fogm.vsm.VSM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_ms.fogm.vsm.</span></span><span class="sig-name descname"><span class="pre">VSM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/vsm.html#VSM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.vsm.VSM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="boat_ms.dynamic_ol.html#boat_ms.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_ms.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
+<p>Value-function based Sequential Method (VSM) [Liu et al., NeurIPS 2022]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boat_ms.fogm.vsm.VSM.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_ms/fogm/vsm.html#VSM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_ms.fogm.vsm.VSM.optimize" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
