@@ -19,6 +19,12 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # 将项目的根目录添加到 sys.path
 sys.path.insert(0, os.path.abspath("../../"))
 
+
+autodoc_mock_imports = [
+    "jittor",
+    "matplotlib", "matplotlib.pyplot"
+]
+
 autodoc_typehints = "none"
 
 html_logo = "_static/logo.jpg"
