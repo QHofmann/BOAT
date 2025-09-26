@@ -29,6 +29,17 @@ extensions = [
     "myst_parser",  # 支持 Markdown (可选)
 ]
 
+autodoc_mock_imports = [
+    "torch",
+    "torchvision",
+    "torchmeta",
+    "higher",
+    "numpy",
+    "scipy",
+    "sklearn"
+]
+
+
 templates_path = ["_templates"]
 exclude_patterns = []
 
