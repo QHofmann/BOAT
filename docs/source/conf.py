@@ -30,14 +30,10 @@ extensions = [
 ]
 
 autodoc_mock_imports = [
-    "torch",
-    "torchvision",
-    "torchmeta",
-    "higher",
-    "numpy",
-    "scipy",
-    "sklearn"
+    "numpy", "scipy", "sklearn",
+    "torch", "torchvision", "torchmeta", "higher"
 ]
+autodoc_typehints = "none"
 
 
 templates_path = ["_templates"]
