@@ -20,6 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="boat_jit" href="modules.html" />
     <link rel="prev" title="boat_jit.utils" href="boat_jit.utils.html" /> 
 </head>
 
@@ -80,6 +81,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#how-to-run">How to Run</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">boat_jit</a></li>
 </ul>
 
         </div>
@@ -112,7 +114,6 @@
 <section id="step-by-step-explanation">
 <h2>Step-by-Step Explanation<a class="headerlink" href="#step-by-step-explanation" title="Permalink to this heading"></a></h2>
 </section>
-<hr class="docutils" />
 <section id="step-1-configuration-loading">
 <h2>Step 1: Configuration Loading<a class="headerlink" href="#step-1-configuration-loading" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">base_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
@@ -132,7 +133,6 @@
 </ul>
 </section>
 </section>
-<hr class="docutils" />
 <section id="step-2-data-preparation">
 <h2>Step 2: Data Preparation<a class="headerlink" href="#step-2-data-preparation" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
@@ -154,7 +154,6 @@
 </ul>
 </section>
 </section>
-<hr class="docutils" />
 <section id="step-3-model-initialization">
 <h2>Step 3: Model Initialization<a class="headerlink" href="#step-3-model-initialization" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">UpperModel</span><span class="p">(</span><span class="n">jit</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -187,7 +186,6 @@
 </ul>
 </section>
 </section>
-<hr class="docutils" />
 <section id="step-4-optimizer-setup">
 <h2>Step 4: Optimizer Setup<a class="headerlink" href="#step-4-optimizer-setup" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">upper_opt</span> <span class="o">=</span> <span class="n">jit</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">upper_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
@@ -206,7 +204,6 @@
 </ul>
 </section>
 </section>
-<hr class="docutils" />
 <section id="step-5-bi-level-optimization">
 <h2>Step 5: Bi-Level Optimization<a class="headerlink" href="#step-5-bi-level-optimization" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_method</span>
@@ -268,7 +265,6 @@
 </ul>
 </section>
 </section>
-<hr class="docutils" />
 <section id="how-to-run">
 <h2>How to Run<a class="headerlink" href="#how-to-run" title="Permalink to this heading"></a></h2>
 <p>To execute the example, use the following command:</p>
@@ -283,6 +279,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="boat_jit.utils.html" class="btn btn-neutral float-left" title="boat_jit.utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="boat_jit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

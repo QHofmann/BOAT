@@ -14,7 +14,7 @@ class NGD(DynamicalSystem):
     Implements the optimization procedure of the Naive Gradient Descent (NGD) [1].
 
     Jittor version aligned with Torch version.
-
+    
     Parameters
     ----------
     ll_objective : Callable

@@ -4,7 +4,7 @@ This example demonstrates how to use the BOAT library with the Jittor framework 
 
 ## Step-by-Step Explanation
 
----
+
 
 ## Step 1: Configuration Loading
 
@@ -22,7 +22,7 @@ with open(os.path.join(base_folder, "configs_jit/loss_config_l2.json"), "r") as 
 - **`boat_config_l2.json`**: Contains configuration for the bi-level optimization problem.
 - **`loss_config_l2.json`**: Defines the loss functions for both upper-level and lower-level models.
 
----
+
 
 ## Step 2: Data Preparation
 
@@ -42,7 +42,7 @@ def get_data(args):
 - The `get_data` function loads the dataset, processes it to Jittor tensors, and splits it into training, validation, test, and evaluation sets.
 - Processed data is saved to a file for future use.
 
----
+
 
 ## Step 3: Model Initialization
 
@@ -73,7 +73,7 @@ lower_model = LowerModel(trainset[0].shape[-1], int(trainset[1].max().item()) + 
 - **`UpperModel`**: Represents the upper-level model with a single learnable parameter.
 - **`LowerModel`**: Represents the lower-level model initialized using the Kaiming initialization strategy.
 
----
+
 
 ## Step 4: Optimizer Setup
 
@@ -90,7 +90,7 @@ hyper_method = args.hyper_method.split(",") if args.hyper_method else []
 - **SGD optimizer**: Applied to the lower-level model for efficient gradient updates.
 - The `dynamic_method` and `hyper_method` parameters allow flexible optimization strategies.
 
----
+
 
 ## Step 5: Bi-Level Optimization
 
@@ -148,7 +148,7 @@ print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_acc:.4f}")
 - The `evaluate` function calculates the model's loss and accuracy on the test dataset.
 - Outputs the test performance metrics for monitoring optimization progress.
 
----
+
 
 ## How to Run
 
