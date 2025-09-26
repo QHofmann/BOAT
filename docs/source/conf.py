@@ -23,19 +23,17 @@ sys.path.insert(0, os.path.abspath("../../"))
 
 from unittest.mock import MagicMock
 
-autodoc_mock_imports = ["mindspore"]
+autodoc_mock_imports = ["mindspore", "boat_ms.utils.op_utils","matplotlib", "matplotlib.pyplot"]
 
-MOCK_MODULES = ["mindspore"]
-for mod_name in MOCK_MODULES:
-    sys.modules[mod_name] = MagicMock()
+# 给 op_utils 打一个假的模块，补上需要的函数
+mock_op_utils = MagicMock()
+mock_op_utils.copy_parameter_from_list = MagicMock()
+mock_op_utils.require_model_grad = MagicMock()
+mock_op_utils.l2_reg = MagicMock()
+mock_op_utils.grad_unused_zero = MagicMock()
+sys.modules["boat_ms.utils.op_utils"] = mock_op_utils
 
-    sys.modules[f"{mod_name}.nn"] = MagicMock()
-    sys.modules[f"{mod_name}.ops"] = MagicMock()
-    sys.modules[f"{mod_name}.dataset"] = MagicMock()
 
-autodoc_mock_imports = [
-    "matplotlib", "matplotlib.pyplot"
-]
 
 autodoc_typehints = "none"
 
