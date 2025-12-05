@@ -24,7 +24,7 @@
 
 **BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that focuses on abstracting the key BLO process into modular, flexible components. It enables researchers and developers to tackle learning tasks with hierarchical nested nature by providing customizable and diverse operator decomposition, encapsulation, and combination. BOAT supports specialized optimization strategies, including second-order or first-order, nested or non-nested, and with or without theoretical guarantees, catering to various levels of complexity.
 
-To enhance flexibility and efficiency, BOAT incorporates the **Dynamic Operation Library (D-OL)** and the **Hyper Operation Library (H-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
+To enhance flexibility and efficiency, BOAT incorporates the **Gradient Mapping Operation Library (GM-OL)** and the **Numerical Approximation Operation Library (NA-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
 - **[PyTorch-based](https://github.com/callous-youth/BOAT)**: An efficient and widely-used version.
 - **[Jittor-based](https://github.com/callous-youth/BOAT/tree/boat_jit)**: An accelerated version for high-performance tasks.
 - **[MindSpore-based](https://github.com/callous-youth/BOAT/tree/boat_ms)**: Incorporating the latest first-order optimization strategies to support emerging application scenarios.
@@ -40,9 +40,9 @@ BOAT is designed to offer robust computational support for a broad spectrum of B
 
 
 ## 🔑  **Key Features**
-- **Dynamic Operation Library (D-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
-- **Hyper-Gradient Operation Library (H-OL)**: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.
-- **First-Order Gradient Methods (FOGMs)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms. With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, resulting in nearly 85 algorithmic combinations, offering unparalleled adaptability.
+- **Gradient Mapping Operation Library (GM-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
+- **Numerical Approximation Operation Library (NA-OL)**: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.
+- **First-Order Operation Library (FO-OL)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms. With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, resulting in nearly 85 algorithmic combinations, offering unparalleled adaptability.
 - **Modularized Design for Customization**: Empowers users to flexibly combine dynamic and hyper-gradient operations while customizing the specific forms of problems, parameters, and optimizer choices, enabling seamless integration into diverse task-specific codes.
 - **Comprehensive Testing & Continuous Integration**: Achieves **99% code coverage** through rigorous testing with **pytest** and **Codecov**, coupled with continuous integration via **GitHub Actions**, ensuring software robustness and reliability.
 - **Fast Prototyping & Algorithm Validation**: Streamlined support for defining, testing, and benchmarking new BLO algorithms.

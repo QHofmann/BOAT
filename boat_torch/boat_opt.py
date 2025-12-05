@@ -171,7 +171,7 @@ class Problem:
         if self.boat_configs["fo_gm"] is None:
             assert (
                 self.boat_configs["hyper_op"] is not None
-            ), "Choose FOGM based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, fo_gm ={} is not None".format(
+            ), "Choose FO_OL based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, fo_gm ={} is not None".format(
                 self.boat_configs["fo_gm"]
             )
             sorted_ops = sorted([op.upper() for op in self._hyper_op])
@@ -189,7 +189,7 @@ class Problem:
         else:
             assert (
                 self.boat_configs["hyper_op"] is None
-            ), "Choose FOGM based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, hyper_op ={} is not None".format(
+            ), "Choose FO_OL based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, hyper_op ={} is not None".format(
                 self.boat_configs["hyper_op"]
             )
             self._ul_solver = None

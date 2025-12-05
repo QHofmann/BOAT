@@ -51,9 +51,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#why-boat">🚀 <strong>Why BOAT?</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#applications">🏭 <strong>Applications</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#related-operations">🚩 <strong>Related Operations</strong></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dynamic-operation-library-d-ol"><strong>Dynamic Operation Library (D-OL)</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hyper-gradient-operation-library-h-ol"><strong>Hyper-Gradient Operation Library (H-OL)</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#first-order-gradient-methods-fo_ols"><strong>First-Order Gradient Methods (FOGMs)</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-operation-library-d-ol"><strong>Gradient Mapping Operation Library (GM-OL)</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hyper-gradient-operation-library-h-ol"><strong>Numerical Approximation Operation Library (NA-OL)</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#first-order-gradient-methods-fo_ols"><strong>First-Order Operation Library (FO-OL)</strong></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#license">📜 <strong>License</strong></a></li>
@@ -105,7 +105,7 @@
 <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/callous-youth/BOAT" />
 <img alt="license" src="https://img.shields.io/badge/license-MIT-000000.svg" />
 <img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></p>
-<p>To enhance flexibility and efficiency, <em>BOAT</em> incorporates the <strong>Dynamic Operation Library (D-OL)</strong> and the <strong>Hyper Operation Library (H-OL)</strong>, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:</p>
+<p>To enhance flexibility and efficiency, <em>BOAT</em> incorporates the <strong>Gradient Mapping Operation Library (GM-OL)</strong> and the <strong>Numerical Approximation Operation Library (NA-OL)</strong>, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:</p>
 <ul class="simple">
 <li><p><strong><a class="reference external" href="https://github.com/callous-youth/BOAT">PyTorch-based</a></strong>: An efficient and widely-used version.</p></li>
 <li><p><strong><a class="reference external" href="https://github.com/callous-youth/BOAT/tree/boat_jit">Jittor-based</a></strong>: An accelerated version for high-performance tasks.</p></li>
@@ -115,9 +115,9 @@
 <section id="key-features">
 <h2>🔑  <strong>Key Features</strong><a class="headerlink" href="#key-features" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Dynamic Operation Library (D-OL)</strong>: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.</p></li>
-<li><p><strong>Hyper-Gradient Operation Library (H-OL)</strong>: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.</p></li>
-<li><p><strong>First-Order Gradient Methods (FOGMs)</strong>: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms.</p></li>
+<li><p><strong>Gradient Mapping Operation Library (GM-OL)</strong>: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.</p></li>
+<li><p><strong>Numerical Approximation Operation Library (NA-OL)</strong>: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.</p></li>
+<li><p><strong>First-Order Operation Library (FO-OL)</strong>: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms.</p></li>
 <li><p><strong>Modularized Design for Customization</strong>: With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, leading to new dynamic sequential operations. With nearly <strong>85</strong> algorithmic combinations, <em>BOAT</em> allows for customization of the specific forms of problems, parameters, and optimizer choices, enabling seamless integration into diverse task-specific codes.</p></li>
 <li><p><strong>Comprehensive Testing &amp; Continuous Integration</strong>: Achieves <strong>99% code coverage</strong> through rigorous testing with <strong>pytest</strong> and <strong>Codecov</strong>, coupled with continuous integration via <strong>GitHub Actions</strong>, ensuring software robustness and reliability.</p></li>
 <li><p><strong>Fast Prototyping &amp; Algorithm Validation</strong>: Streamlined support for defining, testing, and benchmarking new BLO algorithms.</p></li>
@@ -146,7 +146,7 @@
 <section id="related-operations">
 <h2>🚩 <strong>Related Operations</strong><a class="headerlink" href="#related-operations" title="Permalink to this heading"></a></h2>
 <section id="dynamic-operation-library-d-ol">
-<h3><strong>Dynamic Operation Library (D-OL)</strong><a class="headerlink" href="#dynamic-operation-library-d-ol" title="Permalink to this heading"></a></h3>
+<h3><strong>Gradient Mapping Operation Library (GM-OL)</strong><a class="headerlink" href="#dynamic-operation-library-d-ol" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf">Towards gradient-based bilevel optimization with non-convex followers and beyond (DI)</a></p></li>
 <li><p><a class="reference external" href="https://proceedings.mlr.press/v202/liu23y/liu23y.pdf">Averaged Method of Multipliers for Bi-Level Optimization without Lower-Level Strong Convexity(DM)</a></p></li>
@@ -155,7 +155,7 @@
 </ul>
 </section>
 <section id="hyper-gradient-operation-library-h-ol">
-<h3><strong>Hyper-Gradient Operation Library (H-OL)</strong><a class="headerlink" href="#hyper-gradient-operation-library-h-ol" title="Permalink to this heading"></a></h3>
+<h3><strong>Numerical Approximation Operation Library (NA-OL)</strong><a class="headerlink" href="#hyper-gradient-operation-library-h-ol" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://arxiv.org/abs/1602.02355">Hyperparameter optimization with approximate gradient (CG)</a></p></li>
 <li><p><a class="reference external" href="http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf">Optimizing millions of hyperparameters by implicit differentiation (NS)</a></p></li>
@@ -169,7 +169,7 @@
 </ul>
 </section>
 <section id="first-order-gradient-methods-fo_ols">
-<h3><strong>First-Order Gradient Methods (FOGMs)</strong><a class="headerlink" href="#first-order-gradient-methods-fo_ols" title="Permalink to this heading"></a></h3>
+<h3><strong>First-Order Operation Library (FO-OL)</strong><a class="headerlink" href="#first-order-gradient-methods-fo_ols" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf">BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFO)</a></p></li>
 <li><p><a class="reference external" href="http://proceedings.mlr.press/v139/liu21o/liu21o.pdf">A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSO)</a></p></li>
