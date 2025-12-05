@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_torch.dynamic_ol.di &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat_torch.gm_ol.di &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_torch.dynamic_ol.di</li>
+      <li class="breadcrumb-item active">boat_torch.gm_ol.di</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,17 +79,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_torch.dynamic_ol.di</h1><div class="highlight"><pre>
+  <h1>Source code for boat_torch.gm_ol.di</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">higher.patch</span> <span class="kn">import</span> <span class="n">_MonkeyPatchBase</span>
 <span class="kn">from</span> <span class="nn">higher.optim</span> <span class="kn">import</span> <span class="n">DifferentiableOptimizer</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
 
 <span class="kn">from</span> <span class="nn">boat_torch.operation_registry</span> <span class="kn">import</span> <span class="n">register_class</span>
-<span class="kn">from</span> <span class="nn">boat_torch.dynamic_ol.dynamical_system</span> <span class="kn">import</span> <span class="n">DynamicalSystem</span>
+<span class="kn">from</span> <span class="nn">boat_torch.gm_ol.dynamical_system</span> <span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
 <div class="viewcode-block" id="DI">
-<a class="viewcode-back" href="../../../boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.di.DI">[docs]</a>
+<a class="viewcode-back" href="../../../boat_torch.gm_ol.html#boat_torch.gm_ol.di.DI">[docs]</a>
 <span class="nd">@register_class</span>
 <span class="k">class</span> <span class="nc">DI</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -116,7 +116,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DI.optimize">
-<a class="viewcode-back" href="../../../boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.di.DI.optimize">[docs]</a>
+<a class="viewcode-back" href="../../../boat_torch.gm_ol.html#boat_torch.gm_ol.di.DI.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>

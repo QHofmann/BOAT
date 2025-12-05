@@ -17,9 +17,9 @@ Main Subpackages
 .. toctree::
    :maxdepth: 4
 
-   boat_torch.dynamic_ol
-   boat_torch.fogm
-   boat_torch.hyper_ol
+   boat_torch.gm_ol
+   boat_torch.fo_ol
+   boat_torch.na_ol
    boat_torch.utils
 
 

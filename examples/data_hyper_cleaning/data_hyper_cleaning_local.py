@@ -27,7 +27,7 @@ hyper_methodlist = (
     ["IGA", "PTT"],
 )
 hyper_method_dm = (["RAD"], ["CG"])
-fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
+fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 # m='Darts_W_RHG'
 folder = "C:/Users/ASUS/Documents/GitHub/BOAT/examples/data_hyper_cleaning"
 folder = os.path.join(folder, args, t0)
@@ -65,7 +65,7 @@ with open(batfolder, "w") as f:
                     ",".join([hyper for hyper in hyper_method]),
                 )
             )
-    for hyper_method in fogm_method:
+    for hyper_method in fo_ol_method:
         k += 1
         print("Comb.{}:".format(k))
         print("hyper_method:", hyper_method)
@@ -88,7 +88,7 @@ os.system(batfolder)
 #     ["NS", "PTT"], ["IGA"]
 # )
 # hyper_method_dm = (["RAD"], ["CG"])
-# fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
+# fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 #
 # # 获取当前脚本所在的目录（相对路径）
 # base_folder = os.path.dirname(os.path.abspath(__file__))  # 获取当前脚本的绝对路径
@@ -127,7 +127,7 @@ os.system(batfolder)
 #             f.write('python data_hyper_cleaning.py --dynamic_method {} --hyper_method {} \n'.format(','.join(
 #                 [dynamic for dynamic in dynamic_method]), ','.join([hyper for hyper in hyper_method])))
 #
-#     for hyper_method in fogm_method:
+#     for hyper_method in fo_ol_method:
 #         k += 1
 #         print("Comb.{}:".format(k))
 #         print('hyper_method:', hyper_method)

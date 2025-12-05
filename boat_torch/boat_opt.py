@@ -250,7 +250,7 @@ class Problem:
         #     run_time = time.perf_counter() - start_time
         if self.boat_configs["fo_gm"] is not None:
             start_time = time.perf_counter()
-            if self.boat_configs["fogm_batch_input"]:
+            if self.boat_configs["fo_ol_batch_input"]:
                 for batch_ll_feed_dict, batch_ul_feed_dict in zip(
                         ll_feed_dict, ul_feed_dict
                 ):

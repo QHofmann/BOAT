@@ -73,7 +73,7 @@ class PGDO(DynamicalSystem):
         self.gamma_argmax_step = solver_config["PGDO"]["gamma_argmax_step"]
         self.gam = self.gamma_init
         self.device = solver_config["device"]
-        self.updata_y_ahead = solver_config["PGDO"]["updata_y_ahead"]
+        self.update_y_ahead = solver_config["PGDO"]["update_y_ahead"]
         self.penalty = solver_config["PGDO"]["penalty"]
         self.y_hat = copy.deepcopy(self.ll_model).to(self.device)
         self.y_hat_opt = torch.optim.SGD(list(self.y_hat.parameters()), lr=self.y_hat_lr)  # , momentum=0.9)
@@ -107,7 +107,7 @@ class PGDO(DynamicalSystem):
         step_gam = (self.gamma_max - self.gamma_init) / self.gamma_argmax_step
         lr_decay = min(1 / (self.gam + 1e-8), 1)
 
-        if self.updata_y_ahead: # meta_learning need
+        if self.update_y_ahead: # meta_learning need
             for y_itr in range(self.lower_loop):
                 self.ll_opt.zero_grad()
                 tr_loss = self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)

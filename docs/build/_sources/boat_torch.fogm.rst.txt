@@ -1,37 +1,37 @@
-boat\_torch.fogm
+boat\_torch.fo_ol
 ========================
 
 Submodules
 ----------
 
-boat\_torch.fogm.mesm
+boat\_torch.fo_ol.meso
 ----------------------------
 
-.. automodule:: boat_torch.fogm.mesm
+.. automodule:: boat_torch.fo_ol.meso
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat\_torch.fogm.pgdm
+boat\_torch.fo_ol.pgdo
 ----------------------------
 
-.. automodule:: boat_torch.fogm.pgdm
+.. automodule:: boat_torch.fo_ol.pgdo
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat\_torch.fogm.vfm
+boat\_torch.fo_ol.vfo
 ---------------------------
 
-.. automodule:: boat_torch.fogm.vfm
+.. automodule:: boat_torch.fo_ol.vfo
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat\_torch.fogm.vsm
+boat\_torch.fo_ol.vso
 ---------------------------
 
-.. automodule:: boat_torch.fogm.vsm
+.. automodule:: boat_torch.fo_ol.vso
    :members:
    :undoc-members:
    :show-inheritance:

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_torch.hyper_ol.sequential_hg &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat_torch.na_ol.sequential_hg &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
@@ -70,7 +70,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_torch.hyper_ol.sequential_hg</li>
+      <li class="breadcrumb-item active">boat_torch.na_ol.sequential_hg</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,14 +79,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_torch.hyper_ol.sequential_hg</h1><div class="highlight"><pre>
+  <h1>Source code for boat_torch.na_ol.sequential_hg</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">boat_torch.utils</span> <span class="kn">import</span> <span class="n">HyperGradientRules</span><span class="p">,</span> <span class="n">ResultStore</span>
 <span class="kn">from</span> <span class="nn">boat_torch.operation_registry</span> <span class="kn">import</span> <span class="n">get_registered_operation</span>
 
 
 <div class="viewcode-block" id="SequentialHG">
-<a class="viewcode-back" href="../../../boat_torch.hyper_ol.html#boat_torch.hyper_ol.sequential_hg.SequentialHG">[docs]</a>
+<a class="viewcode-back" href="../../../boat_torch.na_ol.html#boat_torch.na_ol.sequential_hg.SequentialHG">[docs]</a>
 <span class="k">class</span> <span class="nc">SequentialHG</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class for managing sequential hyper-gradient operations.</span>
@@ -108,7 +108,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span> <span class="o">=</span> <span class="n">ResultStore</span><span class="p">()</span>  <span class="c1"># Use a dedicated result store</span>
 
 <div class="viewcode-block" id="SequentialHG.compute_gradients">
-<a class="viewcode-back" href="../../../boat_torch.hyper_ol.html#boat_torch.hyper_ol.sequential_hg.SequentialHG.compute_gradients">[docs]</a>
+<a class="viewcode-back" href="../../../boat_torch.na_ol.html#boat_torch.na_ol.sequential_hg.SequentialHG.compute_gradients">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_gradients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute hyper-gradients sequentially using the ordered instances.</span>
@@ -148,7 +148,7 @@
 
 
 <div class="viewcode-block" id="makes_functional_hyper_operation">
-<a class="viewcode-back" href="../../../boat_torch.hyper_ol.html#boat_torch.hyper_ol.sequential_hg.makes_functional_hyper_operation">[docs]</a>
+<a class="viewcode-back" href="../../../boat_torch.na_ol.html#boat_torch.na_ol.sequential_hg.makes_functional_hyper_operation">[docs]</a>
 <span class="k">def</span> <span class="nf">makes_functional_hyper_operation</span><span class="p">(</span><span class="n">custom_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SequentialHG</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dynamically create a SequentialHG object with ordered gradient operators.</span>
@@ -176,7 +176,7 @@
 
     <span class="c1"># Dynamically load classes</span>
     <span class="n">gradient_classes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># module = importlib.import_module(&quot;boat.hyper_ol&quot;)</span>
+    <span class="c1"># module = importlib.import_module(&quot;boat.na_ol&quot;)</span>
     <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">custom_order</span><span class="p">:</span>
         <span class="n">gradient_classes</span><span class="p">[</span><span class="n">op</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
 
@@ -189,7 +189,7 @@
 
 
 <div class="viewcode-block" id="validate_and_adjust_order">
-<a class="viewcode-back" href="../../../boat_torch.hyper_ol.html#boat_torch.hyper_ol.sequential_hg.validate_and_adjust_order">[docs]</a>
+<a class="viewcode-back" href="../../../boat_torch.na_ol.html#boat_torch.na_ol.sequential_hg.validate_and_adjust_order">[docs]</a>
 <span class="k">def</span> <span class="nf">validate_and_adjust_order</span><span class="p">(</span>
     <span class="n">custom_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">gradient_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>

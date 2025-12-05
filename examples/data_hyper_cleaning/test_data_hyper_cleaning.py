@@ -25,7 +25,7 @@ hyper_methodlist = (
 )
 dynamic_method_dm = (["DM","NGD"], ["DM","GDA","NGD"])
 hyper_method_dm = (["RAD"], ["CG"])
-fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
+fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 
 @pytest.mark.parametrize(
@@ -84,18 +84,18 @@ def test_combination_dynamic_hyper_method_dm(dynamic_method, hyper_method):
     ), f"Test failed for dynamic_method={dynamic_method} and hyper_method={hyper_method}. Error: {result.stderr}"
 
 
-@pytest.mark.parametrize("fogm_method", fogm_method)
-def test_fogm_method(fogm_method):
+@pytest.mark.parametrize("fo_ol_method", fo_ol_method)
+def test_fo_ol_method(fo_ol_method):
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/data_hyper_cleaning/data_hyper_cleaning.py",
         "--fo_gm",
-        fogm_method[0],
+        fo_ol_method[0],
     ]
-    print(f"Running test with fo_gm={fogm_method}")
+    print(f"Running test with fo_gm={fo_ol_method}")
 
     result = subprocess.run(command, capture_output=True, text=True)
 
     assert (
         result.returncode == 0
-    ), f"Test failed for fo_gm={fogm_method}. Error: {result.stderr}"
+    ), f"Test failed for fo_gm={fo_ol_method}. Error: {result.stderr}"

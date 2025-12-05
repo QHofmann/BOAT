@@ -28,7 +28,7 @@ hyper_methodlist = (
     ["IGA", "PTT"],
 )
 hyper_method_dm = (["RAD"], ["CG"])
-fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
+fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 base_folder = os.path.dirname(os.path.abspath(__file__))
 folder = os.path.join(base_folder, args, t0)
@@ -69,7 +69,7 @@ with open(script_file, "w") as f:
                 )
             )
 
-    for hyper_method in fogm_method:
+    for hyper_method in fo_ol_method:
         k += 1
         print("Comb.{}:".format(k))
         print("hyper_method:", hyper_method)

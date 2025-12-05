@@ -7,7 +7,7 @@ Submodules
 boat\_torch.hyper\_ol.cg
 -------------------------------
 
-.. automodule:: boat_torch.hyper_ol.cg
+.. automodule:: boat_torch.na_ol.cg
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ boat\_torch.hyper\_ol.cg
 boat\_torch.hyper\_ol.fd
 -------------------------------
 
-.. automodule:: boat_torch.hyper_ol.fd
+.. automodule:: boat_torch.na_ol.fd
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ boat\_torch.hyper\_ol.fd
 boat\_torch.hyper\_ol.foa
 --------------------------------
 
-.. automodule:: boat_torch.hyper_ol.foa
+.. automodule:: boat_torch.na_ol.foa
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ boat\_torch.hyper\_ol.foa
 boat\_torch.hyper\_ol.hyper\_gradient
 --------------------------------------------
 
-.. automodule:: boat_torch.hyper_ol.hyper_gradient
+.. automodule:: boat_torch.na_ol.hyper_gradient
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ boat\_torch.hyper\_ol.hyper\_gradient
 boat\_torch.hyper\_ol.iad
 --------------------------------
 
-.. automodule:: boat_torch.hyper_ol.iad
+.. automodule:: boat_torch.na_ol.iad
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ boat\_torch.hyper\_ol.iad
 boat\_torch.hyper\_ol.iga
 --------------------------------
 
-.. automodule:: boat_torch.hyper_ol.iga
+.. automodule:: boat_torch.na_ol.iga
    :members:
    :undoc-members:
    :show-inheritance:
@@ -55,7 +55,7 @@ boat\_torch.hyper\_ol.iga
 boat\_torch.hyper\_ol.ns
 -------------------------------
 
-.. automodule:: boat_torch.hyper_ol.ns
+.. automodule:: boat_torch.na_ol.ns
    :members:
    :undoc-members:
    :show-inheritance:
@@ -63,7 +63,7 @@ boat\_torch.hyper\_ol.ns
 boat\_torch.hyper\_ol.ptt
 --------------------------------
 
-.. automodule:: boat_torch.hyper_ol.ptt
+.. automodule:: boat_torch.na_ol.ptt
    :members:
    :undoc-members:
    :show-inheritance:
@@ -71,7 +71,7 @@ boat\_torch.hyper\_ol.ptt
 boat\_torch.hyper\_ol.rad
 --------------------------------
 
-.. automodule:: boat_torch.hyper_ol.rad
+.. automodule:: boat_torch.na_ol.rad
    :members:
    :undoc-members:
    :show-inheritance:
@@ -79,7 +79,7 @@ boat\_torch.hyper\_ol.rad
 boat\_torch.hyper\_ol.rgt
 --------------------------------
 
-.. automodule:: boat_torch.hyper_ol.rgt
+.. automodule:: boat_torch.na_ol.rgt
    :members:
    :undoc-members:
    :show-inheritance:
@@ -87,7 +87,7 @@ boat\_torch.hyper\_ol.rgt
 boat\_torch.hyper\_ol.sequential\_hg
 -------------------------------------------
 
-.. automodule:: boat_torch.hyper_ol.sequential_hg
+.. automodule:: boat_torch.na_ol.sequential_hg
    :members:
    :undoc-members:
    :show-inheritance:
