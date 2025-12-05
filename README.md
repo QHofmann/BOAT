@@ -167,7 +167,6 @@ for x_itr in range(iterations):
 
 
 ## Related Methods
-## Related Algorithms
 
 - [CG](https://arxiv.org/abs/1602.02355)
 - [NS](http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf)
