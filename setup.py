@@ -1,8 +1,8 @@
-from setuptools import setup, find_packages#8888
+from setuptools import setup, find_packages
 from os import path
 
 current_directory = path.abspath(path.dirname(__file__))
-#5889
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -11,11 +11,7 @@ def get_install_requirements():
     requirements_path = path.join(current_directory, "requirements.txt")
     with open(requirements_path, encoding="utf-8") as fp:
         return fp.read().splitlines()
-<<<<<<< Updated upstream
-#aaa
-=======
-#ooo
->>>>>>> Stashed changes
+
 
 setup(
     name="boat-torch",
