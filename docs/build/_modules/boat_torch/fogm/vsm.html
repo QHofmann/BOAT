@@ -92,9 +92,9 @@
 <div class="viewcode-block" id="VSM">
 <a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vsm.VSM">[docs]</a>
 <span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">VSM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">VSO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the optimization procedure of Value-function based Sequential Method (VSM) [1].</span>
+<span class="sd">    Implements the optimization procedure of Value-function based Sequential Method (VSO) [1].</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -116,7 +116,7 @@
 <span class="sd">        A dictionary containing configurations for the solver. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot; (torch.optim.Optimizer): Optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;VSM&quot; (Dict): Configuration for the VSM algorithm:</span>
+<span class="sd">        - &quot;VSO&quot; (Dict): Configuration for the VSO algorithm:</span>
 <span class="sd">            - &quot;z_loop&quot; (int): Number of iterations for optimizing the auxiliary variable `z`.</span>
 <span class="sd">            - &quot;ll_l2_reg&quot; (float): L2 regularization coefficient for the lower-level model.</span>
 <span class="sd">            - &quot;ul_l2_reg&quot; (float): L2 regularization coefficient for the upper-level model.</span>
@@ -141,19 +141,19 @@
         <span class="n">ul_var</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">VSM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VSO</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_var</span> <span class="o">=</span> <span class="n">ll_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span> <span class="o">=</span> <span class="n">ul_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_loop</span> <span class="o">=</span> <span class="n">lower_loop</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_loop</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;z_loop&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ll_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;ll_l2_reg&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ul_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;ul_l2_reg&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ul_ln_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;ul_ln_reg&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reg_decay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;reg_decay&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;z_lr&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_loop</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;z_loop&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ll_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;ll_l2_reg&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ul_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;ul_l2_reg&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ul_ln_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;ul_ln_reg&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reg_decay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;reg_decay&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;z_lr&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="VSM.optimize">
 <a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vsm.VSM.optimize">[docs]</a>

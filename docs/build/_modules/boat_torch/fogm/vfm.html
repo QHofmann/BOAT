@@ -99,9 +99,9 @@
 <div class="viewcode-block" id="VFM">
 <a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.vfm.VFM">[docs]</a>
 <span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">VFM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">VFO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the optimization procedure of Value-function based First-Order Method (VFM) [1].</span>
+<span class="sd">    Implements the optimization procedure of Value-function based First-Order Method (VFO) [1].</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -123,7 +123,7 @@
 <span class="sd">        A dictionary containing configurations for the solver. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot; (torch.optim.Optimizer): Optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;VFM&quot; (Dict): Configuration for the VFM algorithm:</span>
+<span class="sd">        - &quot;VFO&quot; (Dict): Configuration for the VFO algorithm:</span>
 <span class="sd">            - &quot;y_hat_lr&quot; (float): Learning rate for optimizing the surrogate variable `y_hat`.</span>
 <span class="sd">            - &quot;eta&quot; (float): Step size for value-function updates.</span>
 <span class="sd">            - &quot;u1&quot; (float): Hyperparameter controlling the penalty in the value function.</span>
@@ -145,15 +145,15 @@
         <span class="n">ul_var</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">VFM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VFO</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_var</span> <span class="o">=</span> <span class="n">ll_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span> <span class="o">=</span> <span class="n">ul_var</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_hat_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VFM&quot;</span><span class="p">][</span><span class="s2">&quot;y_hat_lr&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VFM&quot;</span><span class="p">][</span><span class="s2">&quot;eta&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">u1</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VFM&quot;</span><span class="p">][</span><span class="s2">&quot;u1&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_hat_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VFO&quot;</span><span class="p">][</span><span class="s2">&quot;y_hat_lr&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VFO&quot;</span><span class="p">][</span><span class="s2">&quot;eta&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u1</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VFO&quot;</span><span class="p">][</span><span class="s2">&quot;u1&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="VFM.optimize">

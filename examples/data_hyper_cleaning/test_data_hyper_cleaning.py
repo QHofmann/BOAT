@@ -25,7 +25,7 @@ hyper_methodlist = (
 )
 dynamic_method_dm = (["DM","NGD"], ["DM","GDA","NGD"])
 hyper_method_dm = (["RAD"], ["CG"])
-fogm_method = (["VSM"], ["VFM"], ["MESM"], ["PGDM"])
+fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 
 @pytest.mark.parametrize(

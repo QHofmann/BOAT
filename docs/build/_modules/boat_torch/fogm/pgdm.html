@@ -97,9 +97,9 @@
 <div class="viewcode-block" id="PGDM">
 <a class="viewcode-back" href="../../../boat_torch.fogm.html#boat_torch.fogm.pgdm.PGDM">[docs]</a>
 <span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">PGDM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">PGDO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDM) [1].</span>
+<span class="sd">    Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDO) [1].</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -121,7 +121,7 @@
 <span class="sd">        A dictionary containing solver configurations. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot;: The optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;PGDM&quot; (Dict): A dictionary containing the following keys:</span>
+<span class="sd">        - &quot;PGDO&quot; (Dict): A dictionary containing the following keys:</span>
 <span class="sd">            - &quot;y_hat_lr&quot;: Learning rate for optimizing the surrogate variable `y_hat`.</span>
 <span class="sd">            - &quot;gamma_init&quot;: Initial value of the hyperparameter `gamma`.</span>
 <span class="sd">            - &quot;gamma_max&quot;: Maximum value of the hyperparameter `gamma`.</span>
@@ -144,16 +144,16 @@
         <span class="n">ul_var</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PGDM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PGDO</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_var</span> <span class="o">=</span> <span class="n">ll_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span> <span class="o">=</span> <span class="n">ul_var</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_hat_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;y_hat_lr&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_init</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_init&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_max</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_max&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_argmax_step</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_argmax_step&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_hat_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;y_hat_lr&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_init</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_init&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_max</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_max&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_argmax_step</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_argmax_step&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_init</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
 

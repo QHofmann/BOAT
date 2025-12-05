@@ -178,10 +178,10 @@ for x_itr in range(iterations):
 - [Towards gradient-based bilevel optimization with non-convex followers and beyond (PTT, DI)](https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf)
 - [Averaged Method of Multipliers for Bi-Level Optimization without Lower-Level Strong Convexity(DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf)
 - [Learning With Constraint Learning: New Perspective, Solution Strategy and Various Applications (IGA)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445)
-- [BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFM)](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
-- [A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSM)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
-- [On Penalty-based Bilevel Gradient Descent Method (PGDM)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
-- [Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy (MESM)](https://arxiv.org/pdf/2405.09927)
+- [BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFO)](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
+- [A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSO)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
+- [On Penalty-based Bilevel Gradient Descent Method (PGDO)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
+- [Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy (MESO)](https://arxiv.org/pdf/2405.09927)
 
 
 ## License

@@ -27,7 +27,7 @@ hyper_methodlist = (
     ["IGA", "PTT"],
 )
 hyper_method_dm = (["RAD"], ["CG"])
-fogm_method = (["VSM"], ["VFM"], ["MESM"], ["PGDM"])
+fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 # m='Darts_W_RHG'
 folder = "C:/Users/ASUS/Documents/GitHub/BOAT/examples/data_hyper_cleaning"
 folder = os.path.join(folder, args, t0)
@@ -88,7 +88,7 @@ os.system(batfolder)
 #     ["NS", "PTT"], ["IGA"]
 # )
 # hyper_method_dm = (["RAD"], ["CG"])
-# fogm_method = (["VSM"], ["VFM"], ["MESM"], ["PGDM"])
+# fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 #
 # # 获取当前脚本所在的目录（相对路径）
 # base_folder = os.path.dirname(os.path.abspath(__file__))  # 获取当前脚本的绝对路径

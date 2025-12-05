@@ -146,7 +146,7 @@ def main():
 1. **Argument Parsing**:
    - `dynamic_method`: Specifies the list of the dynamic operations, e.g., ["NGD","GDA"].
    - `hyper_method`: Specifies the list of hyper operations, e.g., ["RAD","RGT"].
-   - `fo_gm`: Optionally specifies a first-order gradient method, e.g., “MESM”.
+   - `fo_gm`: Optionally specifies a first-order gradient method, e.g., “MESO”.
 
 2. **BOAT Configuration**:
    - Updates the `boat_config` with the parsed arguments and model components.

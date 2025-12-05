@@ -17,7 +17,7 @@ hyper_methodlist = (
     ["FOA", "IAD"],
     ["FOA", "IAD", "PTT"],
 )
-fogm_method = (["VSM"], ["VFM"], ["MESM"], ["PGDM"])
+fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 # 获取当前时间
 t0 = time.strftime("%Y_%m_%d_%H_%M_%S")

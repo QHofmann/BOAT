@@ -109,9 +109,9 @@
 <span id="boat-torch-fogm-mesm"></span><h2>boat_torch.fogm.mesm<a class="headerlink" href="#module-boat_torch.fogm.mesm" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="boat_torch.fogm.mesm.MESM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.mesm.</span></span><span class="sig-name descname"><span class="pre">MESM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/mesm.html#MESM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.mesm.MESM" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.mesm.</span></span><span class="sig-name descname"><span class="pre">MESO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/mesm.html#MESM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.mesm.MESM" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_torch.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESM) [1].</p>
+<p>Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -126,9 +126,9 @@
 <ul>
 <li><p>”lower_level_opt”: The optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”MESM” (Dict): A dictionary containing the following keys:</dt><dd><ul>
-<li><p>”eta”: Learning rate for the MESM optimization procedure.</p></li>
-<li><p>”gamma_1”: Regularization parameter for the MESM algorithm.</p></li>
+<dt>”MESO” (Dict): A dictionary containing the following keys:</dt><dd><ul>
+<li><p>”eta”: Learning rate for the MESO optimization procedure.</p></li>
+<li><p>”gamma_1”: Regularization parameter for the MESO algorithm.</p></li>
 <li><p>”c0”: Initial constant for the update steps.</p></li>
 <li><p>”y_hat_lr”: Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
 </ul>
@@ -170,9 +170,9 @@
 <span id="boat-torch-fogm-pgdm"></span><h2>boat_torch.fogm.pgdm<a class="headerlink" href="#module-boat_torch.fogm.pgdm" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="boat_torch.fogm.pgdm.PGDM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.pgdm.</span></span><span class="sig-name descname"><span class="pre">PGDM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/pgdm.html#PGDM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.pgdm.PGDM" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.pgdm.</span></span><span class="sig-name descname"><span class="pre">PGDO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/pgdm.html#PGDM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.pgdm.PGDM" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_torch.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDM) [1].</p>
+<p>Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -187,7 +187,7 @@
 <ul>
 <li><p>”lower_level_opt”: The optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”PGDM” (Dict): A dictionary containing the following keys:</dt><dd><ul>
+<dt>”PGDO” (Dict): A dictionary containing the following keys:</dt><dd><ul>
 <li><p>”y_hat_lr”: Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
 <li><p>”gamma_init”: Initial value of the hyperparameter <cite>gamma</cite>.</p></li>
 <li><p>”gamma_max”: Maximum value of the hyperparameter <cite>gamma</cite>.</p></li>
@@ -231,9 +231,9 @@
 <span id="boat-torch-fogm-vfm"></span><h2>boat_torch.fogm.vfm<a class="headerlink" href="#module-boat_torch.fogm.vfm" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="boat_torch.fogm.vfm.VFM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.vfm.</span></span><span class="sig-name descname"><span class="pre">VFM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/vfm.html#VFM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.vfm.VFM" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.vfm.</span></span><span class="sig-name descname"><span class="pre">VFO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/vfm.html#VFM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.vfm.VFM" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_torch.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Value-function based First-Order Method (VFM) [1].</p>
+<p>Implements the optimization procedure of Value-function based First-Order Method (VFO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -248,7 +248,7 @@
 <ul>
 <li><p>”lower_level_opt” (torch.optim.Optimizer): Optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”VFM” (Dict): Configuration for the VFM algorithm:</dt><dd><ul>
+<dt>”VFO” (Dict): Configuration for the VFO algorithm:</dt><dd><ul>
 <li><p>”y_hat_lr” (float): Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
 <li><p>”eta” (float): Step size for value-function updates.</p></li>
 <li><p>”u1” (float): Hyperparameter controlling the penalty in the value function.</p></li>
@@ -292,9 +292,9 @@
 <span id="boat-torch-fogm-vsm"></span><h2>boat_torch.fogm.vsm<a class="headerlink" href="#module-boat_torch.fogm.vsm" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="boat_torch.fogm.vsm.VSM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.vsm.</span></span><span class="sig-name descname"><span class="pre">VSM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/vsm.html#VSM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.vsm.VSM" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_torch.fogm.vsm.</span></span><span class="sig-name descname"><span class="pre">VSO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_torch/fogm/vsm.html#VSM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_torch.fogm.vsm.VSM" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_torch.dynamic_ol.html#boat_torch.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_torch.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Value-function based Sequential Method (VSM) [1].</p>
+<p>Implements the optimization procedure of Value-function based Sequential Method (VSO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -309,7 +309,7 @@
 <ul>
 <li><p>”lower_level_opt” (torch.optim.Optimizer): Optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”VSM” (Dict): Configuration for the VSM algorithm:</dt><dd><ul>
+<dt>”VSO” (Dict): Configuration for the VSO algorithm:</dt><dd><ul>
 <li><p>”z_loop” (int): Number of iterations for optimizing the auxiliary variable <cite>z</cite>.</p></li>
 <li><p>”ll_l2_reg” (float): L2 regularization coefficient for the lower-level model.</p></li>
 <li><p>”ul_l2_reg” (float): L2 regularization coefficient for the upper-level model.</p></li>

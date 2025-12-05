@@ -28,7 +28,7 @@ hyper_methodlist = (
     ["IGA", "PTT"],
 )
 hyper_method_dm = (["RAD"], ["CG"])
-fogm_method = (["VSM"], ["VFM"], ["MESM"], ["PGDM"])
+fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 base_folder = os.path.dirname(os.path.abspath(__file__))
 folder = os.path.join(base_folder, args, t0)

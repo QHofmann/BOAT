@@ -95,8 +95,8 @@ def main():
             boat_config["lower_iters"] = 1
 
     b_optimizer = boat.Problem(boat_config, loss_config)
-    if boat_config["fo_gm"] is not None and ("PGDM" in boat_config["fo_gm"]):
-        boat_config["PGDM"]["gamma_init"] = boat_config["PGDM"]["gamma_max"] + 0.1
+    if boat_config["fo_gm"] is not None and ("PGDO" in boat_config["fo_gm"]):
+        boat_config["PGDO"]["gamma_init"] = boat_config["PGDO"]["gamma_max"] + 0.1
 
     b_optimizer.build_ll_solver()
     b_optimizer.build_ul_solver()

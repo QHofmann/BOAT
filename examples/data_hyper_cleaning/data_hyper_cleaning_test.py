@@ -46,10 +46,10 @@ METHOD_MAP = {
     "IAPTT":  ("NGD,DI",     "PTT,RAD",   None),
 
     # fo-gm 方法：dynamic_method=None, hyper_method=None
-    "BVFSM":  (None, None, "VSM"),
-    "BOME":   (None, None, "VFM"),
-    "VPBGD":  (None, None, "PGDM"),
-    "MEHA":   (None, None, "MESM"),
+    "BVFSM":  (None, None, "VSO"),
+    "BOME":   (None, None, "VFO"),
+    "VPBGD":  (None, None, "PGDO"),
+    "MEHA":   (None, None, "MESO"),
 }
 
 
@@ -199,8 +199,8 @@ def main():
 
 
 
-    # if boat_config["fo_gm"] is not None and ("PGDM" in boat_config["fo_gm"]):
-    #     boat_config["PGDM"]["gamma_init"] = boat_config["PGDM"]["gamma_max"] + 0.1
+    # if boat_config["fo_gm"] is not None and ("PGDO" in boat_config["fo_gm"]):
+    #     boat_config["PGDO"]["gamma_init"] = boat_config["PGDO"]["gamma_max"] + 0.1
 
     b_optimizer.build_ll_solver()
     b_optimizer.build_ul_solver()
