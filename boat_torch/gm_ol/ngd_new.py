@@ -6,7 +6,7 @@ from typing import Dict, Any, Callable
 from boat_torch.utils.op_utils import stop_grads
 
 from boat_torch.operation_registry import register_class
-from boat_torch.dynamic_ol.dynamical_system import DynamicalSystem
+from boat_torch.gm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class

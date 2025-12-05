@@ -5,7 +5,7 @@ from higher.patch import _MonkeyPatchBase
 from boat_torch.utils.op_utils import update_tensor_grads, grad_unused_zero
 
 from boat_torch.operation_registry import register_class
-from boat_torch.hyper_ol.hyper_gradient import HyperGradient
+from boat_torch.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class

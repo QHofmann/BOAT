@@ -2,15 +2,16 @@ import torch
 from torch.nn import Module
 from typing import List, Callable, Dict
 from higher.patch import _MonkeyPatchBase
+from boat_torch.utils.op_utils import update_tensor_grads, grad_unused_zero
 
 from boat_torch.operation_registry import register_class
-from boat_torch.hyper_ol.hyper_gradient import HyperGradient
+from boat_torch.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class
-class RGT(HyperGradient):
+class RAD(HyperGradient):
     """
-    Computes the hyper-gradient of the upper-level variables using Reverse Gradient Truncation (RGT) [1].
+    Computes the hyper-gradient of the upper-level variables using Reverse Auto Differentiation (RAD) [1].
 
     Parameters
     ----------
@@ -27,11 +28,11 @@ class RGT(HyperGradient):
     ul_var : List[torch.Tensor]
         List of variables optimized with the upper-level objective.
     solver_config : Dict[str, Any]
-        Dictionary containing solver configurations, including the hyper-gradient operations and truncation settings.
+        Dictionary containing solver configurations, including optional dynamic operation settings.
 
     References
     ----------
-    [1] Shaban A., Cheng C.A., Hatch N., et al. "Truncated back-propagation for bilevel optimization," in AISTATS, 2019.
+    [1] Franceschi, Luca, et al. "Forward and reverse gradient-based hyperparameter optimization." in ICML, 2017.
     """
 
     def __init__(
@@ -44,7 +45,7 @@ class RGT(HyperGradient):
         ul_var: List,
         solver_config: Dict,
     ):
-        super(RGT, self).__init__(
+        super(RAD, self).__init__(
             ll_objective,
             ul_objective,
             ul_model,
@@ -53,8 +54,7 @@ class RGT(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
-        self.truncate_iter = solver_config["RGT"]["truncate_iter"]
+        self.dynamic_initialization = "DI" in solver_config["dynamic_op"]
 
     def compute_gradients(
         self,
@@ -62,12 +62,11 @@ class RGT(HyperGradient):
         ul_feed_dict: Dict,
         auxiliary_model: _MonkeyPatchBase,
         max_loss_iter: int = 0,
-        hyper_gradient_finished: bool = False,
         next_operation: str = None,
         **kwargs
     ):
         """
-        Computes the hyper-gradients of the upper-level variables using the data from feed_dict and patched models.
+        Compute the hyper-gradients of the upper-level variables using the provided data and patched models.
 
         Parameters
         ----------
@@ -86,9 +85,6 @@ class RGT(HyperGradient):
         next_operation : str, optional
             The next operator for the calculation of the hypergradient. Default is None.
 
-        hyper_gradient_finished : bool, optional
-            A boolean flag indicating whether the hypergradient computation is finished. Default is False.
-
         **kwargs : dict
             Additional keyword arguments passed to the method.
 
@@ -96,29 +92,28 @@ class RGT(HyperGradient):
         -------
         Dict
             A dictionary containing:
-            - `ll_feed_dict`: The lower-level feed dictionary.
-            - `ul_feed_dict`: The upper-level feed dictionary.
-            - `auxiliary_model`: The patched lower model.
-            - `max_loss_iter`: The number of iterations for backpropagation.
+            - `upper_loss`: The current upper-level objective.
             - `hyper_gradient_finished`: Flag indicating if the hypergradient computation is finished.
-            - `lower_model_params`: Parameters of the lower model.
         """
-        assert (
-            hyper_gradient_finished is False
-        ), "Hypergradient computation should not be finished"
-        assert (
-            self.truncate_iter > 0
-        ), "With RGT operation, 'truncate_iter' should be greater than 0"
-        assert next_operation is not None, "Next operation should be defined"
+        assert next_operation is None, "RAD does not support any further operations."
         lower_model_params = kwargs.get(
-            "lower_model_params", list(auxiliary_model.parameters(time=max_loss_iter))
+            "lower_model_params", list(auxiliary_model.parameters())
         )
-        return {
-            "ll_feed_dict": ll_feed_dict,
-            "ul_feed_dict": ul_feed_dict,
-            "auxiliary_model": auxiliary_model,
-            "max_loss_iter": max_loss_iter,
-            "hyper_gradient_finished": False,
-            "lower_model_params": lower_model_params,
-            **kwargs,
-        }
+        upper_loss = self.ul_objective(
+            ul_feed_dict,
+            self.ul_model,
+            auxiliary_model,
+            params=lower_model_params,
+        )
+        grads_upper = grad_unused_zero(
+            upper_loss, self.ul_var, retain_graph=self.dynamic_initialization
+        )
+        update_tensor_grads(self.ul_var, grads_upper)
+
+        if self.dynamic_initialization:
+            grads_lower = torch.autograd.grad(
+                upper_loss, list(auxiliary_model.parameters(time=0))
+            )
+            update_tensor_grads(self.ll_var, grads_lower)
+
+        return {"upper_loss": upper_loss.item(), "hyper_gradient_finished": True}

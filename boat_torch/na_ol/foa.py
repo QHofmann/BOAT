@@ -4,7 +4,7 @@ from typing import List, Callable, Dict
 from higher.patch import _MonkeyPatchBase
 
 from boat_torch.operation_registry import register_class
-from boat_torch.hyper_ol.hyper_gradient import HyperGradient
+from boat_torch.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class

@@ -8,8 +8,8 @@ from torch import Tensor
 import higher
 
 from boat_torch.operation_registry import get_registered_operation
-from boat_torch.dynamic_ol import makes_functional_dynamical_system
-from boat_torch.hyper_ol import makes_functional_hyper_operation
+from boat_torch.gm_ol import makes_functional_dynamical_system
+from boat_torch.na_ol import makes_functional_hyper_operation
 import matplotlib.pyplot as plt
 import os
 import json
@@ -50,7 +50,7 @@ class Problem:
         Initialize the Problem instance.
 
         :param config: Configuration dictionary for the optimization setup.
-            - "fo_gm": First Order Gradient based Method (optional), e.g., ["VSM"], ["VFM"], ["MESM"].
+            - "fo_gm": First Order Gradient based Method (optional), e.g., ["VSO"], ["VFO"], ["MESO"].
             - "dynamic_op": List of dynamic operations (optional), e.g., ["NGD"], ["NGD", "GDA"], ["NGD", "GDA", "DI"].
             - "hyper_op": Hyper-optimization method (optional), e.g., ["RAD"], ["RAD", "PTT"], ["IAD", "NS", "PTT"].
             - "lower_level_loss": Configuration for the lower-level loss function based on the json file configuration.
@@ -171,7 +171,7 @@ class Problem:
         if self.boat_configs["fo_gm"] is None:
             assert (
                 self.boat_configs["hyper_op"] is not None
-            ), "Choose FOGM based methods from ['VSM','VFM','MESM', 'PGDM'] or set 'dynamic_ol' and 'hyper_ol' properly. Currently, fo_gm ={} is not None".format(
+            ), "Choose FOGM based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, fo_gm ={} is not None".format(
                 self.boat_configs["fo_gm"]
             )
             sorted_ops = sorted([op.upper() for op in self._hyper_op])
@@ -189,7 +189,7 @@ class Problem:
         else:
             assert (
                 self.boat_configs["hyper_op"] is None
-            ), "Choose FOGM based methods from ['VSM','VFM','MESM', 'PGDM'] or set 'dynamic_ol' and 'hyper_ol' properly. Currently, hyper_op ={} is not None".format(
+            ), "Choose FOGM based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, hyper_op ={} is not None".format(
                 self.boat_configs["hyper_op"]
             )
             self._ul_solver = None

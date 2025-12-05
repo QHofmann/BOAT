@@ -2,16 +2,16 @@ import torch
 from torch.nn import Module
 from typing import List, Callable, Dict
 from higher.patch import _MonkeyPatchBase
-from boat_torch.utils.op_utils import update_tensor_grads, neumann
+from boat_torch.utils.op_utils import update_tensor_grads, conjugate_gradient
 
 from boat_torch.operation_registry import register_class
-from boat_torch.hyper_ol.hyper_gradient import HyperGradient
+from boat_torch.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class
-class NS(HyperGradient):
+class CG(HyperGradient):
     """
-    Calculation of the hyper gradient of the upper-level variables with Neumann Series (NS) [1].
+    Computes the hyper-gradient of the upper-level variables using Finite Differentiation (FD) [1].
 
     Parameters
     ----------
@@ -28,19 +28,33 @@ class NS(HyperGradient):
     ul_var : List[torch.Tensor]
         List of variables optimized with the upper-level objective.
     solver_config : Dict[str, Any]
-        Dictionary containing solver configurations, including:
+        Dictionary containing solver configurations. Expected keys include:
 
+        - `r` (float): Perturbation radius for finite differences.
+        - `lower_level_opt` (torch.optim.Optimizer): Lower-level optimizer configuration.
         - `dynamic_op` (str): Indicates dynamic initialization type (e.g., "DI").
-        - `lower_level_opt` (Optimizer): Lower-level optimizer configuration.
-        - `CG` (Dict): Conjugate Gradient-specific parameters:
-            - `tolerance` (float): Tolerance for convergence.
-            - `k` (int): Number of iterations for Neumann approximation.
-        - GDA-specific parameters, such as `alpha_init` and `alpha_decay`.
-        - `gda_loss` (Callable, optional): Custom loss function for GDA.
+        - GDA-specific parameters if applicable, such as:
+            - `alpha_init` (float): Initial learning rate for GDA.
+            - `alpha_decay` (float): Decay factor for GDA.
+
+    Attributes
+    ----------
+    ll_lr : float
+        Learning rate for the lower-level optimizer, extracted from `lower_level_opt`.
+    dynamic_initialization : bool
+        Indicates whether dynamic initialization is enabled (based on `dynamic_op`).
+    _r : float
+        Perturbation radius for finite differences, used for gradient computation.
+    alpha : float
+        Initial learning rate for GDA operations.
+    alpha_decay : float
+        Decay factor applied to the learning rate for GDA.
+    gda_loss : Callable, optional
+        Custom loss function for GDA operations, if specified in `solver_config`.
 
     References
     ----------
-    [1] J. Lorraine, P. Vicol, and D. Duvenaud, "Optimizing millions of hyperparameters by implicit differentiation," in AISTATS, 2020.
+    [1] H. Liu, K. Simonyan, Y. Yang, "DARTS: Differentiable Architecture Search," in ICLR, 2019.
     """
 
     def __init__(
@@ -53,7 +67,7 @@ class NS(HyperGradient):
         ul_var: List,
         solver_config: Dict,
     ):
-        super(NS, self).__init__(
+        super(CG, self).__init__(
             ll_objective,
             ul_objective,
             ul_model,
@@ -62,16 +76,18 @@ class NS(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.dynamic_initialization = "DI" in solver_config["dynamic_op"]
 
+        self.dynamic_initialization = "DI" in solver_config["dynamic_op"]
         self.ll_lr = solver_config["lower_level_opt"].defaults["lr"]
         self.tolerance = solver_config["CG"]["tolerance"]
         self.K = solver_config["CG"]["k"]
         self.alpha = solver_config["GDA"]["alpha_init"]
         self.alpha_decay = solver_config["GDA"]["alpha_decay"]
-        self.alpha = solver_config["GDA"]["alpha_init"]
-        self.alpha_decay = solver_config["GDA"]["alpha_decay"]
-        self.gda_loss = solver_config.get("gda_loss", None)
+        self.gda_loss = (
+            solver_config.get("gda_loss", None)
+            if "GDA" in solver_config["dynamic_op"]
+            else None
+        )
 
     def compute_gradients(
         self,
@@ -91,23 +107,40 @@ class NS(HyperGradient):
         ll_feed_dict : Dict
             Dictionary containing the lower-level data used for optimization.
             It typically includes training data, targets, and other information required to compute the LL objective.
+
         ul_feed_dict : Dict
             Dictionary containing the upper-level data used for optimization.
             It typically includes validation data, targets, and other information required to compute the UL objective.
+
         auxiliary_model : _MonkeyPatchBase
             A patched lower model wrapped by the `higher` library.
             It serves as the lower-level model for optimization.
+
         max_loss_iter : int, optional
-            The number of iterations used for backpropagation. Defaults to 0.
-        next_operation : str, optional
-            The next operator for the calculation of the hypergradient. Defaults to None.
+            The number of iterations used for backpropagation. Default is 0.
+
         hyper_gradient_finished : bool, optional
-            A boolean flag indicating whether the hypergradient computation is finished. Defaults to False.
+            A flag indicating whether the hyper-gradient computation is finished. Default is False.
+
+        next_operation : str, optional
+            The next operator for the calculation of the hypergradient. Default is None.
+
+        **kwargs : dict
+            Additional arguments, such as:
+            - `lower_model_params` (list): Parameters of the lower-level model (default: `list(auxiliary_model.parameters())`).
+            - `hparams` (list): Hyper-parameters of the upper-level model (default: `list(self.ul_var)`).
 
         Returns
         -------
-        Dict
-            A dictionary containing the upper-level objective and the status of hypergradient computation.
+        dict
+            A dictionary containing:
+            - "upper_loss": The current upper-level objective value.
+            - "hyper_gradient_finished": A boolean indicating that the hyper-gradient computation is complete.
+
+        Raises
+        ------
+        AssertionError
+            If `hyper_gradient_finished` is True, as CG does not support multiple hyper-gradient computations.
         """
 
         assert (
@@ -117,9 +150,12 @@ class NS(HyperGradient):
             "lower_model_params", list(auxiliary_model.parameters())
         )
         hparams = kwargs.get("hparams", list(self.ul_var))
+        import time
+
+        starttime = time.time()
 
         def fp_map(params, loss_f):
-            lower_grads = list(torch.autograd.grad(loss_f, params, create_graph=True))
+            lower_grads = torch.autograd.grad(loss_f, params, create_graph=True)
             updated_params = []
             for i in range(len(params)):
                 updated_params.append(params[i] - self.ll_lr * lower_grads[i])
@@ -141,14 +177,14 @@ class NS(HyperGradient):
         upper_loss = self.ul_objective(
             ul_feed_dict, self.ul_model, auxiliary_model, params=lower_model_params
         )
-
+        #print("step 1 time:", time.time() - starttime)
+        starttime = time.time()
         if self.dynamic_initialization:
             grads_lower = torch.autograd.grad(
                 upper_loss, list(auxiliary_model.parameters(time=0)), retain_graph=True
             )
             update_tensor_grads(self.ll_var, grads_lower)
-
-        grads_upper = neumann(
+        upper_grads = conjugate_gradient(
             lower_model_params,
             hparams,
             upper_loss,
@@ -157,7 +193,7 @@ class NS(HyperGradient):
             fp_map,
             self.tolerance,
         )
-
-        update_tensor_grads(self.ul_var, grads_upper)
+        #print("step 6 time:", time.time() - starttime)
+        update_tensor_grads(self.ul_var, upper_grads)
 
         return {"upper_loss": upper_loss.item(), "hyper_gradient_finished": True}

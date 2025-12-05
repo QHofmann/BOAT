@@ -4,13 +4,13 @@ from typing import List, Callable, Dict
 from higher.patch import _MonkeyPatchBase
 
 from boat_torch.operation_registry import register_class
-from boat_torch.hyper_ol.hyper_gradient import HyperGradient
+from boat_torch.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class
-class PTT(HyperGradient):
+class RGT(HyperGradient):
     """
-    Computes the hyper-gradient of the upper-level variables using Pessimistic Trajectory Truncation (PTT) [1].
+    Computes the hyper-gradient of the upper-level variables using Reverse Gradient Truncation (RGT) [1].
 
     Parameters
     ----------
@@ -27,12 +27,11 @@ class PTT(HyperGradient):
     ul_var : List[torch.Tensor]
         List of variables optimized with the upper-level objective.
     solver_config : Dict[str, Any]
-        Dictionary containing solver configurations, including:
-        - "hyper_op" (List[str]): Indicates if PTT is used in the hyper-gradient operations.
+        Dictionary containing solver configurations, including the hyper-gradient operations and truncation settings.
 
     References
     ----------
-    [1] Liu R., Liu Y., Zeng S., et al. "Towards gradient-based bilevel optimization with non-convex followers and beyond," in NeurIPS, 2021.
+    [1] Shaban A., Cheng C.A., Hatch N., et al. "Truncated back-propagation for bilevel optimization," in AISTATS, 2019.
     """
 
     def __init__(
@@ -45,7 +44,7 @@ class PTT(HyperGradient):
         ul_var: List,
         solver_config: Dict,
     ):
-        super(PTT, self).__init__(
+        super(RGT, self).__init__(
             ll_objective,
             ul_objective,
             ul_model,
@@ -55,6 +54,7 @@ class PTT(HyperGradient):
             solver_config,
         )
         self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_iter = solver_config["RGT"]["truncate_iter"]
 
     def compute_gradients(
         self,
@@ -67,42 +67,48 @@ class PTT(HyperGradient):
         **kwargs
     ):
         """
-        Compute the hyper-gradients of the upper-level variables with the data from feed_dict and patched models.
+        Computes the hyper-gradients of the upper-level variables using the data from feed_dict and patched models.
 
         Parameters
         ----------
         ll_feed_dict : Dict
-            Dictionary containing the lower-level data used for optimization.
-            It typically includes training data, targets, and other information required to compute the LL objective.
+            Dictionary containing the lower-level data used for optimization. Typically includes training data, targets, and other information required to compute the lower-level objective.
 
         ul_feed_dict : Dict
-            Dictionary containing the upper-level data used for optimization.
-            It typically includes validation data, targets, and other information required to compute the UL objective.
+            Dictionary containing the upper-level data used for optimization. Typically includes validation data, targets, and other information required to compute the upper-level objective.
 
         auxiliary_model : _MonkeyPatchBase
-            A patched lower model wrapped by the `higher` library.
-            It serves as the lower-level model for optimization.
+            A patched lower model wrapped by the `higher` library. It serves as the lower-level model for optimization.
 
         max_loss_iter : int, optional
-            The number of iterations used for backpropagation, by default 0.
+            The number of iterations used for backpropagation. Default is 0.
 
         next_operation : str, optional
-            The next operator for the calculation of the hypergradient, by default None.
+            The next operator for the calculation of the hypergradient. Default is None.
 
         hyper_gradient_finished : bool, optional
-            A boolean flag indicating whether the hypergradient computation is finished, by default False.
+            A boolean flag indicating whether the hypergradient computation is finished. Default is False.
+
+        **kwargs : dict
+            Additional keyword arguments passed to the method.
 
         Returns
         -------
         Dict
-            A dictionary containing updated feed_dict, auxiliary model, and gradient computation results.
+            A dictionary containing:
+            - `ll_feed_dict`: The lower-level feed dictionary.
+            - `ul_feed_dict`: The upper-level feed dictionary.
+            - `auxiliary_model`: The patched lower model.
+            - `max_loss_iter`: The number of iterations for backpropagation.
+            - `hyper_gradient_finished`: Flag indicating if the hypergradient computation is finished.
+            - `lower_model_params`: Parameters of the lower model.
         """
         assert (
             hyper_gradient_finished is False
         ), "Hypergradient computation should not be finished"
-        assert self.truncate_max_loss_iter and (
-            max_loss_iter > 0
-        ), "With PTT operation, 'max_loss_iter' should be greater than 0"
+        assert (
+            self.truncate_iter > 0
+        ), "With RGT operation, 'truncate_iter' should be greater than 0"
         assert next_operation is not None, "Next operation should be defined"
         lower_model_params = kwargs.get(
             "lower_model_params", list(auxiliary_model.parameters(time=max_loss_iter))
