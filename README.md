@@ -167,25 +167,6 @@ for x_itr in range(iterations):
 
 
 ## Related Methods
-
-- [CG](https://arxiv.org/abs/1602.02355)
-- [NS](http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf)
-- [IAD](https://arxiv.org/abs/1703.03400)
-- [FOA](https://arxiv.org/abs/1703.03400)
-- [RAD](http://export.arxiv.org/pdf/1806.04910)
-- [RGT](https://arxiv.org/pdf/1810.10667.pdf)
-- [FD](https://arxiv.org/pdf/1806.09055.pdf)
-- [GDA](https://arxiv.org/pdf/2006.04045.pdf)
-- [PTT / DI](https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf)
-- [DM](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf)
-- [IGA](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445)
-- [VFO](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
-- [VSO](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
-- [PGDO](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
-- [MESO](https://arxiv.org/pdf/2405.09927)
-
-
-## Related Methods
 ### **GM_OL**
 [Dynamic Initialization (DI)](https://proceedings.neurips.cc/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf) • [Dual Multiplier (DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf) • [Gradient Descent Aggregation (GDA)](https://arxiv.org/pdf/2006.04045.pdf) • [Naive Gradient Descent (NGD)](https://arxiv.org/pdf/2006.04045.pdf)
 
