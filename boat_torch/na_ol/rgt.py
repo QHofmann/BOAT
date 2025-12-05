@@ -53,7 +53,7 @@ class RGT(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_max_loss_iter = "PTT" in solver_config["numerical_approximation_op"]
         self.truncate_iter = solver_config["RGT"]["truncate_iter"]
 
     def compute_gradients(

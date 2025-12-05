@@ -9,7 +9,7 @@ import higher
 
 from boat_torch.operation_registry import get_registered_operation
 from boat_torch.gm_ol import makes_functional_dynamical_system
-from boat_torch.na_ol import makes_functional_hyper_operation
+from boat_torch.na_ol import makes_functional_numerical_approximation_operation
 import matplotlib.pyplot as plt
 import os
 import json
@@ -50,9 +50,9 @@ class Problem:
         Initialize the Problem instance.
 
         :param config: Configuration dictionary for the optimization setup.
-            - "fo_gm": First Order Gradient based Method (optional), e.g., ["VSO"], ["VFO"], ["MESO"].
-            - "dynamic_op": List of dynamic operations (optional), e.g., ["NGD"], ["NGD", "GDA"], ["NGD", "GDA", "DI"].
-            - "hyper_op": Hyper-optimization method (optional), e.g., ["RAD"], ["RAD", "PTT"], ["IAD", "NS", "PTT"].
+            - "fo_go": First Order Gradient based Method (optional), e.g., ["VSO"], ["VFO"], ["MESO"].
+            - "gradient_mapping_op": List of gradient mapping operations (optional), e.g., ["NGD"], ["NGD", "GDA"], ["NGD", "GDA", "DI"].
+            - "numerical_approximation_op": Hyper-optimization method (optional), e.g., ["RAD"], ["RAD", "PTT"], ["IAD", "NS", "PTT"].
             - "lower_level_loss": Configuration for the lower-level loss function based on the json file configuration.
             - "upper_level_loss": Configuration for the upper-level loss function based on the json file configuration.
             - "lower_level_model": The lower-level model to be optimized.
@@ -70,9 +70,9 @@ class Problem:
 
         :returns: None
         """
-        self._fo_gm = config["fo_gm"]
-        self._dynamic_op = config["dynamic_op"]
-        self._hyper_op = config["hyper_op"]
+        self._fo_go = config["fo_go"]
+        self._gradient_mapping_op = config["gradient_mapping_op"]
+        self._numerical_approximation_op = config["numerical_approximation_op"]
         self._ll_model = config["lower_level_model"]
         self._ul_model = config["upper_level_model"]
         self._ll_var = config["lower_level_var"]
@@ -88,10 +88,10 @@ class Problem:
         self._ll_solver = None
         self._ul_solver = None
         self._lower_init_opt = None
-        self._fo_gm_solver = None
+        self._fo_go_solver = None
         self._track_opt_traj = False
-        if config["dynamic_op"] is not None:
-            if "GDA" in config["dynamic_op"]:
+        if config["gradient_mapping_op"] is not None:
+            if "GDA" in config["gradient_mapping_op"]:
                 assert (
                     loss_config.get("gda_loss", None) is not None
                 ), "Set the 'gda_loss' in loss_config properly."
@@ -107,12 +107,12 @@ class Problem:
 
         :returns: None
         """
-        if self.boat_configs["fo_gm"] is None:
-            assert (self.boat_configs["dynamic_op"] is not None) and (
-                self.boat_configs["hyper_op"] is not None
-            ), "Set 'dynamic_op' and 'hyper_op' properly."
+        if self.boat_configs["fo_go"] is None:
+            assert (self.boat_configs["gradient_mapping_op"] is not None) and (
+                self.boat_configs["numerical_approximation_op"] is not None
+            ), "Set 'gradient_mapping_op' and 'numerical_approximation_op' properly."
             self.check_status()
-            sorted_ops = sorted([op.upper() for op in self._dynamic_op])
+            sorted_ops = sorted([op.upper() for op in self._gradient_mapping_op])
             self._ll_solver = makes_functional_dynamical_system(
                 custom_order=sorted_ops,
                 ll_objective=self._ll_loss,
@@ -122,7 +122,7 @@ class Problem:
                 lower_loop=self._lower_loop,
                 solver_config=self.boat_configs,
             )
-            # if "DI" in self.boat_configs["dynamic_op"]:
+            # if "DI" in self.boat_configs["gradient_mapping_op"]:
             #     self._lower_init_opt = copy.deepcopy(self._lower_opt)
             #     for _ in range(len(self._lower_init_opt.param_groups)):
             #         self._lower_init_opt.param_groups[_]["params"] = (
@@ -131,7 +131,7 @@ class Problem:
             #         self._lower_init_opt.param_groups[_]["lr"] = self.boat_configs[
             #             "DI"
             #         ]["lr"]
-            if "DI" in self.boat_configs["dynamic_op"]:
+            if "DI" in self.boat_configs["gradient_mapping_op"]:
                 # 用与 upper_opt 相同的优化器类型
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
@@ -148,8 +148,8 @@ class Problem:
                 self._lower_init_opt = opt_cls(new_groups)
 
         else:
-            self._fo_gm_solver = get_registered_operation(
-                "%s" % self.boat_configs["fo_gm"]
+            self._fo_go_solver = get_registered_operation(
+                "%s" % self.boat_configs["fo_go"]
             )(
                 ll_objective=self._ll_loss,
                 ul_objective=self._ul_loss,
@@ -168,15 +168,15 @@ class Problem:
 
         :returns: None
         """
-        if self.boat_configs["fo_gm"] is None:
+        if self.boat_configs["fo_go"] is None:
             assert (
-                self.boat_configs["hyper_op"] is not None
-            ), "Choose FO_OL based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, fo_gm ={} is not None".format(
-                self.boat_configs["fo_gm"]
+                self.boat_configs["numerical_approximation_op"] is not None
+            ), "Choose FO_OL based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, fo_go ={} is not None".format(
+                self.boat_configs["fo_go"]
             )
-            sorted_ops = sorted([op.upper() for op in self._hyper_op])
-            if "DM" not in self._dynamic_op:
-                self._ul_solver = makes_functional_hyper_operation(
+            sorted_ops = sorted([op.upper() for op in self._numerical_approximation_op])
+            if "DM" not in self._gradient_mapping_op:
+                self._ul_solver = makes_functional_numerical_approximation_operation(
                     custom_order=sorted_ops,
                     ul_objective=self._ul_loss,
                     ll_objective=self._ll_loss,
@@ -188,9 +188,9 @@ class Problem:
                 )
         else:
             assert (
-                self.boat_configs["hyper_op"] is None
-            ), "Choose FO_OL based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, hyper_op ={} is not None".format(
-                self.boat_configs["hyper_op"]
+                self.boat_configs["numerical_approximation_op"] is None
+            ), "Choose FO_OL based methods from ['VSO','VFO','MESO', 'PGDO'] or set 'gm_ol' and 'na_ol' properly. Currently, numerical_approximation_op ={} is not None".format(
+                self.boat_configs["numerical_approximation_op"]
             )
             self._ul_solver = None
         return self
@@ -242,24 +242,24 @@ class Problem:
         :rtype: tuple
         """
 
-        # if self.boat_configs["fo_gm"] is not None:
+        # if self.boat_configs["fo_go"] is not None:
         #     start_time = time.perf_counter()
         #     self._log_results.append(
-        #         self._fo_gm_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
+        #         self._fo_go_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
         #     )
         #     run_time = time.perf_counter() - start_time
-        if self.boat_configs["fo_gm"] is not None:
+        if self.boat_configs["fo_go"] is not None:
             start_time = time.perf_counter()
             if self.boat_configs["fo_ol_batch_input"]:
                 for batch_ll_feed_dict, batch_ul_feed_dict in zip(
                         ll_feed_dict, ul_feed_dict
                 ):
                     self._log_results.append(
-                        self._fo_gm_solver.optimize(batch_ll_feed_dict, batch_ul_feed_dict, current_iter)
+                        self._fo_go_solver.optimize(batch_ll_feed_dict, batch_ul_feed_dict, current_iter)
                     ) #meta_learning
             else:
                 self._log_results.append(
-                       self._fo_gm_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
+                       self._fo_go_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
                    )
             run_time = time.perf_counter() - start_time
         else:
@@ -337,7 +337,7 @@ class Problem:
                             list(auxiliary_model.parameters(time=-1)),
                         )
                 run_time = forward_time + backward_time
-            if "DI" in self.boat_configs["dynamic_op"]:
+            if "DI" in self.boat_configs["gradient_mapping_op"]:
                 self._lower_init_opt.step()
                 self._lower_init_opt.zero_grad()
         if isinstance(ll_feed_dict, list):
@@ -368,25 +368,25 @@ class Problem:
         self._track_opt_traj = track_traj
 
     def check_status(self):
-        if any(item in self._hyper_op for item in ["PTT", "IAD", "RAD"]):
+        if any(item in self._numerical_approximation_op for item in ["PTT", "IAD", "RAD"]):
             self.set_track_trajectory(True)
-        if "DM" in self.boat_configs["dynamic_op"]:
-            assert (self.boat_configs["hyper_op"] == ["RAD"]) or (
-                self.boat_configs["hyper_op"] == ["CG"]
+        if "DM" in self.boat_configs["gradient_mapping_op"]:
+            assert (self.boat_configs["numerical_approximation_op"] == ["RAD"]) or (
+                self.boat_configs["numerical_approximation_op"] == ["CG"]
             ), "When 'DM' is chosen, set the 'truncate_iter' properly."
-        if "RGT" in self.boat_configs["hyper_op"]:
+        if "RGT" in self.boat_configs["numerical_approximation_op"]:
             assert (
                 self.boat_configs["RGT"]["truncate_iter"] > 0
             ), "When 'RGT' is chosen, set the 'truncate_iter' properly ."
         # if self.boat_configs["accumulate_grad"]:
         #     assert (
-        #         "IAD" in self.boat_configs["hyper_op"]
+        #         "IAD" in self.boat_configs["numerical_approximation_op"]
         #     ), "When using 'accumulate_grad', only 'IAD' based methods are supported."
         if self.boat_configs["GDA"]["alpha_init"] > 0.0:
             assert (
                 0.0 < self.boat_configs["GDA"]["alpha_decay"] <= 1.0
             ), "Parameter 'alpha_decay' used in method BDA should be in the interval (0,1)."
-        if "FD" in self._hyper_op:
+        if "FD" in self._numerical_approximation_op:
             assert (
                 self.boat_configs["RGT"]["truncate_iter"] == 0
             ), "One-stage method doesn't need trajectory truncation."
@@ -401,13 +401,13 @@ class Problem:
                     return False
             return True
 
-        if "IAD" in self._hyper_op:
+        if "IAD" in self._numerical_approximation_op:
             assert check_model_structure(self._ll_model, self._ul_model), (
                 "With IAD or FOA operation, 'upper_level_model' and 'lower_level_model' have the same structure, "
                 "and 'lower_level_var' and 'upper_level_var' are the same group of variables."
             )
-        assert (("DI" in self._dynamic_op) ^ ("IAD" in self._hyper_op)) or (
-            ("DI" not in self._dynamic_op) and ("IAD" not in self._hyper_op)
+        assert (("DI" in self._gradient_mapping_op) ^ ("IAD" in self._numerical_approximation_op)) or (
+            ("DI" not in self._gradient_mapping_op) and ("IAD" not in self._numerical_approximation_op)
         ), "Only one of the 'PTT' and 'RGT' methods could be chosen."
         assert (
             0.0 <= self.boat_configs["GDA"]["alpha_init"] <= 1.0

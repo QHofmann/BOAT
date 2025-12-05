@@ -53,7 +53,7 @@ class DM(DynamicalSystem):
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
         self.solver_config["copy_last_param"] = False
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_max_loss_iter = "PTT" in solver_config["numerical_approximation_op"]
         self.alpha = solver_config["GDA"]["alpha_init"]
         self.alpha_decay = solver_config["GDA"]["alpha_decay"]
         self.truncate_iters = solver_config["RGT"]["truncate_iter"]
@@ -71,7 +71,7 @@ class DM(DynamicalSystem):
         self.mu0 = solver_config["DM"]["mu0"]
         self.eta = solver_config["DM"]["eta0"]
         self.strategy = solver_config["DM"]["strategy"]
-        self.hyper_op = solver_config["hyper_op"]
+        self.numerical_approximation_op = solver_config["numerical_approximation_op"]
         self.gda_loss = solver_config.get("gda_loss", None)
 
     def optimize(
@@ -116,7 +116,7 @@ class DM(DynamicalSystem):
         Notes
         -----
         - For GDA operations, this method supports three strategies: 's1', 's2', and 's3'.
-        - When using RAD in `hyper_op`, a higher-order gradient adjustment is applied to the auxiliary variables.
+        - When using RAD in `numerical_approximation_op`, a higher-order gradient adjustment is applied to the auxiliary variables.
         - Ensure that `next_operation` is `None` for NGD, as it does not support additional operations.
 
         Raises
@@ -176,7 +176,7 @@ class DM(DynamicalSystem):
                 params["lr"] = x_lr
         else:
             gda_loss = None
-            if "RAD" in self.hyper_op:
+            if "RAD" in self.numerical_approximation_op:
                 assert (
                     self.strategy == "s1"
                 ), "Only 's1' strategy is supported for DM without GDA operation."
@@ -230,7 +230,7 @@ class DM(DynamicalSystem):
             upper_loss, list(self.ul_model.parameters())
         )
 
-        if "RAD" in self.hyper_op:
+        if "RAD" in self.numerical_approximation_op:
             vsp = grad_unused_zero(
                 grads_phi_params,
                 list(auxiliary_model.parameters()),

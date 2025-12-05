@@ -135,19 +135,19 @@ def main():
             ],
         )
         parser.add_argument(
-            "--dynamic_method",
+            "--gradient_mapping",
             type=str,
             default=None,
             help="omniglot or miniimagenet or tieredImagenet",
         )
         parser.add_argument(
-            "--hyper_method",
+            "--numerical_approximation",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
         )
         parser.add_argument(
-            "--fo_gm",
+            "--fo_go",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
@@ -197,15 +197,15 @@ def main():
     lower_model = lower_model(n_feats, device)
     upper_opt = torch.optim.Adam(upper_model.parameters(), lr=0.01)
     lower_opt = torch.optim.SGD(lower_model.parameters(), lr=0.01)
-    print(args.dynamic_method)
-    print(args.hyper_method)
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else []
-    hyper_method = args.hyper_method.split(",") if args.hyper_method else []
-    if "RGT" in hyper_method:
+    print(args.gradient_mapping)
+    print(args.numerical_approximation)
+    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else []
+    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else []
+    if "RGT" in numerical_approximation:
         boat_config["RGT"]["truncate_iter"] = 1
-    boat_config["dynamic_op"] = dynamic_method
-    boat_config["hyper_op"] = hyper_method
-    boat_config["fo_gm"] = args.fo_gm
+    boat_config["gradient_mapping_op"] = gradient_mapping
+    boat_config["numerical_approximation_op"] = numerical_approximation
+    boat_config["fo_go"] = args.fo_go
     boat_config["lower_level_model"] = lower_model
     boat_config["upper_level_model"] = upper_model
     boat_config["lower_level_opt"] = lower_opt
@@ -219,15 +219,15 @@ def main():
     ul_feed_dict = {"data": trainset[0].to(device), "target": trainset[1].to(device)}
     ll_feed_dict = {"data": valset[0].to(device), "target": valset[1].to(device)}
 
-    if "DM" in boat_config["dynamic_op"] and ("GDA" in boat_config["dynamic_op"]):
+    if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
         iterations = 30
     else:
         iterations = 10
     for x_itr in range(iterations):
-        if "DM" in boat_config["dynamic_op"] and ("GDA" in boat_config["dynamic_op"]):
+        if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
             b_optimizer._ll_solver.strategy = "s" + str(x_itr % 3 + 1)
-        elif "DM" in boat_config["dynamic_op"] and (
-            not ("GDA" in boat_config["dynamic_op"])
+        elif "DM" in boat_config["gradient_mapping_op"] and (
+            not ("GDA" in boat_config["gradient_mapping_op"])
         ):
             b_optimizer._ll_solver.strategy = "s" + str(1)
         loss, run_time = b_optimizer.run_iter(

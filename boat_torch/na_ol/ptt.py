@@ -28,7 +28,7 @@ class PTT(HyperGradient):
         List of variables optimized with the upper-level objective.
     solver_config : Dict[str, Any]
         Dictionary containing solver configurations, including:
-        - "hyper_op" (List[str]): Indicates if PTT is used in the hyper-gradient operations.
+        - "numerical_approximation_op" (List[str]): Indicates if PTT is used in the hyper-gradient operations.
 
     References
     ----------
@@ -54,7 +54,7 @@ class PTT(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_max_loss_iter = "PTT" in solver_config["numerical_approximation_op"]
 
     def compute_gradients(
         self,

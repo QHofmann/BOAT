@@ -30,7 +30,7 @@ class NGD(DynamicalSystem):
         A dictionary containing configurations for the solver. Expected keys include:
 
         - "lower_level_opt" (torch.optim.Optimizer): The optimizer for the lower-level model.
-        - "hyper_op" (List[str]): A list of hyper-gradient operations to apply, such as "PTT" or "FOA".
+        - "numerical_approximation_op" (List[str]): A list of hyper-gradient operations to apply, such as "PTT" or "FOA".
         - "RGT" (Dict): Configuration for Truncated Gradient Iteration (RGT):
             - "truncate_iter" (int): The number of iterations to truncate the gradient computation.
 
@@ -52,10 +52,10 @@ class NGD(DynamicalSystem):
         super(NGD, self).__init__(
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_max_loss_iter = "PTT" in solver_config["numerical_approximation_op"]
         self.truncate_iters = solver_config["RGT"]["truncate_iter"]
         self.ll_opt = solver_config["lower_level_opt"]
-        self.foa = "FOA" in solver_config["hyper_op"]
+        self.foa = "FOA" in solver_config["numerical_approximation_op"]
 
     def optimize(
         self,

@@ -42,19 +42,19 @@ def main():
             "--model_path", default="./save_l2reg", help="where to save model"
         )
         parser.add_argument(
-            "--dynamic_method",
+            "--gradient_mapping",
             type=str,
             default=None,
             help="omniglot or miniimagenet or tieredImagenet",
         )
         parser.add_argument(
-            "--hyper_method",
+            "--numerical_approximation",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
         )
         parser.add_argument(
-            "--fo_gm",
+            "--fo_go",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
@@ -78,11 +78,11 @@ def main():
     )
     upper_opt = torch.optim.Adam(upper_model.parameters(), lr=0.01)
     lower_opt = torch.optim.SGD(lower_model.parameters(), lr=0.01)
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else []
-    hyper_method = args.hyper_method.split(",") if args.hyper_method else []
-    boat_config["dynamic_op"] = dynamic_method
-    boat_config["hyper_op"] = hyper_method
-    boat_config["fo_gm"] = args.fo_gm
+    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else []
+    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else []
+    boat_config["gradient_mapping_op"] = gradient_mapping
+    boat_config["numerical_approximation_op"] = numerical_approximation
+    boat_config["fo_go"] = args.fo_go
     boat_config["lower_level_model"] = lower_model
     boat_config["upper_level_model"] = upper_model
     boat_config["lower_level_opt"] = lower_opt

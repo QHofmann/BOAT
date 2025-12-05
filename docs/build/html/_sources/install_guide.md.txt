@@ -53,12 +53,12 @@ Modify the boat_config to include your dynamic and hyper-gradient methods, as we
 
 ```python
 # Example dynamic and hyper-gradient methods Combination.
-dynamic_method = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
-hyper_method = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
+gradient_mapping = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
+numerical_approximation = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
 
 # Add methods and model details to the configuration
-boat_config["dynamic_op"] = dynamic_method
-boat_config["hyper_op"] = hyper_method
+boat_config["gradient_mapping_op"] = gradient_mapping
+boat_config["numerical_approximation_op"] = numerical_approximation
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model
 boat_config["lower_level_opt"] = lower_opt

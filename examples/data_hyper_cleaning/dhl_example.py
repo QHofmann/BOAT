@@ -54,30 +54,30 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--dynamic_method",
+        "--gradient_mapping",
         type=str,
         default="NGD",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--hyper_method",
+        "--numerical_approximation",
         type=str,
         default="RAD",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
-        "--fo_gm",
+        "--fo_go",
         type=str,
         default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
     )
 
     args = parser.parse_args()
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else None
-    hyper_method = args.hyper_method.split(",") if args.hyper_method else None
-    boat_config["dynamic_op"] = dynamic_method
-    boat_config["hyper_op"] = hyper_method
-    boat_config["fo_gm"] = args.fo_gm
+    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
+    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
+    boat_config["gradient_mapping_op"] = gradient_mapping
+    boat_config["numerical_approximation_op"] = numerical_approximation
+    boat_config["fo_go"] = args.fo_go
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
     boat_config["lower_level_opt"] = y_opt

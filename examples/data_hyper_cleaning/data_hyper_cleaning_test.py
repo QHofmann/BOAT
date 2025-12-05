@@ -36,7 +36,7 @@ device = torch.device("cpu")
 
 
 METHOD_MAP = {
-    # 二层方法：fo_gm=None
+    # 二层方法：fo_go=None
     "RHG":    ("NGD",        "RAD",       None),
     "BDA":    ("NGD,GDA",    "RAD",       None),
     "CG":     ("NGD",        "CG",        None),
@@ -45,7 +45,7 @@ METHOD_MAP = {
     "BAMM":   ("DM,GDA,NGD",     "CG",       None),
     "IAPTT":  ("NGD,DI",     "PTT,RAD",   None),
 
-    # fo-gm 方法：dynamic_method=None, hyper_method=None
+    # fo-gm 方法：gradient_mapping=None, numerical_approximation=None
     "BVFSM":  (None, None, "VSO"),
     "BOME":   (None, None, "VFO"),
     "VPBGD":  (None, None, "PGDO"),
@@ -80,19 +80,19 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--dynamic_method",
+        "--gradient_mapping",
         type=str,
         default="NGD,DI",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--hyper_method",
+        "--numerical_approximation",
         type=str,
         default="PTT,RAD",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
-        "--fo_gm",
+        "--fo_go",
         type=str,
         default="BAMM",
         help="convnet for 4 convs or resnet for Residual blocks",
@@ -120,8 +120,8 @@ def main():
 
     args = parser.parse_args()
     if args.method in METHOD_MAP:
-        args.dynamic_method, args.hyper_method, args.fo_gm = METHOD_MAP[args.method]
-        dynamic_method, hyper_method, fo_gm = METHOD_MAP[args.method]
+        args.gradient_mapping, args.numerical_approximation, args.fo_go = METHOD_MAP[args.method]
+        gradient_mapping, numerical_approximation, fo_go = METHOD_MAP[args.method]
 
     else:
         raise ValueError(f"Unknown method: {args.method}")
@@ -170,13 +170,13 @@ def main():
         loss_config = json.load(f)
 
 
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else None
-    hyper_method = args.hyper_method.split(",") if args.hyper_method else None
-    fo_gm = args.fo_gm if args.fo_gm else None
+    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
+    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
+    fo_go = args.fo_go if args.fo_go else None
 
-    print(args.dynamic_method)
-    print(args.hyper_method)
-    print(args.fo_gm)
+    print(args.gradient_mapping)
+    print(args.numerical_approximation)
+    print(args.fo_go)
 
     x_opt = torch.optim.Adam(x.parameters(), lr=args.x_lr)
     if args.method == "TRHG" or args.method == "VPBGD":
@@ -186,9 +186,9 @@ def main():
     y_opt = torch.optim.SGD(y.parameters(), lr=args.y_lr)
 
 
-    boat_config["dynamic_op"] = dynamic_method
-    boat_config["hyper_op"] = hyper_method
-    boat_config["fo_gm"] = fo_gm
+    boat_config["gradient_mapping_op"] = gradient_mapping
+    boat_config["numerical_approximation_op"] = numerical_approximation
+    boat_config["fo_go"] = fo_go
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
     boat_config["lower_level_opt"] = y_opt
@@ -199,7 +199,7 @@ def main():
 
 
 
-    # if boat_config["fo_gm"] is not None and ("PGDO" in boat_config["fo_gm"]):
+    # if boat_config["fo_go"] is not None and ("PGDO" in boat_config["fo_go"]):
     #     boat_config["PGDO"]["gamma_init"] = boat_config["PGDO"]["gamma_max"] + 0.1
 
     b_optimizer.build_ll_solver()
@@ -219,8 +219,8 @@ def main():
             ["NGD", "DM"],
         ]
     )
-    if boat_config["dynamic_op"] is not None:
-        if "DM" in boat_config["dynamic_op"] and ("GDA" in boat_config["dynamic_op"]):
+    if boat_config["gradient_mapping_op"] is not None:
+        if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
             iterations = 3
         else:
             iterations = 2

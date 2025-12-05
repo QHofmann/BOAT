@@ -29,20 +29,20 @@ class IAD(HyperGradient):
         A dictionary containing configurations for the solver. Expected keys include:
 
         - "lower_level_opt" (torch.optim.Optimizer): The optimizer for the lower-level model.
-        - "hyper_op" (List[str]): A list of hyper-gradient operations to apply, such as "PTT" or "FOA".
+        - "numerical_approximation_op" (List[str]): A list of hyper-gradient operations to apply, such as "PTT" or "FOA".
         - "RGT" (Dict): Configuration for Truncated Gradient Iteration (RGT):
             - "truncate_iter" (int): The number of iterations to truncate the gradient computation.
 
     Attributes
     ----------
     truncate_max_loss_iter : bool
-        Indicates whether to truncate based on a maximum loss iteration (enabled if "PTT" is in `hyper_op`).
+        Indicates whether to truncate based on a maximum loss iteration (enabled if "PTT" is in `numerical_approximation_op`).
     truncate_iters : int
         The number of iterations for gradient truncation, derived from `solver_config["RGT"]["truncate_iter"]`.
     ll_opt : torch.optim.Optimizer
         The optimizer used for the lower-level model.
     foa : bool
-        Indicates whether First-Order Approximation (FOA) is applied, based on `hyper_op` configuration.
+        Indicates whether First-Order Approximation (FOA) is applied, based on `numerical_approximation_op` configuration.
 
     References
     ----------

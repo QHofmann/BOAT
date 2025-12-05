@@ -6,8 +6,8 @@ import pytest
 import platform
 
 # 假设 meta_learning.py 已经被复制到正确的位置
-dynamic_methodlist = (["NGD"], ["NGD", "GDA"])
-hyper_methodlist = (
+gradient_mappinglist = (["NGD"], ["NGD", "GDA"])
+numerical_approximationlist = (
     ["IAD"],
     ["IAD", "PTT"],
     ["CG", "IAD"],
@@ -42,11 +42,11 @@ script_file = os.path.join(folder, "set" + script_extension)
 # 创建批处理或 shell 脚本
 with open(script_file, "w") as f:
     k = 0
-    for dynamic_method in dynamic_methodlist:
-        for hyper_method in hyper_methodlist:
+    for gradient_mapping in gradient_mappinglist:
+        for numerical_approximation in numerical_approximationlist:
             k += 1
             f.write(
-                f'python /home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py --dynamic_method {",".join(dynamic_method)} --hyper_method {",".join(hyper_method)} \n'
+                f'python /home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py --gradient_mapping {",".join(gradient_mapping)} --numerical_approximation {",".join(numerical_approximation)} \n'
             )
 
 # 如果是 Ubuntu 系统, 使得脚本具有执行权限
@@ -56,25 +56,25 @@ if platform.system() != "Windows":
 
 # 使用 pytest.mark.parametrize 进行参数化
 @pytest.mark.parametrize(
-    "dynamic_method, hyper_method",
+    "gradient_mapping, numerical_approximation",
     [
-        (dynamic_method, hyper_method)
-        for dynamic_method in dynamic_methodlist
-        for hyper_method in hyper_methodlist
+        (gradient_mapping, numerical_approximation)
+        for gradient_mapping in gradient_mappinglist
+        for numerical_approximation in numerical_approximationlist
     ],
 )
-def test_combination_dynamic_hyper_method(dynamic_method, hyper_method):
+def test_combination_dynamic_numerical_approximation(gradient_mapping, numerical_approximation):
     # 构建命令
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py",
-        "--dynamic_method",
-        ",".join(dynamic_method),
-        "--hyper_method",
-        ",".join(hyper_method),
+        "--gradient_mapping",
+        ",".join(gradient_mapping),
+        "--numerical_approximation",
+        ",".join(numerical_approximation),
     ]
     print(
-        f"Running test with dynamic_method={dynamic_method} and hyper_method={hyper_method}"
+        f"Running test with gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}"
     )
 
     result = subprocess.run(command, capture_output=True, text=True)
@@ -82,20 +82,20 @@ def test_combination_dynamic_hyper_method(dynamic_method, hyper_method):
     # 确保命令执行成功
     assert (
         result.returncode == 0
-    ), f"Test failed for dynamic_method={dynamic_method} and hyper_method={hyper_method}. Error: {result.stderr}"
+    ), f"Test failed for gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}. Error: {result.stderr}"
 
 @pytest.mark.parametrize("fo_ol_method", fo_ol_method)
 def test_fo_ol_method(fo_ol_method):
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py",
-        "--fo_gm",
+        "--fo_go",
         fo_ol_method[0],
     ]
-    print(f"Running test with fo_gm={fo_ol_method}")
+    print(f"Running test with fo_go={fo_ol_method}")
 
     result = subprocess.run(command, capture_output=True, text=True)
 
     assert (
         result.returncode == 0
-    ), f"Test failed for fo_gm={fo_ol_method}. Error: {result.stderr}"
+    ), f"Test failed for fo_go={fo_ol_method}. Error: {result.stderr}"

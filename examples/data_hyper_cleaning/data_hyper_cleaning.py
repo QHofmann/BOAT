@@ -56,46 +56,46 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--dynamic_method",
+        "--gradient_mapping",
         type=str,
         default=None,
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--hyper_method",
+        "--numerical_approximation",
         type=str,
         default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
-        "--fo_gm",
+        "--fo_go",
         type=str,
         default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
     )
 
     args = parser.parse_args()
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else None
-    hyper_method = args.hyper_method.split(",") if args.hyper_method else None
-    print(args.dynamic_method)
-    print(args.hyper_method)
-    if hyper_method is not None and ("RGT" in hyper_method):
+    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
+    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
+    print(args.gradient_mapping)
+    print(args.numerical_approximation)
+    if numerical_approximation is not None and ("RGT" in numerical_approximation):
         boat_config["RGT"]["truncate_iter"] = 1
-    boat_config["dynamic_op"] = dynamic_method
-    boat_config["hyper_op"] = hyper_method
-    boat_config["fo_gm"] = args.fo_gm
+    boat_config["gradient_mapping_op"] = gradient_mapping
+    boat_config["numerical_approximation_op"] = numerical_approximation
+    boat_config["fo_go"] = args.fo_go
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
     boat_config["lower_level_opt"] = y_opt
     boat_config["upper_level_opt"] = x_opt
     boat_config["lower_level_var"] = list(y.parameters())
     boat_config["upper_level_var"] = list(x.parameters())
-    if boat_config["dynamic_op"] is not None:
-        if "DM" in boat_config["dynamic_op"] :
+    if boat_config["gradient_mapping_op"] is not None:
+        if "DM" in boat_config["gradient_mapping_op"] :
             boat_config["lower_iters"] = 1
 
     b_optimizer = boat.Problem(boat_config, loss_config)
-    if boat_config["fo_gm"] is not None and ("PGDO" in boat_config["fo_gm"]):
+    if boat_config["fo_go"] is not None and ("PGDO" in boat_config["fo_go"]):
         boat_config["PGDO"]["gamma_init"] = boat_config["PGDO"]["gamma_max"] + 0.1
 
     b_optimizer.build_ll_solver()
@@ -116,8 +116,8 @@ def main():
         ]
     )
 
-    if boat_config["dynamic_op"] is not None:
-        if "DM" in boat_config["dynamic_op"] and ("GDA" in boat_config["dynamic_op"]):
+    if boat_config["gradient_mapping_op"] is not None:
+        if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
             iterations = 3
         else:
             iterations = 2
@@ -125,9 +125,9 @@ def main():
     else:
         iterations = 3
     for x_itr in range(iterations):
-        if boat_config["dynamic_op"] is not None:
-            if "DM" in boat_config["dynamic_op"] and (
-                "GDA" in boat_config["dynamic_op"]
+        if boat_config["gradient_mapping_op"] is not None:
+            if "DM" in boat_config["gradient_mapping_op"] and (
+                "GDA" in boat_config["gradient_mapping_op"]
             ):
                 b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str(
                     x_itr + 1

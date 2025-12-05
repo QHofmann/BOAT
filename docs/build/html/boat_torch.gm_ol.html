@@ -226,7 +226,7 @@
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><p>For GDA operations, this method supports three strategies: ‘s1’, ‘s2’, and ‘s3’.</p></li>
-<li><p>When using RAD in <cite>hyper_op</cite>, a higher-order gradient adjustment is applied to the auxiliary variables.</p></li>
+<li><p>When using RAD in <cite>numerical_approximation_op</cite>, a higher-order gradient adjustment is applied to the auxiliary variables.</p></li>
 <li><p>Ensure that <cite>next_operation</cite> is <cite>None</cite> for NGD, as it does not support additional operations.</p></li>
 </ul>
 <dl class="field-list simple">
@@ -390,7 +390,7 @@ Typically includes training data, targets, and other information required to com
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>A dictionary containing configurations for the solver. Expected keys include:</p>
 <ul>
 <li><p>”lower_level_opt” (torch.optim.Optimizer): The optimizer for the lower-level model.</p></li>
-<li><p>”hyper_op” (List[str]): A list of hyper-gradient operations to apply, such as “PTT” or “FOA”.</p></li>
+<li><p>”numerical_approximation_op” (List[str]): A list of hyper-gradient operations to apply, such as “PTT” or “FOA”.</p></li>
 <li><dl class="simple">
 <dt>”RGT” (Dict): Configuration for Truncated Gradient Iteration (RGT):</dt><dd><ul>
 <li><p>”truncate_iter” (int): The number of iterations to truncate the gradient computation.</p></li>

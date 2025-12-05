@@ -162,8 +162,8 @@
 <h2>Step 4: Optimizer Setup<a class="headerlink" href="#step-4-optimizer-setup" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">upper_opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">upper_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="n">lower_opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">lower_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-<span class="n">dynamic_method</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dynamic_method</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dynamic_method</span> <span class="k">else</span> <span class="p">[]</span>
-<span class="n">hyper_method</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">hyper_method</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">hyper_method</span> <span class="k">else</span> <span class="p">[]</span>
+<span class="n">gradient_mapping</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">gradient_mapping</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">gradient_mapping</span> <span class="k">else</span> <span class="p">[]</span>
+<span class="n">numerical_approximation</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">numerical_approximation</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">numerical_approximation</span> <span class="k">else</span> <span class="p">[]</span>
 </pre></div>
 </div>
 <section id="id3">
@@ -171,7 +171,7 @@
 <ul class="simple">
 <li><p><strong>Adam optimizer</strong> is used for the upper-level model.</p></li>
 <li><p><strong>SGD optimizer</strong> is applied to the lower-level model.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">dynamic_method</span></code> and <code class="docutils literal notranslate"><span class="pre">hyper_method</span></code> parameters allow for flexible optimization strategies.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">gradient_mapping</span></code> and <code class="docutils literal notranslate"><span class="pre">numerical_approximation</span></code> parameters allow for flexible optimization strategies.</p></li>
 </ul>
 </section>
 </section>

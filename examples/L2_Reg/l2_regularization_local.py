@@ -5,15 +5,15 @@ import platform
 
 t0 = time.strftime("%Y_%m_%d_%H_%M_%S")
 args = "l2_regularization/method_test"
-dynamic_methodlist = (
+gradient_mappinglist = (
     ["NGD"],
     ["DI", "NGD"],
     ["GDA", "NGD"],
     ["GDA", "NGD", "DI"],
     ["DI", "NGD", "GDA"],
 )
-dynamic_method_dm = (["NGD", "DM"], ["NGD", "DM", "GDA"])
-hyper_methodlist = (
+gradient_mapping_dm = (["NGD", "DM"], ["NGD", "DM", "GDA"])
+numerical_approximationlist = (
     ["CG"],
     ["CG", "PTT"],
     ["RAD"],
@@ -27,7 +27,7 @@ hyper_methodlist = (
     ["IGA"],
     ["IGA", "PTT"],
 )
-hyper_method_dm = (["RAD"], ["CG"])
+numerical_approximation_dm = (["RAD"], ["CG"])
 fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 base_folder = os.path.dirname(os.path.abspath(__file__))
@@ -45,35 +45,35 @@ ganfolder = os.path.join(folder, "l2_regularization.py")
 shutil.copyfile(os.path.join(base_folder, "l2_regularization.py"), ganfolder)
 with open(script_file, "w") as f:
     k = 0
-    for dynamic_method in dynamic_methodlist:
-        for hyper_method in hyper_methodlist:
+    for gradient_mapping in gradient_mappinglist:
+        for numerical_approximation in numerical_approximationlist:
             k += 1
             print("Comb.{}:".format(k))
-            print("dynamic_method:", dynamic_method, " hyper_method:", hyper_method)
+            print("gradient_mapping:", gradient_mapping, " numerical_approximation:", numerical_approximation)
             f.write(
-                "python l2_regularization.py --dynamic_method {} --hyper_method {} \n".format(
-                    ",".join([dynamic for dynamic in dynamic_method]),
-                    ",".join([hyper for hyper in hyper_method]),
+                "python l2_regularization.py --gradient_mapping {} --numerical_approximation {} \n".format(
+                    ",".join([dynamic for dynamic in gradient_mapping]),
+                    ",".join([hyper for hyper in numerical_approximation]),
                 )
             )
 
-    for dynamic_method in dynamic_method_dm:
-        for hyper_method in hyper_method_dm:
+    for gradient_mapping in gradient_mapping_dm:
+        for numerical_approximation in numerical_approximation_dm:
             k += 1
             print("Comb.{}:".format(k))
-            print("dynamic_method:", dynamic_method, " hyper_method:", hyper_method)
+            print("gradient_mapping:", gradient_mapping, " numerical_approximation:", numerical_approximation)
             f.write(
-                "python l2_regularization.py --dynamic_method {} --hyper_method {} \n".format(
-                    ",".join([dynamic for dynamic in dynamic_method]),
-                    ",".join([hyper for hyper in hyper_method]),
+                "python l2_regularization.py --gradient_mapping {} --numerical_approximation {} \n".format(
+                    ",".join([dynamic for dynamic in gradient_mapping]),
+                    ",".join([hyper for hyper in numerical_approximation]),
                 )
             )
 
-    for hyper_method in fo_ol_method:
+    for numerical_approximation in fo_ol_method:
         k += 1
         print("Comb.{}:".format(k))
-        print("hyper_method:", hyper_method)
-        f.write("python l2_regularization.py --fo_gm {} \n".format(hyper_method[0]))
+        print("numerical_approximation:", numerical_approximation)
+        f.write("python l2_regularization.py --fo_go {} \n".format(numerical_approximation[0]))
 
 if platform.system() != "Windows":
     os.chmod(script_file, 0o775)

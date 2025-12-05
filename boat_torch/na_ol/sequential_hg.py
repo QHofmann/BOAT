@@ -59,7 +59,7 @@ class SequentialHG:
         return self.result_store.get_results()
 
 
-def makes_functional_hyper_operation(custom_order: List[str], **kwargs) -> SequentialHG:
+def makes_functional_numerical_approximation_operation(custom_order: List[str], **kwargs) -> SequentialHG:
     """
     Dynamically create a SequentialHG object with ordered gradient operators.
 

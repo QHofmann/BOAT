@@ -28,7 +28,7 @@ class RAD(HyperGradient):
     ul_var : List[torch.Tensor]
         List of variables optimized with the upper-level objective.
     solver_config : Dict[str, Any]
-        Dictionary containing solver configurations, including optional dynamic operation settings.
+        Dictionary containing solver configurations, including optional gradient mapping operation settings.
 
     References
     ----------
@@ -54,7 +54,7 @@ class RAD(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.dynamic_initialization = "DI" in solver_config["dynamic_op"]
+        self.dynamic_initialization = "DI" in solver_config["gradient_mapping_op"]
 
     def compute_gradients(
         self,

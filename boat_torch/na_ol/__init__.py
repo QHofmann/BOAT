@@ -1,5 +1,5 @@
 from .hyper_gradient import HyperGradient
-from .sequential_hg import makes_functional_hyper_operation
+from .sequential_hg import makes_functional_numerical_approximation_operation
 from .fd import FD
 from .cg import CG
 from .ns import NS

@@ -211,30 +211,30 @@
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data HyperCleaner&quot;</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--dynamic_method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--gradient_mapping&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="s2">&quot;NGD&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Dynamic method to use, e.g., NGD or FOA&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--hyper_method&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--numerical_approximation&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="s2">&quot;RAD&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Hypergradient method to use, e.g., RAD or IAD&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--fo_gm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--fo_go&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;First-order gradient method, optional.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-    <span class="n">dynamic_method</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dynamic_method</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dynamic_method</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">hyper_method</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">hyper_method</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">hyper_method</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_method</span>
-    <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hyper_method</span>
-    <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">fo_gm</span>
+    <span class="n">gradient_mapping</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">gradient_mapping</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">gradient_mapping</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">numerical_approximation</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">numerical_approximation</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">numerical_approximation</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;gradient_mapping_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gradient_mapping</span>
+    <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;numerical_approximation_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numerical_approximation</span>
+    <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;fo_go&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">fo_go</span>
     <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;lower_level_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
     <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;upper_level_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
     <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_opt</span>
@@ -262,9 +262,9 @@
 <ol class="arabic simple">
 <li><p><strong>Argument Parsing</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dynamic_method</span></code>: Specifies the list of the dynamic operations, e.g., [“NGD”,”GDA”].</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">hyper_method</span></code>: Specifies the list of hyper operations, e.g., [“RAD”,”RGT”].</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fo_gm</span></code>: Optionally specifies a first-order gradient method, e.g., “MESO”.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradient_mapping</span></code>: Specifies the list of the gradient mapping operations, e.g., [“NGD”,”GDA”].</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numerical_approximation</span></code>: Specifies the list of numerical approximation operations, e.g., [“RAD”,”RGT”].</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fo_go</span></code>: Optionally specifies a first-order gradient method, e.g., “MESO”.</p></li>
 </ul>
 </li>
 <li><p><strong>BOAT Configuration</strong>:</p>

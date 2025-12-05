@@ -1,7 +1,7 @@
 {
-    "fo_gm": null,
-    "dynamic_op": ["NGD"],
-    "hyper_op":  ["IAD"],
+    "fo_go": null,
+    "gradient_mapping_op": ["NGD"],
+    "numerical_approximation_op":  ["IAD"],
     "return_grad": true,
     "lower_iters": 5,
     "cuda": false,
