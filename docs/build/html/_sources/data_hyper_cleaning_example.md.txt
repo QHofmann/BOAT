@@ -99,13 +99,13 @@ def main():
         "--gradient_mapping",
         type=str,
         default="NGD",
-        help="Dynamic method to use, e.g., NGD or FOA",
+        help="Gradient mapping operation to use, e.g., NGD or FOA",
     )
     parser.add_argument(
         "--numerical_approximation",
         type=str,
         default="RAD",
-        help="Hypergradient method to use, e.g., RAD or IAD",
+        help="Numerical approximation operation to use, e.g., RAD or IAD",
     )
     parser.add_argument(
         "--fo_go",

@@ -151,7 +151,7 @@ ll_feed_dict = {"data": lower_level_data, "target": lower_level_target}
 ```
 
 ### **6. Run the Optimization Loop**
-Execute the optimization loop, optionally customizing the solver strategy for dynamic methods.
+Execute the optimization loop, optionally customizing the solver strategy for gradient mapping operations.
 
 ```python
 # Set number of iterations
