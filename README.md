@@ -185,6 +185,16 @@ for x_itr in range(iterations):
 - [MESO](https://arxiv.org/pdf/2405.09927)
 
 
+## Related Methods
+### **GM_OL**
+[Dynamic Initialization (DI)](https://proceedings.neurips.cc/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf) • [Dual Multiplier (DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf) • [Gradient Descent Aggregation (GDA)](https://arxiv.org/pdf/2006.04045.pdf) • [Naive Gradient Descent (NGD)](https://arxiv.org/pdf/2006.04045.pdf)
+
+### **NA_OL**
+[Conjugate Gradient (CG)](https://arxiv.org/abs/1602.02355) • [Finite Differentiation (FD)](https://arxiv.org/pdf/1806.09055.pdf) • [First-Order Approximation (FOA)](https://arxiv.org/abs/1703.03400) • [Initialization-based Automatic Differentiation (IAD)](https://arxiv.org/abs/1703.03400) • [Implicit Gradient Approximation (IGA)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445) • [Neumann Series (NS)](http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf) • [Pessimistic Trajectory Truncation (PTT)](https://proceedings.neurips.cc/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf) • [Reverse Automatic Differentiation (RAD)](http://export.arxiv.org/pdf/1806.04910) • [Reverse Gradient Truncation (RGT)](https://arxiv.org/pdf/1810.10667.pdf)
+
+### **FO_OL**
+[Moreau Envelope based Single-loop Operation (MESO)](https://arxiv.org/pdf/2405.09927) • [Penalty Gradient Descent Operation (PGDO)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf) • [Value-Function based First-order Operation (VFO)](https://proceedings.neurips.cc/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf) • [Value-Function based Sequential Operation (VSO)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
+
 
 ## License
 
