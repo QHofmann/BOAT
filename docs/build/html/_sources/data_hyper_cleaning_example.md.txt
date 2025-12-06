@@ -108,7 +108,7 @@ def main():
         help="Numerical approximation operation to use, e.g., RAD or IAD",
     )
     parser.add_argument(
-        "--fo_go",
+        "--fo_op",
         type=str,
         default=None,
         help="First-order gradient method, optional.",
@@ -117,9 +117,9 @@ def main():
     args = parser.parse_args()
     gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
     numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
-    boat_config["gradient_mapping_op"] = gradient_mapping
-    boat_config["numerical_approximation_op"] = numerical_approximation
-    boat_config["fo_go"] = args.fo_go
+    boat_config["gm_op"] = gradient_mapping
+    boat_config["na_op"] = numerical_approximation
+    boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
     boat_config["lower_level_opt"] = y_opt
@@ -146,7 +146,7 @@ def main():
 1. **Argument Parsing**:
    - `gradient_mapping`: Specifies the list of the gradient mapping operations, e.g., ["NGD","GDA"].
    - `numerical_approximation`: Specifies the list of numerical approximation operations, e.g., ["RAD","RGT"].
-   - `fo_go`: Optionally specifies a first-order gradient method, e.g., “MESO”.
+   - `fo_op`: Optionally specifies a first-order gradient method, e.g., “MESO”.
 
 2. **BOAT Configuration**:
    - Updates the `boat_config` with the parsed arguments and model components.

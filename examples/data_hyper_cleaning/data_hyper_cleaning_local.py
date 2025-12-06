@@ -69,7 +69,7 @@ with open(batfolder, "w") as f:
         k += 1
         print("Comb.{}:".format(k))
         print("numerical_approximation:", numerical_approximation)
-        f.write("python data_hyper_cleaning.py --fo_go {} \n".format(numerical_approximation[0]))
+        f.write("python data_hyper_cleaning.py --fo_op {} \n".format(numerical_approximation[0]))
 # os.chdir(folder)
 os.system(batfolder)
 
@@ -131,7 +131,7 @@ os.system(batfolder)
 #         k += 1
 #         print("Comb.{}:".format(k))
 #         print('numerical_approximation:', numerical_approximation)
-#         f.write('python data_hyper_cleaning.py --fo_go {} \n'.format(numerical_approximation[0]))
+#         f.write('python data_hyper_cleaning.py --fo_op {} \n'.format(numerical_approximation[0]))
 #
 # # 如果是 Ubuntu 系统, 使得脚本具有执行权限
 # if platform.system() != "Windows":

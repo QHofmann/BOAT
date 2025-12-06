@@ -155,8 +155,8 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <span class="n">numerical_approximation</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">,</span><span class="s2">&quot;RAD&quot;</span><span class="p">]</span>          <span class="c1"># Hyper-Gradient Methods (Demo Only)</span>
 
 <span class="c1"># Add methods and model details to the configuration</span>
-<span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;gradient_mapping_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gradient_mapping</span>
-<span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;numerical_approximation_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numerical_approximation</span>
+<span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gradient_mapping</span>
+<span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numerical_approximation</span>
 <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;lower_level_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower_model</span>
 <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;upper_level_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upper_model</span>
 <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower_opt</span>

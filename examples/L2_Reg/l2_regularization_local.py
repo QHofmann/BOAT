@@ -73,7 +73,7 @@ with open(script_file, "w") as f:
         k += 1
         print("Comb.{}:".format(k))
         print("numerical_approximation:", numerical_approximation)
-        f.write("python l2_regularization.py --fo_go {} \n".format(numerical_approximation[0]))
+        f.write("python l2_regularization.py --fo_op {} \n".format(numerical_approximation[0]))
 
 if platform.system() != "Windows":
     os.chmod(script_file, 0o775)

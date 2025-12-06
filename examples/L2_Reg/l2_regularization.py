@@ -147,7 +147,7 @@ def main():
             help="convnet for 4 convs or resnet for Residual blocks",
         )
         parser.add_argument(
-            "--fo_go",
+            "--fo_op",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
@@ -203,9 +203,9 @@ def main():
     numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else []
     if "RGT" in numerical_approximation:
         boat_config["RGT"]["truncate_iter"] = 1
-    boat_config["gradient_mapping_op"] = gradient_mapping
-    boat_config["numerical_approximation_op"] = numerical_approximation
-    boat_config["fo_go"] = args.fo_go
+    boat_config["gm_op"] = gradient_mapping
+    boat_config["na_op"] = numerical_approximation
+    boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = lower_model
     boat_config["upper_level_model"] = upper_model
     boat_config["lower_level_opt"] = lower_opt
@@ -219,15 +219,15 @@ def main():
     ul_feed_dict = {"data": trainset[0].to(device), "target": trainset[1].to(device)}
     ll_feed_dict = {"data": valset[0].to(device), "target": valset[1].to(device)}
 
-    if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
+    if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
         iterations = 30
     else:
         iterations = 10
     for x_itr in range(iterations):
-        if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
+        if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
             b_optimizer._ll_solver.strategy = "s" + str(x_itr % 3 + 1)
-        elif "DM" in boat_config["gradient_mapping_op"] and (
-            not ("GDA" in boat_config["gradient_mapping_op"])
+        elif "DM" in boat_config["gm_op"] and (
+            not ("GDA" in boat_config["gm_op"])
         ):
             b_optimizer._ll_solver.strategy = "s" + str(1)
         loss, run_time = b_optimizer.run_iter(

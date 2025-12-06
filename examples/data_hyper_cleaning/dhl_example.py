@@ -66,7 +66,7 @@ def main():
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
-        "--fo_go",
+        "--fo_op",
         type=str,
         default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
@@ -75,9 +75,9 @@ def main():
     args = parser.parse_args()
     gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
     numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
-    boat_config["gradient_mapping_op"] = gradient_mapping
-    boat_config["numerical_approximation_op"] = numerical_approximation
-    boat_config["fo_go"] = args.fo_go
+    boat_config["gm_op"] = gradient_mapping
+    boat_config["na_op"] = numerical_approximation
+    boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
     boat_config["lower_level_opt"] = y_opt

@@ -134,7 +134,7 @@
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;copy_last_param&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;numerical_approximation_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_init&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha_decay</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_decay&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">truncate_iters</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span>
@@ -152,7 +152,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mu0</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;mu0&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;eta0&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;strategy&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">numerical_approximation_op</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;numerical_approximation_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">na_op</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gda_loss</span> <span class="o">=</span> <span class="n">solver_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gda_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DM.optimize"><a class="viewcode-back" href="../../../boat_torch.gm_ol.html#boat_torch.gm_ol.dm.DM.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
@@ -197,7 +197,7 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        - For GDA operations, this method supports three strategies: &#39;s1&#39;, &#39;s2&#39;, and &#39;s3&#39;.</span>
-<span class="sd">        - When using RAD in `numerical_approximation_op`, a higher-order gradient adjustment is applied to the auxiliary variables.</span>
+<span class="sd">        - When using RAD in `na_op`, a higher-order gradient adjustment is applied to the auxiliary variables.</span>
 <span class="sd">        - Ensure that `next_operation` is `None` for NGD, as it does not support additional operations.</span>
 
 <span class="sd">        Raises</span>
@@ -257,7 +257,7 @@
                 <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_lr</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">gda_loss</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="s2">&quot;RAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">numerical_approximation_op</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;RAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">na_op</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;s1&quot;</span>
                 <span class="p">),</span> <span class="s2">&quot;Only &#39;s1&#39; strategy is supported for DM without GDA operation.&quot;</span>
@@ -311,7 +311,7 @@
             <span class="n">upper_loss</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;RAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">numerical_approximation_op</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;RAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">na_op</span><span class="p">:</span>
             <span class="n">vsp</span> <span class="o">=</span> <span class="n">grad_unused_zero</span><span class="p">(</span>
                 <span class="n">grads_phi_params</span><span class="p">,</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">auxiliary_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()),</span>

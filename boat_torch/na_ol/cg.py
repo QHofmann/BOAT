@@ -32,7 +32,7 @@ class CG(HyperGradient):
 
         - `r` (float): Perturbation radius for finite differences.
         - `lower_level_opt` (torch.optim.Optimizer): Lower-level optimizer configuration.
-        - `gradient_mapping_op` (str): Indicates dynamic initialization type (e.g., "DI").
+        - `gm_op` (str): Indicates dynamic initialization type (e.g., "DI").
         - GDA-specific parameters if applicable, such as:
             - `alpha_init` (float): Initial learning rate for GDA.
             - `alpha_decay` (float): Decay factor for GDA.
@@ -42,7 +42,7 @@ class CG(HyperGradient):
     ll_lr : float
         Learning rate for the lower-level optimizer, extracted from `lower_level_opt`.
     dynamic_initialization : bool
-        Indicates whether dynamic initialization is enabled (based on `gradient_mapping_op`).
+        Indicates whether dynamic initialization is enabled (based on `gm_op`).
     _r : float
         Perturbation radius for finite differences, used for gradient computation.
     alpha : float
@@ -77,7 +77,7 @@ class CG(HyperGradient):
             solver_config,
         )
 
-        self.dynamic_initialization = "DI" in solver_config["gradient_mapping_op"]
+        self.dynamic_initialization = "DI" in solver_config["gm_op"]
         self.ll_lr = solver_config["lower_level_opt"].defaults["lr"]
         self.tolerance = solver_config["CG"]["tolerance"]
         self.K = solver_config["CG"]["k"]
@@ -85,7 +85,7 @@ class CG(HyperGradient):
         self.alpha_decay = solver_config["GDA"]["alpha_decay"]
         self.gda_loss = (
             solver_config.get("gda_loss", None)
-            if "GDA" in solver_config["gradient_mapping_op"]
+            if "GDA" in solver_config["gm_op"]
             else None
         )
 

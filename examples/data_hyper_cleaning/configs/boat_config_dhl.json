@@ -1,7 +1,7 @@
 {
-    "fo_go": null,
-    "gradient_mapping_op": null,
-    "numerical_approximation_op":  null,
+    "fo_op": null,
+    "gm_op": null,
+    "na_op":  null,
     "return_grad": false,
     "lower_iters": 5,
     "device": "cpu",

@@ -89,13 +89,13 @@ def test_fo_ol_method(fo_ol_method):
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py",
-        "--fo_go",
+        "--fo_op",
         fo_ol_method[0],
     ]
-    print(f"Running test with fo_go={fo_ol_method}")
+    print(f"Running test with fo_op={fo_ol_method}")
 
     result = subprocess.run(command, capture_output=True, text=True)
 
     assert (
         result.returncode == 0
-    ), f"Test failed for fo_go={fo_ol_method}. Error: {result.stderr}"
+    ), f"Test failed for fo_op={fo_ol_method}. Error: {result.stderr}"

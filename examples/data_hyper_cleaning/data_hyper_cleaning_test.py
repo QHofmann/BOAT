@@ -36,7 +36,7 @@ device = torch.device("cpu")
 
 
 METHOD_MAP = {
-    # 二层方法：fo_go=None
+    # 二层方法：fo_op=None
     "RHG":    ("NGD",        "RAD",       None),
     "BDA":    ("NGD,GDA",    "RAD",       None),
     "CG":     ("NGD",        "CG",        None),
@@ -92,7 +92,7 @@ def main():
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
-        "--fo_go",
+        "--fo_op",
         type=str,
         default="BAMM",
         help="convnet for 4 convs or resnet for Residual blocks",
@@ -120,8 +120,8 @@ def main():
 
     args = parser.parse_args()
     if args.method in METHOD_MAP:
-        args.gradient_mapping, args.numerical_approximation, args.fo_go = METHOD_MAP[args.method]
-        gradient_mapping, numerical_approximation, fo_go = METHOD_MAP[args.method]
+        args.gradient_mapping, args.numerical_approximation, args.fo_op = METHOD_MAP[args.method]
+        gradient_mapping, numerical_approximation, fo_op = METHOD_MAP[args.method]
 
     else:
         raise ValueError(f"Unknown method: {args.method}")
@@ -172,11 +172,11 @@ def main():
 
     gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
     numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
-    fo_go = args.fo_go if args.fo_go else None
+    fo_op = args.fo_op if args.fo_op else None
 
     print(args.gradient_mapping)
     print(args.numerical_approximation)
-    print(args.fo_go)
+    print(args.fo_op)
 
     x_opt = torch.optim.Adam(x.parameters(), lr=args.x_lr)
     if args.method == "TRHG" or args.method == "VPBGD":
@@ -186,9 +186,9 @@ def main():
     y_opt = torch.optim.SGD(y.parameters(), lr=args.y_lr)
 
 
-    boat_config["gradient_mapping_op"] = gradient_mapping
-    boat_config["numerical_approximation_op"] = numerical_approximation
-    boat_config["fo_go"] = fo_go
+    boat_config["gm_op"] = gradient_mapping
+    boat_config["na_op"] = numerical_approximation
+    boat_config["fo_op"] = fo_op
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
     boat_config["lower_level_opt"] = y_opt
@@ -199,7 +199,7 @@ def main():
 
 
 
-    # if boat_config["fo_go"] is not None and ("PGDO" in boat_config["fo_go"]):
+    # if boat_config["fo_op"] is not None and ("PGDO" in boat_config["fo_op"]):
     #     boat_config["PGDO"]["gamma_init"] = boat_config["PGDO"]["gamma_max"] + 0.1
 
     b_optimizer.build_ll_solver()
@@ -219,8 +219,8 @@ def main():
             ["NGD", "DM"],
         ]
     )
-    if boat_config["gradient_mapping_op"] is not None:
-        if "DM" in boat_config["gradient_mapping_op"] and ("GDA" in boat_config["gradient_mapping_op"]):
+    if boat_config["gm_op"] is not None:
+        if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
             iterations = 3
         else:
             iterations = 2

@@ -119,8 +119,8 @@ gradient_mapping = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
 numerical_approximation = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
 
 # Add methods and model details to the configuration
-boat_config["gradient_mapping_op"] = gradient_mapping
-boat_config["numerical_approximation_op"] = numerical_approximation
+boat_config["gm_op"] = gradient_mapping
+boat_config["na_op"] = numerical_approximation
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model
 boat_config["lower_level_opt"] = lower_opt
