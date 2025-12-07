@@ -99,7 +99,7 @@ def main():
     parser.add_argument("--max_test", type=int, default=500)
     parser.add_argument("--data_path", default="./data")
     parser.add_argument("--seed", type=int, default=1)
-    parser.add_argument("--dm_op", type=str, default="DI,NGD")
+    parser.add_argument("--gm_op", type=str, default="DI,NGD")
     parser.add_argument("--na_op", type=str, default="RAD,RGT,PTT")
     parser.add_argument("--fo_op", type=str, default=None)
     args = parser.parse_args()
@@ -162,12 +162,12 @@ def main():
     lower_opt = jit.nn.SGD([lower_model.W], lr=0.01)
 
     # -------------------- 组装 BOAT 配置 --------------------
-    dm_op = args.dm_op.split(",") if args.dm_op else None
+    gm_op = args.gm_op.split(",") if args.gm_op else None
     na_op   = args.na_op.split(",")   if args.na_op   else None
     if na_op is not None and ("RGT" in na_op):
         boat_config["RGT"]["truncate_iter"] = 1
 
-    boat_config["dm_op"]       = dm_op
+    boat_config["gm_op"]       = gm_op
     boat_config["na_op"]         = na_op
     boat_config["fo_op"]            = args.fo_op
     boat_config["lower_level_model"]= lower_model
@@ -187,8 +187,8 @@ def main():
     ll_feed_dict = {"data": valset[0],   "target": valset[1]}
 
     # 迭代次数：对齐你 torch 版最小逻辑
-    if boat_config["dm_op"] is not None:
-        if ("DM" in boat_config["dm_op"]) and ("GDA" in boat_config["dm_op"]):
+    if boat_config["gm_op"] is not None:
+        if ("DM" in boat_config["gm_op"]) and ("GDA" in boat_config["gm_op"]):
             iterations = 3
         else:
             iterations = 2
@@ -200,10 +200,10 @@ def main():
 
     for it in range(iterations):
         # DM+GDA 的 strategy 切换（如有 DM）
-        if boat_config["dm_op"] is not None:
-            if ("DM" in boat_config["dm_op"]) and ("GDA" in boat_config["dm_op"]):
+        if boat_config["gm_op"] is not None:
+            if ("DM" in boat_config["gm_op"]) and ("GDA" in boat_config["gm_op"]):
                 b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str((it % 3) + 1)
-            elif ("DM" in boat_config["dm_op"]) and ("GDA" not in boat_config["dm_op"]):
+            elif ("DM" in boat_config["gm_op"]) and ("GDA" not in boat_config["gm_op"]):
                 b_optimizer._ll_solver.gradient_instances[-1].strategy = "s1"
 
         _, run_time = b_optimizer.run_iter(ll_feed_dict, ul_feed_dict, current_iter=it)

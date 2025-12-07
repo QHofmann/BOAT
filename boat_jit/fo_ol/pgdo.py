@@ -11,7 +11,7 @@ import copy
 from typing import Dict, Any, Callable, List
 
 from boat_jit.operation_registry import register_class
-from boat_jit.dm_ol.dynamical_system import DynamicalSystem
+from boat_jit.gm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class

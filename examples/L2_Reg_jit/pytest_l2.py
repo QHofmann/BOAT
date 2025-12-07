@@ -2,7 +2,7 @@ import pytest
 import subprocess
 
 # 动态方法组合
-dm_oplist = (
+gm_oplist = (
     ["GDA", "NGD", "DI"],
     ["DI", "NGD", "GDA"],
     ["NGD"],
@@ -27,7 +27,7 @@ na_oplist = (
 )
 
 # 带 DM 的组合
-dm_op_dm = (
+gm_op_dm = (
     ["DM", "NGD"],
     ["DM", "GDA", "NGD"],
 )
@@ -72,26 +72,26 @@ def test_fogm_method(fogm_method):
 
 
 @pytest.mark.parametrize(
-    "dm_op, na_op",
+    "gm_op, na_op",
     [
-        (dm_op, na_op)
-        for dm_op in dm_op_dm
+        (gm_op, na_op)
+        for gm_op in gm_op_dm
         for na_op in na_op_dm
     ],
 )
-def test_combination_dynamic_na_op_dm(dm_op, na_op):
+def test_combination_dynamic_na_op_dm(gm_op, na_op):
     command = [
         "python",
         SCRIPT,
-        "--dm_op",
-        ",".join(dm_op),
+        "--gm_op",
+        ",".join(gm_op),
         "--na_op",
         ",".join(na_op),
     ]
-    print(f"Running test with dm_op={dm_op}, na_op={na_op}")
+    print(f"Running test with gm_op={gm_op}, na_op={na_op}")
     result = subprocess.run(command, capture_output=True, text=True)
     assert result.returncode == 0, (
-        f"Test failed for dm_op={dm_op}, na_op={na_op}\n"
+        f"Test failed for gm_op={gm_op}, na_op={na_op}\n"
         f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
     )
 
@@ -101,26 +101,26 @@ def test_combination_dynamic_na_op_dm(dm_op, na_op):
 
 
 @pytest.mark.parametrize(
-    "dm_op, na_op",
+    "gm_op, na_op",
     [
-        (dm_op, na_op)
-        for dm_op in dm_oplist
+        (gm_op, na_op)
+        for gm_op in gm_oplist
         for na_op in na_oplist
     ],
 )
-def test_combination_dynamic_na_op(dm_op, na_op):
+def test_combination_dynamic_na_op(gm_op, na_op):
     command = [
         "python",
         SCRIPT,
-        "--dm_op",
-        ",".join(dm_op),
+        "--gm_op",
+        ",".join(gm_op),
         "--na_op",
         ",".join(na_op),
     ]
-    print(f"Running test with dm_op={dm_op}, na_op={na_op}")
+    print(f"Running test with gm_op={gm_op}, na_op={na_op}")
     result = subprocess.run(command, capture_output=True, text=True)
     assert result.returncode == 0, (
-        f"Test failed for dm_op={dm_op}, na_op={na_op}\n"
+        f"Test failed for gm_op={gm_op}, na_op={na_op}\n"
         f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
     )
 

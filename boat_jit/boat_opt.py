@@ -13,7 +13,7 @@ import boat_jit.higher_jit as higher
 
 importlib = __import__("importlib")
 from boat_jit.operation_registry import get_registered_operation
-from boat_jit.dm_ol import makes_functional_dynamical_system
+from boat_jit.gm_ol import makes_functional_dynamical_system
 from boat_jit.na_ol import makes_functional_na_operation
 
 import matplotlib.pyplot as plt
@@ -37,7 +37,7 @@ class Problem:
 
     def __init__(self, config: Dict[str, Any], loss_config: Dict[str, Any]):
         self._fo_op = config["fo_op"]
-        self._dm_op = config["dm_op"]
+        self._gm_op = config["gm_op"]
         self._na_op = config["na_op"]
         self._ll_model = config["lower_level_model"]
         self._ul_model = config["upper_level_model"]
@@ -45,8 +45,8 @@ class Problem:
         self._ul_var = config["upper_level_var"]
         self.boat_configs = config
 
-        if config["dm_op"] is not None:
-            if "GDA" in config["dm_op"]:
+        if config["gm_op"] is not None:
+            if "GDA" in config["gm_op"]:
                 assert (
                     loss_config.get("gda_loss", None) is not None
                 ), "Set the 'gda_loss' in loss_config properly."
@@ -70,14 +70,14 @@ class Problem:
 
     def build_ll_solver(self):
         if self.boat_configs["fo_op"] is None:
-            assert (self.boat_configs["dm_op"] is not None) and (
+            assert (self.boat_configs["gm_op"] is not None) and (
                 self.boat_configs["na_op"] is not None
-            ), "Set 'dm_op' and 'na_op' properly."
+            ), "Set 'gm_op' and 'na_op' properly."
 
             self.check_status()
 
             # DM 需要辅助变量与优化器
-            if "DM" in self._dm_op:
+            if "DM" in self._gm_op:
                 self.boat_configs["DM"]["auxiliary_v"] = [
                     jit.zeros_like(param) for param in self._ll_var
                 ]
@@ -90,7 +90,7 @@ class Problem:
                     lr=self.boat_configs["DM"]["auxiliary_v_lr"],
                 )
 
-            sorted_ops = sorted([op.upper() for op in self._dm_op])
+            sorted_ops = sorted([op.upper() for op in self._gm_op])
             self._ll_solver = makes_functional_dynamical_system(
                 custom_order=sorted_ops,
                 ll_objective=self._ll_loss,
@@ -102,7 +102,7 @@ class Problem:
             )
 
             # DI：为“动态初始化”准备一个学习率不同的下层优化器
-            if "DI" in self.boat_configs["dm_op"]:
+            if "DI" in self.boat_configs["gm_op"]:
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
                 new_groups = []
@@ -207,7 +207,7 @@ class Problem:
 
                         backward_time = time.perf_counter()
                         # FIX: 这里原来把 ul_feed_dict 误传成了 batch_ll_feed_dict，导致超层梯度用错数据
-                        if "DM" not in self._dm_op:
+                        if "DM" not in self._gm_op:
                             self._log_results.append(
                                 self._ul_solver.compute_gradients(
                                     ll_feed_dict=batch_ll_feed_dict,
@@ -251,7 +251,7 @@ class Problem:
                     print("forward_time", forward_time)
 
                     backward_time = time.perf_counter()
-                    if "DM" not in self._dm_op:
+                    if "DM" not in self._gm_op:
                         self._log_results.append(
                             self._ul_solver.compute_gradients(
                                 ll_feed_dict=ll_feed_dict,
@@ -274,7 +274,7 @@ class Problem:
                         )
 
                 # DI：用 _lower_init_opt 对 LL var 做一次“动态初始化”更新
-                if "DI" in self.boat_configs["dm_op"]:
+                if "DI" in self.boat_configs["gm_op"]:
                     manual_update(
                         self._lower_init_opt, self._lower_opt.param_groups[0]["params"]
                     )
@@ -312,7 +312,7 @@ class Problem:
     def check_status(self):
         if any(item in self._na_op for item in ["PTT", "IAD", "RAD"]):
             self.set_track_trajectory(True)
-        if "DM" in self.boat_configs["dm_op"]:
+        if "DM" in self.boat_configs["gm_op"]:
             assert (self.boat_configs["na_op"] == ["RAD"]) or (
                 self.boat_configs["na_op"] == ["CG"]
             ), "When 'DM' is chosen, set the 'truncate_iter' properly."
@@ -345,8 +345,8 @@ class Problem:
                 "With IAD or FOA operation, 'upper_level_model' and 'lower_level_model' have the same structure, "
                 "and 'lower_level_var' and 'upper_level_var' are the same group of variables."
             )
-        assert (("DI" in self._dm_op) ^ ("IAD" in self._na_op)) or (
-            ("DI" not in self._dm_op) and ("IAD" not in self._na_op)
+        assert (("DI" in self._gm_op) ^ ("IAD" in self._na_op)) or (
+            ("DI" not in self._gm_op) and ("IAD" not in self._na_op)
         ), "Only one of the 'PTT' and 'RGT' methods could be chosen."
         assert (
             0.0 <= self.boat_configs["GDA"]["alpha_init"] <= 1.0

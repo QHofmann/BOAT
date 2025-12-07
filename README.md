@@ -98,11 +98,11 @@ Modify the boat_config to include your gradient mapping and numerical approximat
 
 ```python
 # Example gradient mapping and numerical approximation operation Combination.
-dm_op = ["NGD","DI", "GDA"]  # Gradient Mapping Operations (Demo Only)
+gm_op = ["NGD","DI", "GDA"]  # Gradient Mapping Operations (Demo Only)
 na_op = ["RGT","RAD"]          # Numerical Approximation Operations (Demo Only)
 
 # Add methods and model details to the configuration
-boat_config["dm_op"] = dm_op
+boat_config["gm_op"] = gm_op
 boat_config["na_op"] = na_op
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model

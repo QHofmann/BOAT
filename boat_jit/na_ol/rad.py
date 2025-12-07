@@ -54,7 +54,7 @@ class RAD(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.dynamic_initialization = "DI" in solver_config["dm_op"]
+        self.dynamic_initialization = "DI" in solver_config["gm_op"]
 
     def compute_gradients(
         self,

@@ -168,7 +168,7 @@ def main():
             ],
         )
         parser.add_argument(
-            "--dm_op",
+            "--gm_op",
             type=str,
             default="DM,NGD",
             help="omniglot or miniimagenet or tieredImagenet",
@@ -223,13 +223,13 @@ def main():
     upper_opt = jit.nn.Adam(upper_model.parameters(), lr=0.01)
     lower_opt = jit.nn.SGD(lower_model.parameters(), lr=0.01)
 
-    print(args.dm_op)
+    print(args.gm_op)
     print(args.na_op)
-    dm_op = args.dm_op.split(",") if args.dm_op else []
+    gm_op = args.gm_op.split(",") if args.gm_op else []
     na_op = args.na_op.split(",") if args.na_op else []
     if "RGT" in na_op:
         boat_config["RGT"]["truncate_iter"] = 1
-    boat_config["dm_op"] = dm_op
+    boat_config["gm_op"] = gm_op
     boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = lower_model
@@ -245,17 +245,17 @@ def main():
     ul_feed_dict = {"data": trainset[0], "target": trainset[1]}
     ll_feed_dict = {"data": valset[0], "target": valset[1]}
 
-    if "DM" in boat_config["dm_op"] and ("GDA" in boat_config["dm_op"]):
+    if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
         iterations = 3
     else:
         iterations = 2
     for x_itr in range(iterations):
-        if "DM" in boat_config["dm_op"] and ("GDA" in boat_config["dm_op"]):
+        if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
             b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str(
                 x_itr % 3 + 1
             )
-        elif "DM" in boat_config["dm_op"] and (
-            not ("GDA" in boat_config["dm_op"])
+        elif "DM" in boat_config["gm_op"] and (
+            not ("GDA" in boat_config["gm_op"])
         ):
             b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str(1)
         loss, run_time = b_optimizer.run_iter(

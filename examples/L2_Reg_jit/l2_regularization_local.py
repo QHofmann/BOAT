@@ -6,14 +6,14 @@ import platform
 
 t0 = time.strftime("%Y_%m_%d_%H_%M_%S")
 args = "l2_regularization/method_test"
-dm_oplist = (
+gm_oplist = (
     ["NGD"],
     ["DI", "NGD"],
     ["GDA", "NGD"],
     ["GDA", "NGD", "DI"],
     ["DI", "NGD", "GDA"],
 )
-dm_op_dm = (["DM"], ["DM", "GDA"])
+gm_op_dm = (["DM"], ["DM", "GDA"])
 na_oplist = (
     ["CG"],
     ["CG", "PTT"],
@@ -47,26 +47,26 @@ shutil.copyfile(os.path.join(base_folder, "l2_regularization.py"), ganfolder)
 
 with open(script_file, "w") as f:
     k = 0
-    for dm_op in dm_oplist:
+    for gm_op in gm_oplist:
         for na_op in na_oplist:
             k += 1
             print("Comb.{}:".format(k))
-            print("dm_op:", dm_op, " na_op:", na_op)
+            print("gm_op:", gm_op, " na_op:", na_op)
             f.write(
-                "python l2_regularization.py --dm_op {} --na_op {} \n".format(
-                    ",".join([dynamic for dynamic in dm_op]),
+                "python l2_regularization.py --gm_op {} --na_op {} \n".format(
+                    ",".join([dynamic for dynamic in gm_op]),
                     ",".join([hyper for hyper in na_op]),
                 )
             )
 
-    for dm_op in dm_op_dm:
+    for gm_op in gm_op_dm:
         for na_op in na_op_dm:
             k += 1
             print("Comb.{}:".format(k))
-            print("dm_op:", dm_op, " na_op:", na_op)
+            print("gm_op:", gm_op, " na_op:", na_op)
             f.write(
-                "python l2_regularization.py --dm_op {} --na_op {} \n".format(
-                    ",".join([dynamic for dynamic in dm_op]),
+                "python l2_regularization.py --gm_op {} --na_op {} \n".format(
+                    ",".join([dynamic for dynamic in gm_op]),
                     ",".join([hyper for hyper in na_op]),
                 )
             )

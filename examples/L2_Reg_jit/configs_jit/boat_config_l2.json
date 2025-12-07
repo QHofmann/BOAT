@@ -1,6 +1,6 @@
 {
     "fo_op": null,
-    "dm_op": ["NGD"],
+    "gm_op": ["NGD"],
     "na_op":  ["RAD"],
     "return_grad": true,
     "lower_iters": 5,
