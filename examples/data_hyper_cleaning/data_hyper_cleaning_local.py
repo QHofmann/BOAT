@@ -4,15 +4,15 @@ import shutil
 
 t0 = time.strftime("%Y_%m_%d_%H_%M_%S")
 args = "hyper_cleaning\method_test"
-gradient_mappinglist = (
+gm_oplist = (
     ["NGD"],
     ["DI", "NGD"],
     ["GDA", "NGD"],
     ["GDA", "NGD", "DI"],
     ["DI", "NGD", "GDA"],
 )
-gradient_mapping_dm = (["DM"], ["DM", "GDA"])
-numerical_approximationlist = (
+gm_op_dm = (["DM"], ["DM", "GDA"])
+na_oplist = (
     ["CG"],
     ["CG", "PTT"],
     ["RAD"],
@@ -26,7 +26,7 @@ numerical_approximationlist = (
     ["IGA"],
     ["IGA", "PTT"],
 )
-numerical_approximation_dm = (["RAD"], ["CG"])
+na_op_dm = (["RAD"], ["CG"])
 fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 # m='Darts_W_RHG'
 folder = "C:/Users/ASUS/Documents/GitHub/BOAT/examples/data_hyper_cleaning"
@@ -42,34 +42,34 @@ utilfolder = os.path.join(folder, "util_file.py")
 shutil.copyfile("util_file.py", utilfolder)
 with open(batfolder, "w") as f:
     k = 0
-    for gradient_mapping in gradient_mappinglist:
-        for numerical_approximation in numerical_approximationlist:
+    for gm_op in gm_oplist:
+        for na_op in na_oplist:
             k += 1
             print("Comb.{}:".format(k))
-            print("gradient_mapping:", gradient_mapping, " numerical_approximation:", numerical_approximation)
+            print("gm_op:", gm_op, " na_op:", na_op)
             f.write(
-                "python data_hyper_cleaning.py --gradient_mapping {} --numerical_approximation {} \n".format(
-                    ",".join([dynamic for dynamic in gradient_mapping]),
-                    ",".join([hyper for hyper in numerical_approximation]),
+                "python data_hyper_cleaning.py --gm_op {} --na_op {} \n".format(
+                    ",".join([dynamic for dynamic in gm_op]),
+                    ",".join([hyper for hyper in na_op]),
                 )
             )
 
-    for gradient_mapping in gradient_mapping_dm:
-        for numerical_approximation in numerical_approximation_dm:
+    for gm_op in gm_op_dm:
+        for na_op in na_op_dm:
             k += 1
             print("Comb.{}:".format(k))
-            print("gradient_mapping:", gradient_mapping, " numerical_approximation:", numerical_approximation)
+            print("gm_op:", gm_op, " na_op:", na_op)
             f.write(
-                "python data_hyper_cleaning.py --gradient_mapping {} --numerical_approximation {} \n".format(
-                    ",".join([dynamic for dynamic in gradient_mapping]),
-                    ",".join([hyper for hyper in numerical_approximation]),
+                "python data_hyper_cleaning.py --gm_op {} --na_op {} \n".format(
+                    ",".join([dynamic for dynamic in gm_op]),
+                    ",".join([hyper for hyper in na_op]),
                 )
             )
-    for numerical_approximation in fo_ol_method:
+    for na_op in fo_ol_method:
         k += 1
         print("Comb.{}:".format(k))
-        print("numerical_approximation:", numerical_approximation)
-        f.write("python data_hyper_cleaning.py --fo_op {} \n".format(numerical_approximation[0]))
+        print("na_op:", na_op)
+        f.write("python data_hyper_cleaning.py --fo_op {} \n".format(na_op[0]))
 # os.chdir(folder)
 os.system(batfolder)
 
@@ -81,13 +81,13 @@ os.system(batfolder)
 # # 获取当前时间
 # t0 = time.strftime("%Y_%m_%d_%H_%M_%S")
 # args = 'hyper_cleaning/method_test'  # 使用相对路径
-# gradient_mappinglist = (["NGD"], ["DI", "NGD"], ["GDA", "NGD", "DI"], ["DI", "NGD", "GDA"])
-# gradient_mapping_dm = (["NGD", "DM"], ["NGD", "DM", "GDA"])
-# numerical_approximationlist = (
+# gm_oplist = (["NGD"], ["DI", "NGD"], ["GDA", "NGD", "DI"], ["DI", "NGD", "GDA"])
+# gm_op_dm = (["NGD", "DM"], ["NGD", "DM", "GDA"])
+# na_oplist = (
 #     ["CG"], ["CG", "PTT"], ["RAD"], ["RAD", "PTT"], ["RAD", "RGT"], ["PTT", "RAD", "RGT"], ["FD"], ["FD", "PTT"], ["NS"],
 #     ["NS", "PTT"], ["IGA"]
 # )
-# numerical_approximation_dm = (["RAD"], ["CG"])
+# na_op_dm = (["RAD"], ["CG"])
 # fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 #
 # # 获取当前脚本所在的目录（相对路径）
@@ -111,27 +111,27 @@ os.system(batfolder)
 # # 创建批处理或 shell 脚本
 # with open(script_file, 'w') as f:
 #     k = 0
-#     for gradient_mapping in gradient_mappinglist:
-#         for numerical_approximation in numerical_approximationlist:
+#     for gm_op in gm_oplist:
+#         for na_op in na_oplist:
 #             k += 1
 #             print("Comb.{}:".format(k))
-#             print('gradient_mapping:', gradient_mapping, ' numerical_approximation:', numerical_approximation)
-#             f.write('python data_hyper_cleaning.py --gradient_mapping {} --numerical_approximation {} \n'.format(
-#                 ','.join([dynamic for dynamic in gradient_mapping]), ','.join([hyper for hyper in numerical_approximation])))
+#             print('gm_op:', gm_op, ' na_op:', na_op)
+#             f.write('python data_hyper_cleaning.py --gm_op {} --na_op {} \n'.format(
+#                 ','.join([dynamic for dynamic in gm_op]), ','.join([hyper for hyper in na_op])))
 #
-#     for gradient_mapping in gradient_mapping_dm:
-#         for numerical_approximation in numerical_approximation_dm:
+#     for gm_op in gm_op_dm:
+#         for na_op in na_op_dm:
 #             k += 1
 #             print("Comb.{}:".format(k))
-#             print('gradient_mapping:', gradient_mapping, ' numerical_approximation:', numerical_approximation)
-#             f.write('python data_hyper_cleaning.py --gradient_mapping {} --numerical_approximation {} \n'.format(','.join(
-#                 [dynamic for dynamic in gradient_mapping]), ','.join([hyper for hyper in numerical_approximation])))
+#             print('gm_op:', gm_op, ' na_op:', na_op)
+#             f.write('python data_hyper_cleaning.py --gm_op {} --na_op {} \n'.format(','.join(
+#                 [dynamic for dynamic in gm_op]), ','.join([hyper for hyper in na_op])))
 #
-#     for numerical_approximation in fo_ol_method:
+#     for na_op in fo_ol_method:
 #         k += 1
 #         print("Comb.{}:".format(k))
-#         print('numerical_approximation:', numerical_approximation)
-#         f.write('python data_hyper_cleaning.py --fo_op {} \n'.format(numerical_approximation[0]))
+#         print('na_op:', na_op)
+#         f.write('python data_hyper_cleaning.py --fo_op {} \n'.format(na_op[0]))
 #
 # # 如果是 Ubuntu 系统, 使得脚本具有执行权限
 # if platform.system() != "Windows":

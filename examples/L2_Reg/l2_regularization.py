@@ -135,13 +135,13 @@ def main():
             ],
         )
         parser.add_argument(
-            "--gradient_mapping",
+            "--gm_op",
             type=str,
             default=None,
             help="omniglot or miniimagenet or tieredImagenet",
         )
         parser.add_argument(
-            "--numerical_approximation",
+            "--na_op",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
@@ -197,14 +197,14 @@ def main():
     lower_model = lower_model(n_feats, device)
     upper_opt = torch.optim.Adam(upper_model.parameters(), lr=0.01)
     lower_opt = torch.optim.SGD(lower_model.parameters(), lr=0.01)
-    print(args.gradient_mapping)
-    print(args.numerical_approximation)
-    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else []
-    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else []
-    if "RGT" in numerical_approximation:
+    print(args.gm_op)
+    print(args.na_op)
+    gm_op = args.gm_op.split(",") if args.gm_op else []
+    na_op = args.na_op.split(",") if args.na_op else []
+    if "RGT" in na_op:
         boat_config["RGT"]["truncate_iter"] = 1
-    boat_config["gm_op"] = gradient_mapping
-    boat_config["na_op"] = numerical_approximation
+    boat_config["gm_op"] = gm_op
+    boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = lower_model
     boat_config["upper_level_model"] = upper_model

@@ -42,13 +42,13 @@ def main():
             "--model_path", default="./save_l2reg", help="where to save model"
         )
         parser.add_argument(
-            "--gradient_mapping",
+            "--gm_op",
             type=str,
             default=None,
             help="omniglot or miniimagenet or tieredImagenet",
         )
         parser.add_argument(
-            "--numerical_approximation",
+            "--na_op",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
@@ -78,10 +78,10 @@ def main():
     )
     upper_opt = torch.optim.Adam(upper_model.parameters(), lr=0.01)
     lower_opt = torch.optim.SGD(lower_model.parameters(), lr=0.01)
-    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else []
-    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else []
-    boat_config["gm_op"] = gradient_mapping
-    boat_config["na_op"] = numerical_approximation
+    gm_op = args.gm_op.split(",") if args.gm_op else []
+    na_op = args.na_op.split(",") if args.na_op else []
+    boat_config["gm_op"] = gm_op
+    boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = lower_model
     boat_config["upper_level_model"] = upper_model

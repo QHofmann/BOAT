@@ -112,13 +112,13 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--gradient_mapping",
+        "--gm_op",
         type=str,
         default=None,
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--numerical_approximation",
+        "--na_op",
         type=str,
         default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
@@ -131,12 +131,12 @@ def main():
     )
     args = parser.parse_args()
 
-    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
-    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
-    print(args.gradient_mapping)
-    print(args.numerical_approximation)
-    boat_config["gm_op"] = gradient_mapping
-    boat_config["na_op"] = numerical_approximation
+    gm_op = args.gm_op.split(",") if args.gm_op else None
+    na_op = args.na_op.split(",") if args.na_op else None
+    print(args.gm_op)
+    print(args.na_op)
+    boat_config["gm_op"] = gm_op
+    boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = meta_model
     boat_config["upper_level_model"] = meta_model

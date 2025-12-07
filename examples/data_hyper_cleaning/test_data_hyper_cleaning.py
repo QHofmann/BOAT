@@ -2,14 +2,14 @@ import pytest
 import subprocess
 from unittest.mock import patch
 
-gradient_mappinglist = (
+gm_oplist = (
     ["NGD"],
     ["DI", "NGD"],
     ["GDA", "NGD"],
     ["GDA", "NGD", "DI"],
     ["DI", "NGD", "GDA"],
 )
-numerical_approximationlist = (
+na_oplist = (
     ["CG"],
     ["CG", "PTT"],
     ["RAD"],
@@ -23,65 +23,65 @@ numerical_approximationlist = (
     ["IGA"],
     ["IGA", "PTT"],
 )
-gradient_mapping_dm = (["DM","NGD"], ["DM","GDA","NGD"])
-numerical_approximation_dm = (["RAD"], ["CG"])
+gm_op_dm = (["DM","NGD"], ["DM","GDA","NGD"])
+na_op_dm = (["RAD"], ["CG"])
 fo_ol_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 
 @pytest.mark.parametrize(
-    "gradient_mapping, numerical_approximation",
+    "gm_op, na_op",
     [
-        (gradient_mapping, numerical_approximation)
-        for gradient_mapping in gradient_mappinglist
-        for numerical_approximation in numerical_approximationlist
+        (gm_op, na_op)
+        for gm_op in gm_oplist
+        for na_op in na_oplist
     ],
 )
-def test_combination_dynamic_numerical_approximation(gradient_mapping, numerical_approximation):
+def test_combination_dynamic_na_op(gm_op, na_op):
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/data_hyper_cleaning/data_hyper_cleaning.py",
-        "--gradient_mapping",
-        ",".join(gradient_mapping),
-        "--numerical_approximation",
-        ",".join(numerical_approximation),
+        "--gm_op",
+        ",".join(gm_op),
+        "--na_op",
+        ",".join(na_op),
     ]
     print(
-        f"Running test with gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}"
+        f"Running test with gm_op={gm_op} and na_op={na_op}"
     )
 
     result = subprocess.run(command, capture_output=True, text=True)
 
     assert (
         result.returncode == 0
-    ), f"Test failed for gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}. Error: {result.stderr}"
+    ), f"Test failed for gm_op={gm_op} and na_op={na_op}. Error: {result.stderr}"
 
 
 @pytest.mark.parametrize(
-    "gradient_mapping, numerical_approximation",
+    "gm_op, na_op",
     [
-        (gradient_mapping, numerical_approximation)
-        for gradient_mapping in gradient_mapping_dm
-        for numerical_approximation in numerical_approximation_dm
+        (gm_op, na_op)
+        for gm_op in gm_op_dm
+        for na_op in na_op_dm
     ],
 )
-def test_combination_dynamic_numerical_approximation_dm(gradient_mapping, numerical_approximation):
+def test_combination_dynamic_na_op_dm(gm_op, na_op):
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/data_hyper_cleaning/data_hyper_cleaning.py",
-        "--gradient_mapping",
-        ",".join(gradient_mapping),
-        "--numerical_approximation",
-        ",".join(numerical_approximation),
+        "--gm_op",
+        ",".join(gm_op),
+        "--na_op",
+        ",".join(na_op),
     ]
     print(
-        f"Running test with gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}"
+        f"Running test with gm_op={gm_op} and na_op={na_op}"
     )
 
     result = subprocess.run(command, capture_output=True, text=True)
 
     assert (
         result.returncode == 0
-    ), f"Test failed for gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}. Error: {result.stderr}"
+    ), f"Test failed for gm_op={gm_op} and na_op={na_op}. Error: {result.stderr}"
 
 
 @pytest.mark.parametrize("fo_ol_method", fo_ol_method)

@@ -6,8 +6,8 @@ import pytest
 import platform
 
 # 假设 meta_learning.py 已经被复制到正确的位置
-gradient_mappinglist = (["NGD"], ["NGD", "GDA"])
-numerical_approximationlist = (
+gm_oplist = (["NGD"], ["NGD", "GDA"])
+na_oplist = (
     ["IAD"],
     ["IAD", "PTT"],
     ["CG", "IAD"],
@@ -42,11 +42,11 @@ script_file = os.path.join(folder, "set" + script_extension)
 # 创建批处理或 shell 脚本
 with open(script_file, "w") as f:
     k = 0
-    for gradient_mapping in gradient_mappinglist:
-        for numerical_approximation in numerical_approximationlist:
+    for gm_op in gm_oplist:
+        for na_op in na_oplist:
             k += 1
             f.write(
-                f'python /home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py --gradient_mapping {",".join(gradient_mapping)} --numerical_approximation {",".join(numerical_approximation)} \n'
+                f'python /home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py --gm_op {",".join(gm_op)} --na_op {",".join(na_op)} \n'
             )
 
 # 如果是 Ubuntu 系统, 使得脚本具有执行权限
@@ -56,25 +56,25 @@ if platform.system() != "Windows":
 
 # 使用 pytest.mark.parametrize 进行参数化
 @pytest.mark.parametrize(
-    "gradient_mapping, numerical_approximation",
+    "gm_op, na_op",
     [
-        (gradient_mapping, numerical_approximation)
-        for gradient_mapping in gradient_mappinglist
-        for numerical_approximation in numerical_approximationlist
+        (gm_op, na_op)
+        for gm_op in gm_oplist
+        for na_op in na_oplist
     ],
 )
-def test_combination_dynamic_numerical_approximation(gradient_mapping, numerical_approximation):
+def test_combination_dynamic_na_op(gm_op, na_op):
     # 构建命令
     command = [
         "python",
         "/home/runner/work/BOAT/BOAT/examples/meta_learning/meta_learning.py",
-        "--gradient_mapping",
-        ",".join(gradient_mapping),
-        "--numerical_approximation",
-        ",".join(numerical_approximation),
+        "--gm_op",
+        ",".join(gm_op),
+        "--na_op",
+        ",".join(na_op),
     ]
     print(
-        f"Running test with gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}"
+        f"Running test with gm_op={gm_op} and na_op={na_op}"
     )
 
     result = subprocess.run(command, capture_output=True, text=True)
@@ -82,7 +82,7 @@ def test_combination_dynamic_numerical_approximation(gradient_mapping, numerical
     # 确保命令执行成功
     assert (
         result.returncode == 0
-    ), f"Test failed for gradient_mapping={gradient_mapping} and numerical_approximation={numerical_approximation}. Error: {result.stderr}"
+    ), f"Test failed for gm_op={gm_op} and na_op={na_op}. Error: {result.stderr}"
 
 @pytest.mark.parametrize("fo_ol_method", fo_ol_method)
 def test_fo_ol_method(fo_ol_method):

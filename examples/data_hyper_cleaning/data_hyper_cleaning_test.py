@@ -45,7 +45,7 @@ METHOD_MAP = {
     "BAMM":   ("DM,GDA,NGD",     "CG",       None),
     "IAPTT":  ("NGD,DI",     "PTT,RAD",   None),
 
-    # fo-gm 方法：gradient_mapping=None, numerical_approximation=None
+    # fo-gm 方法：gm_op=None, na_op=None
     "BVFSM":  (None, None, "VSO"),
     "BOME":   (None, None, "VFO"),
     "VPBGD":  (None, None, "PGDO"),
@@ -80,13 +80,13 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--gradient_mapping",
+        "--gm_op",
         type=str,
         default="NGD,DI",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--numerical_approximation",
+        "--na_op",
         type=str,
         default="PTT,RAD",
         help="convnet for 4 convs or resnet for Residual blocks",
@@ -120,8 +120,8 @@ def main():
 
     args = parser.parse_args()
     if args.method in METHOD_MAP:
-        args.gradient_mapping, args.numerical_approximation, args.fo_op = METHOD_MAP[args.method]
-        gradient_mapping, numerical_approximation, fo_op = METHOD_MAP[args.method]
+        args.gm_op, args.na_op, args.fo_op = METHOD_MAP[args.method]
+        gm_op, na_op, fo_op = METHOD_MAP[args.method]
 
     else:
         raise ValueError(f"Unknown method: {args.method}")
@@ -170,12 +170,12 @@ def main():
         loss_config = json.load(f)
 
 
-    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
-    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
+    gm_op = args.gm_op.split(",") if args.gm_op else None
+    na_op = args.na_op.split(",") if args.na_op else None
     fo_op = args.fo_op if args.fo_op else None
 
-    print(args.gradient_mapping)
-    print(args.numerical_approximation)
+    print(args.gm_op)
+    print(args.na_op)
     print(args.fo_op)
 
     x_opt = torch.optim.Adam(x.parameters(), lr=args.x_lr)
@@ -186,8 +186,8 @@ def main():
     y_opt = torch.optim.SGD(y.parameters(), lr=args.y_lr)
 
 
-    boat_config["gm_op"] = gradient_mapping
-    boat_config["na_op"] = numerical_approximation
+    boat_config["gm_op"] = gm_op
+    boat_config["na_op"] = na_op
     boat_config["fo_op"] = fo_op
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x

@@ -128,13 +128,13 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--gradient_mapping",
+        "--gm_op",
         type=str,
         default="",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--numerical_approximation",
+        "--na_op",
         type=str,
         default="",
         help="convnet for 4 convs or resnet for Residual blocks",

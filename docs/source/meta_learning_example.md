@@ -79,10 +79,10 @@ with open(os.path.join(parent_folder, "configs/loss_config_ml.json"), "r") as f:
 ## Step 5: Bi-Level Optimization Setup
 
 ```python
-gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
-numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
-boat_config["gm_op"] = gradient_mapping
-boat_config["na_op"] = numerical_approximation
+gm_op = args.gm_op.split(",") if args.gm_op else None
+na_op = args.na_op.split(",") if args.na_op else None
+boat_config["gm_op"] = gm_op
+boat_config["na_op"] = na_op
 boat_config["lower_level_model"] = meta_model
 boat_config["upper_level_model"] = meta_model
 boat_config["lower_level_var"] = list(meta_model.parameters())

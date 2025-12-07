@@ -96,13 +96,13 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--gradient_mapping",
+        "--gm_op",
         type=str,
         default="NGD",
         help="Gradient mapping operation to use, e.g., NGD or FOA",
     )
     parser.add_argument(
-        "--numerical_approximation",
+        "--na_op",
         type=str,
         default="RAD",
         help="Numerical approximation operation to use, e.g., RAD or IAD",
@@ -115,10 +115,10 @@ def main():
     )
 
     args = parser.parse_args()
-    gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else None
-    numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else None
-    boat_config["gm_op"] = gradient_mapping
-    boat_config["na_op"] = numerical_approximation
+    gm_op = args.gm_op.split(",") if args.gm_op else None
+    na_op = args.na_op.split(",") if args.na_op else None
+    boat_config["gm_op"] = gm_op
+    boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = y
     boat_config["upper_level_model"] = x
@@ -144,8 +144,8 @@ def main():
 
 ### Explanation:
 1. **Argument Parsing**:
-   - `gradient_mapping`: Specifies the list of the gradient mapping operations, e.g., ["NGD","GDA"].
-   - `numerical_approximation`: Specifies the list of numerical approximation operations, e.g., ["RAD","RGT"].
+   - `gm_op`: Specifies the list of the gradient mapping operations, e.g., ["NGD","GDA"].
+   - `na_op`: Specifies the list of numerical approximation operations, e.g., ["RAD","RGT"].
    - `fo_op`: Optionally specifies a first-order gradient method, e.g., “MESO”.
 
 2. **BOAT Configuration**:

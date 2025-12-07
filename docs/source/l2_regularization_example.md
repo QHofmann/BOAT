@@ -53,14 +53,14 @@ lower_model = LowerModel(n_feats, device, num_classes=trainset[1].unique().shape
 ```python
 upper_opt = torch.optim.Adam(upper_model.parameters(), lr=0.01)
 lower_opt = torch.optim.SGD(lower_model.parameters(), lr=0.01)
-gradient_mapping = args.gradient_mapping.split(",") if args.gradient_mapping else []
-numerical_approximation = args.numerical_approximation.split(",") if args.numerical_approximation else []
+gm_op = args.gm_op.split(",") if args.gm_op else []
+na_op = args.na_op.split(",") if args.na_op else []
 ```
 
 ### Explanation:
 - **Adam optimizer** is used for the upper-level model.
 - **SGD optimizer** is applied to the lower-level model.
-- The `gradient_mapping` and `numerical_approximation` parameters allow for flexible optimization strategies.
+- The `gm_op` and `na_op` parameters allow for flexible optimization strategies.
 
 ---
 
