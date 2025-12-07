@@ -17,7 +17,7 @@ pip install -e .
 
 ### **1. Load Configuration Files**
 BOAT relies on two key configuration files:
-- `boat_config.json`: Specifies optimization strategies and dynamic/hyper-gradient operations.
+- `boat_config.json`: Specifies optimization strategies and gradient mapping/numerical approximation operations.
 - `loss_config.json`: Defines the loss functions for both levels of the BLO process.  
 ```python
 import os
@@ -48,11 +48,11 @@ lower_opt = mindspore.optim.SGD(lower_model.parameters(), lr=0.01)
 ```
 
 ### **3. Customize BOAT Configuration**
-Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.
+Modify the boat_config to include your gradient mapping and numerical approximation methods, as well as model and variable details.
 
 ```python
-# Example dynamic and hyper-gradient methods Combination.
-boat_config["fo_gm"] = "MESM" # FOGM supports only
+# Example gradient mapping and numerical approximation methods Combination.
+boat_config["fo_op"] = "MESO" # FOGM supports only
 
 # Add methods and model details to the configuration
 boat_config["lower_level_model"] = lower_model
@@ -64,7 +64,7 @@ boat_config["upper_level_var"] = upper_model.trainable_params()
 ```
 
 ### **4. Initialize the BOAT Problem**
-Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.
+Modify the boat_config to include your gradient mapping and numerical approximation methods, as well as model and variable details.
 
 ```python
 # Initialize the problem

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat.fogm.pgdm &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat.fogm.pgdo &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
@@ -69,7 +69,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat.fogm.pgdm</li>
+      <li class="breadcrumb-item active">boat.fogm.pgdo</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -78,7 +78,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat.fogm.pgdm</h1><div class="highlight"><pre>
+  <h1>Source code for boat.fogm.pgdo</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">boat.utils.op_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">grad_unused_zero</span><span class="p">,</span>
     <span class="n">require_model_grad</span><span class="p">,</span>
@@ -93,12 +93,12 @@
 <span class="kn">from</span> <span class="nn">boat.dynamic_ol.dynamical_system</span> <span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
-<div class="viewcode-block" id="PGDM">
-<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.pgdm.PGDM">[docs]</a>
+<div class="viewcode-block" id="PGDO">
+<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.pgdo.PGDO">[docs]</a>
 <span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">PGDM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">PGDO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESM) [1].</span>
+<span class="sd">    Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESO) [1].</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -127,9 +127,9 @@
 <span class="sd">        A dictionary containing solver configurations. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot;: The optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;MESM&quot; (Dict): A dictionary containing the following keys:</span>
-<span class="sd">            - &quot;eta&quot;: Learning rate for the MESM optimization procedure.</span>
-<span class="sd">            - &quot;gamma_1&quot;: Regularization parameter for the MESM algorithm.</span>
+<span class="sd">        - &quot;MESO&quot; (Dict): A dictionary containing the following keys:</span>
+<span class="sd">            - &quot;eta&quot;: Learning rate for the MESO optimization procedure.</span>
+<span class="sd">            - &quot;gamma_1&quot;: Regularization parameter for the MESO algorithm.</span>
 <span class="sd">            - &quot;c0&quot;: Initial constant for the update steps.</span>
 <span class="sd">            - &quot;y_hat_lr&quot;: Learning rate for optimizing the surrogate variable `y_hat`.</span>
 
@@ -150,24 +150,24 @@
         <span class="n">ul_var</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PGDM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PGDO</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_var</span> <span class="o">=</span> <span class="n">ll_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span> <span class="o">=</span> <span class="n">ul_var</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_hat_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;y_hat_lr&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_init</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_init&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_max</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_max&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_argmax_step</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDM&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_argmax_step&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_hat_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;y_hat_lr&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_init</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_init&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_max</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_max&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_argmax_step</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;PGDO&quot;</span><span class="p">][</span><span class="s2">&quot;gamma_argmax_step&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_init</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="PGDM.optimize">
-<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.pgdm.PGDM.optimize">[docs]</a>
+<div class="viewcode-block" id="PGDO.optimize">
+<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.pgdo.PGDO.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDM) [1].</span>
+<span class="sd">        Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDO) [1].</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

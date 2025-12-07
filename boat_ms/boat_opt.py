@@ -44,9 +44,9 @@ class Problem:
         Initialize the Problem instance.
 
         :param config: Configuration dictionary for the optimization setup.
-            - "fo_gm": First Order Gradient based Method (optional), e.g., ["VSM"], ["VFM"], ["MESM"].
-            - "dynamic_op": List of dynamic operations (optional), e.g., ["NGD"], ["NGD", "GDA"], ["NGD", "GDA", "DI"].
-            - "hyper_op": Hyper-optimization method (optional), e.g., ["RAD"], ["RAD", "PTT"], ["IAD", "NS", "PTT"].
+            - "fo_op": First Order Gradient based Method (optional), e.g., ["VSO"], ["VFO"], ["MESO"].
+            - "gm_op": List of gradient mapping operations (optional), e.g., ["NGD"], ["NGD", "GDA"], ["NGD", "GDA", "DI"].
+            - "na_op": Hyper-optimization method (optional), e.g., ["RAD"], ["RAD", "PTT"], ["IAD", "NS", "PTT"].
             - "lower_level_loss": Configuration for the lower-level loss function based on the json file configuration.
             - "upper_level_loss": Configuration for the upper-level loss function based on the json file configuration.
             - "lower_level_model": The lower-level model to be optimized.
@@ -65,7 +65,7 @@ class Problem:
             - "gda_loss": Configuration for GDA loss function (optional).
         :type loss_config: Dict[str, Any]
         """
-        self._fo_gm = config["fo_gm"]
+        self._fo_op = config["fo_op"]
         self._ll_model = config["lower_level_model"]
         self._ul_model = config["upper_level_model"]
         self._ll_var = list(config["lower_level_var"])
@@ -75,7 +75,7 @@ class Problem:
         # optional: dynamic ops specific loss
         self.boat_configs["gda_loss"] = (
             _load_loss_function(loss_config["gda_loss"])
-            if ("dynamic_op" in config and config["dynamic_op"] is not None and "GDA" in config["dynamic_op"])
+            if ("gm_op" in config and config["gm_op"] is not None and "GDA" in config["gm_op"])
             else None
         )
 
@@ -90,7 +90,7 @@ class Problem:
         self._upper_opt = config.get("upper_level_opt", None)
 
         self._lower_init_opt = None
-        self._fo_gm_solver = None
+        self._fo_op_solver = None
         self._lower_loop = self.boat_configs.get("lower_iters", 10)
 
         self._log_results_dict = {}
@@ -109,8 +109,8 @@ class Problem:
         self.boat_configs["ll_opt"] = self._lower_opt
         self._lower_loop = self.boat_configs.get("lower_iters", 10)
         # For MindSpore path we currently support FOGM-family via registered op
-        self._fo_gm_solver = get_registered_operation(
-            "%s" % self.boat_configs["fo_gm"]
+        self._fo_op_solver = get_registered_operation(
+            "%s" % self.boat_configs["fo_op"]
         )(
             ll_objective=self._ll_loss,
             lower_loop=self._lower_loop,
@@ -129,8 +129,8 @@ class Problem:
         Placeholder for UL solver configuration (FOGM manages updates internally in MindSpore setting).
         """
         assert (
-            self.boat_configs["fo_gm"] is not None
-        ), "Choose FOGM based methods from ['VSM','VFM','MESM'] or set 'dynamic_ol' and 'hyper_ol' properly."
+            self.boat_configs["fo_op"] is not None
+        ), "Choose FOGM based methods from ['VSO','VFO','MESO'] or set 'gm_ol' and 'hyper_ol' properly."
         return self
 
     def _compute_current_losses(
@@ -178,16 +178,16 @@ class Problem:
         start_time = time.perf_counter()
 
         # --- FOGM path (MindSpore registered op handles updates internally) ---
-        if self._fo_gm_solver is not None:
+        if self._fo_op_solver is not None:
             if self._fogm_batch_input:
                 # batch-wise optimize (zip two lists)
                 for batch_ll_fd, batch_ul_fd in zip(ll_feed_dict, ul_feed_dict):
                     self._log_results_dict["upper_loss"].append(
-                        self._fo_gm_solver.optimize(batch_ll_fd, batch_ul_fd, current_iter)
+                        self._fo_op_solver.optimize(batch_ll_fd, batch_ul_fd, current_iter)
                     )
             else:
                 self._log_results_dict["upper_loss"].append(
-                    self._fo_gm_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
+                    self._fo_op_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
                 )
         run_time = time.perf_counter() - start_time
 

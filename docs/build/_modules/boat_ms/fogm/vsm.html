@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_ms.fogm.vsm &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat_ms.fogm.vso &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
@@ -68,7 +68,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_ms.fogm.vsm</li>
+      <li class="breadcrumb-item active">boat_ms.fogm.vso</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -77,7 +77,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_ms.fogm.vsm</h1><div class="highlight"><pre>
+  <h1>Source code for boat_ms.fogm.vso</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">boat_ms.utils.op_utils</span> <span class="kn">import</span> <span class="n">l2_reg</span>
 <span class="kn">import</span> <span class="nn">mindspore</span> <span class="k">as</span> <span class="nn">ms</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
@@ -87,12 +87,12 @@
 <span class="kn">from</span> <span class="nn">boat_ms.dynamic_ol.dynamical_system</span> <span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
-<div class="viewcode-block" id="VSM">
-<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.vsm.VSM">[docs]</a>
+<div class="viewcode-block" id="VSO">
+<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.vso.VSO">[docs]</a>
 <span class="nd">@register_class</span>
-<span class="k">class</span> <span class="nc">VSM</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">VSO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the optimization procedure of Value-function based Sequential Method (VSM) [1].</span>
+<span class="sd">    Implements the optimization procedure of Value-function based Sequential Method (VSO) [1].</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -114,7 +114,7 @@
 <span class="sd">        A dictionary containing configurations for the solver. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot; (mindspore.nn.optim.Optimizer): Optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;VSM&quot; (Dict): Configuration for the VSM algorithm:</span>
+<span class="sd">        - &quot;VSO&quot; (Dict): Configuration for the VSO algorithm:</span>
 <span class="sd">            - &quot;z_loop&quot; (int): Number of iterations for optimizing the auxiliary variable `z`.</span>
 <span class="sd">            - &quot;ll_l2_reg&quot; (float): L2 regularization coefficient for the lower-level model.</span>
 <span class="sd">            - &quot;ul_l2_reg&quot; (float): L2 regularization coefficient for the upper-level model.</span>
@@ -139,7 +139,7 @@
         <span class="n">ul_var</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">VSM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VSO</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
@@ -147,15 +147,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_var</span> <span class="o">=</span> <span class="n">ll_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span> <span class="o">=</span> <span class="n">ul_var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_loop</span> <span class="o">=</span> <span class="n">lower_loop</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_loop</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;z_loop&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ll_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;ll_l2_reg&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ul_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;ul_l2_reg&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ul_ln_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;ul_ln_reg&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reg_decay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;reg_decay&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSM&quot;</span><span class="p">][</span><span class="s2">&quot;z_lr&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_loop</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;z_loop&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ll_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;ll_l2_reg&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ul_l2_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;ul_l2_reg&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ul_ln_reg</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;ul_ln_reg&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reg_decay</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;reg_decay&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;z_lr&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="VSM.optimize">
-<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.vsm.VSM.optimize">[docs]</a>
+<div class="viewcode-block" id="VSO.optimize">
+<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.vso.VSO.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the optimization procedure with the data from feed_dict.</span>

@@ -6,13 +6,13 @@ import copy
 from typing import Dict, Any, Callable, List
 
 from boat_ms.operation_registry import register_class
-from boat_ms.dynamic_ol.dynamical_system import DynamicalSystem
+from boat_ms.gm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class
-class PGDM(DynamicalSystem):
+class PGDO(DynamicalSystem):
     """
-    Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESM) [1].
+    Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESO) [1].
 
     Parameters
     ----------
@@ -41,7 +41,7 @@ class PGDM(DynamicalSystem):
         A dictionary containing solver configurations. Expected keys include:
 
         - "lower_level_opt": The optimizer for the lower-level model.
-        - "PGDM" (Dict): A dictionary containing the following keys:
+        - "PGDO" (Dict): A dictionary containing the following keys:
             - "y_hat_lr": Learning rate for optimizing the surrogate variable `y_hat`.
             - "gamma_init": Initial value of the hyperparameter `gamma`.
             - "gamma_max": Maximum value of the hyperparameter `gamma`.
@@ -63,22 +63,22 @@ class PGDM(DynamicalSystem):
         ul_var: List,
         solver_config: Dict[str, Any],
     ):
-        super(PGDM, self).__init__(
+        super(PGDO, self).__init__(
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
         self.ll_opt = solver_config["lower_level_opt"]
         self.ul_opt = solver_config["upper_level_opt"]
         self.ll_var = ll_var
         self.ul_var = ul_var
-        self.y_hat_lr = float(solver_config["PGDM"]["y_hat_lr"])
-        self.gamma_init = solver_config["PGDM"]["gamma_init"]
-        self.gamma_max = solver_config["PGDM"]["gamma_max"]
-        self.gamma_argmax_step = solver_config["PGDM"]["gamma_argmax_step"]
+        self.y_hat_lr = float(solver_config["PGDO"]["y_hat_lr"])
+        self.gamma_init = solver_config["PGDO"]["gamma_init"]
+        self.gamma_max = solver_config["PGDO"]["gamma_max"]
+        self.gamma_argmax_step = solver_config["PGDO"]["gamma_argmax_step"]
         self.gam = self.gamma_init
         self.device = ms.context.get_context("device_target")
 
-        self.updata_y_ahead = solver_config["PGDM"]["updata_y_ahead"]
-        self.penalty = solver_config["PGDM"]["penalty"]
+        self.updata_y_ahead = solver_config["PGDO"]["updata_y_ahead"]
+        self.penalty = solver_config["PGDO"]["penalty"]
 
         self.y_hat = copy.deepcopy(self.ll_model)
         self.y_hat_opt = nn.SGD(

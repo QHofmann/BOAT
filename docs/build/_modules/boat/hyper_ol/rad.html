@@ -111,7 +111,7 @@
 <span class="sd">    ul_var : List[torch.Tensor]</span>
 <span class="sd">        List of variables optimized with the upper-level objective.</span>
 <span class="sd">    solver_config : Dict[str, Any]</span>
-<span class="sd">        Dictionary containing solver configurations, including optional dynamic operation settings.</span>
+<span class="sd">        Dictionary containing solver configurations, including optional gradient mapping operation settings.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -137,7 +137,7 @@
             <span class="n">ul_var</span><span class="p">,</span>
             <span class="n">solver_config</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_initialization</span> <span class="o">=</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_initialization</span> <span class="o">=</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="RAD.compute_gradients">
 <a class="viewcode-back" href="../../../boat.hyper_ol.html#boat.hyper_ol.rad.RAD.compute_gradients">[docs]</a>
