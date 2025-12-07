@@ -12,7 +12,7 @@ from boat_ms.gm_ol.dynamical_system import DynamicalSystem
 @register_class
 class PGDO(DynamicalSystem):
     """
-    Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESO) [1].
+    Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDO) [1].
 
     Parameters
     ----------
