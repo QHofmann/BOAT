@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_ms.fogm.pgdo &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat_ms.fogo.pgdo &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
@@ -68,7 +68,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_ms.fogm.pgdo</li>
+      <li class="breadcrumb-item active">boat_ms.fogo.pgdo</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -77,7 +77,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_ms.fogm.pgdo</h1><div class="highlight"><pre>
+  <h1>Source code for boat_ms.fogo.pgdo</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">boat_ms.utils.op_utils</span> <span class="kn">import</span> <span class="n">require_model_grad</span>
 
 <span class="kn">import</span> <span class="nn">mindspore</span> <span class="k">as</span> <span class="nn">ms</span>
@@ -90,7 +90,7 @@
 
 
 <div class="viewcode-block" id="PGDO">
-<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.pgdo.PGDO">[docs]</a>
+<a class="viewcode-back" href="../../../boat_ms.fogo.html#boat_ms.fogo.pgdo.PGDO">[docs]</a>
 <span class="nd">@register_class</span>
 <span class="k">class</span> <span class="nc">PGDO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -161,7 +161,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="s2">&quot;device_target&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PGDO.optimize">
-<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.pgdo.PGDO.optimize">[docs]</a>
+<a class="viewcode-back" href="../../../boat_ms.fogo.html#boat_ms.fogo.pgdo.PGDO.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the optimization procedure with the data from feed_dict.</span>

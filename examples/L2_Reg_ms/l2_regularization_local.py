@@ -6,7 +6,7 @@ import platform
 
 t0 = time.strftime("%Y_%m_%d_%H_%M_%S")
 args = "l2_regularization/method_test"
-fogm_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
+fogo_method = (["VSO"], ["VFO"], ["MESO"], ["PGDO"])
 
 
 base_folder = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +25,7 @@ shutil.copyfile(os.path.join(base_folder, "l2_regularization.py"), ganfolder)
 
 with open(script_file, "w") as f:
     k = 0
-    for na_op in fogm_method:
+    for na_op in fogo_method:
         k += 1
         print("Comb.{}:".format(k))
         print("na_op:", na_op)

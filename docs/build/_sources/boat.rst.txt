@@ -8,7 +8,7 @@ Main packages
    :maxdepth: 4
 
    boat.dynamic_ol
-   boat.fogm
+   boat.fogo
    boat.hyper_ol
    boat.utils
 

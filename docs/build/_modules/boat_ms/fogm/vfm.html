@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_ms.fogm.vfo &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat_ms.fogo.vfo &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=751030aa" />
@@ -68,7 +68,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_ms.fogm.vfo</li>
+      <li class="breadcrumb-item active">boat_ms.fogo.vfo</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -77,7 +77,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_ms.fogm.vfo</h1><div class="highlight"><pre>
+  <h1>Source code for boat_ms.fogo.vfo</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">mindspore</span> <span class="k">as</span> <span class="nn">ms</span>
 <span class="kn">from</span> <span class="nn">mindspore</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">mnp</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
@@ -88,7 +88,7 @@
 
 
 <div class="viewcode-block" id="VFO">
-<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.vfo.VFO">[docs]</a>
+<a class="viewcode-back" href="../../../boat_ms.fogo.html#boat_ms.fogo.vfo.VFO">[docs]</a>
 <span class="nd">@register_class</span>
 <span class="k">class</span> <span class="nc">VFO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -148,7 +148,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="VFO.optimize">
-<a class="viewcode-back" href="../../../boat_ms.fogm.html#boat_ms.fogm.vfo.VFO.optimize">[docs]</a>
+<a class="viewcode-back" href="../../../boat_ms.fogo.html#boat_ms.fogo.vfo.VFO.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the optimization procedure with the data from feed_dict.</span>

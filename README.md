@@ -98,10 +98,10 @@ Modify the boat_config to include your gradient mapping and numerical approximat
 
 ```python
 # Example gradient mapping and numerical approximation methods Combination.
-fogm = ["VFO"]          # FOGM Methods (Demo Only)
+fogo = ["VFO"]          # FOGO Methods (Demo Only)
 
 # Add methods and model details to the configuration
-boat_config["fo_ol"] = fogm
+boat_config["fo_ol"] = fogo
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model
 boat_config["lower_level_var"] = lower_model.parameters()

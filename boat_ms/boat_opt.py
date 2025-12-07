@@ -54,7 +54,7 @@ class Problem:
             - "lower_level_var": Variables in the lower-level model.
             - "upper_level_var": Variables in the upper-level model.
             - "device": Device target (MindSpore uses context internally; kept for compatibility).
-            - "fogm_batch_input": bool, align with torch version for batch-wise FOGM optimize.
+            - "fogo_batch_input": bool, align with torch version for batch-wise FOGO optimize.
             - "return_grad": bool, if True, return grads of upper vars instead of stepping optimizer.
             - "loss_log_path": str, path to save json losses and curve.
         :type config: Dict[str, Any]
@@ -99,7 +99,7 @@ class Problem:
         self.loss_history: List[Dict[str, float]] = []
 
         # feature flags aligned with torch version
-        self._fogm_batch_input = bool(self.boat_configs.get("fogm_batch_input", False))
+        self._fogo_batch_input = bool(self.boat_configs.get("fogo_batch_input", False))
         self._return_grad = bool(self.boat_configs.get("return_grad", False))
 
     def build_ll_solver(self):
@@ -108,7 +108,7 @@ class Problem:
         """
         self.boat_configs["ll_opt"] = self._lower_opt
         self._lower_loop = self.boat_configs.get("lower_iters", 10)
-        # For MindSpore path we currently support FOGM-family via registered op
+        # For MindSpore path we currently support FOGO-family via registered op
         self._fo_op_solver = get_registered_operation(
             "%s" % self.boat_configs["fo_op"]
         )(
@@ -126,11 +126,11 @@ class Problem:
 
     def build_ul_solver(self):
         """
-        Placeholder for UL solver configuration (FOGM manages updates internally in MindSpore setting).
+        Placeholder for UL solver configuration (FOGO manages updates internally in MindSpore setting).
         """
         assert (
             self.boat_configs["fo_op"] is not None
-        ), "Choose FOGM based methods from ['VSO','VFO','MESO'] or set 'gm_ol' and 'hyper_ol' properly."
+        ), "Choose FOGO based methods from ['VSO','VFO','MESO'] or set 'gm_ol' and 'hyper_ol' properly."
         return self
 
     def _compute_current_losses(
@@ -177,9 +177,9 @@ class Problem:
         self._log_results_dict["upper_loss"] = []
         start_time = time.perf_counter()
 
-        # --- FOGM path (MindSpore registered op handles updates internally) ---
+        # --- FOGO path (MindSpore registered op handles updates internally) ---
         if self._fo_op_solver is not None:
-            if self._fogm_batch_input:
+            if self._fogo_batch_input:
                 # batch-wise optimize (zip two lists)
                 for batch_ll_fd, batch_ul_fd in zip(ll_feed_dict, ul_feed_dict):
                     self._log_results_dict["upper_loss"].append(

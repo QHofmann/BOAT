@@ -18,7 +18,7 @@ Main Subpackages
    :maxdepth: 4
 
    boat_ms.dynamic_ol
-   boat_ms.fogm
+   boat_ms.fogo
    boat_ms.utils
 
 

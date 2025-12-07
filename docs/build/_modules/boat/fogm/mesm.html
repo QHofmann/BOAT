@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat.fogm.meso &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat.fogo.meso &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
@@ -69,7 +69,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat.fogm.meso</li>
+      <li class="breadcrumb-item active">boat.fogo.meso</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -78,7 +78,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat.fogm.meso</h1><div class="highlight"><pre>
+  <h1>Source code for boat.fogo.meso</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">boat.utils.op_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">grad_unused_zero</span><span class="p">,</span>
     <span class="n">update_tensor_grads</span><span class="p">,</span>
@@ -94,7 +94,7 @@
 
 
 <div class="viewcode-block" id="MESO">
-<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.meso.MESO">[docs]</a>
+<a class="viewcode-back" href="../../../boat.fogo.html#boat.fogo.meso.MESO">[docs]</a>
 <span class="nd">@register_class</span>
 <span class="k">class</span> <span class="nc">MESO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -159,7 +159,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="MESO.optimize">
-<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.meso.MESO.optimize">[docs]</a>
+<a class="viewcode-back" href="../../../boat.fogo.html#boat.fogo.meso.MESO.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the optimization procedure using the provided data and model configurations.</span>

@@ -1,37 +1,37 @@
-boat.fogm package
+boat.fogo package
 =================
 
 Submodules
 ----------
 
-boat.fogm.meso module
+boat.fogo.meso module
 ---------------------
 
-.. automodule:: boat.fogm.meso
+.. automodule:: boat.fogo.meso
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat.fogm.pgdo module
+boat.fogo.pgdo module
 ---------------------
 
-.. automodule:: boat.fogm.pgdo
+.. automodule:: boat.fogo.pgdo
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat.fogm.vfo module
+boat.fogo.vfo module
 --------------------
 
-.. automodule:: boat.fogm.vfo
+.. automodule:: boat.fogo.vfo
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat.fogm.vso module
+boat.fogo.vso module
 --------------------
 
-.. automodule:: boat.fogm.vso
+.. automodule:: boat.fogo.vso
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ boat.fogm.vso module
 Module contents
 ---------------
 
-.. automodule:: boat.fogm
+.. automodule:: boat.fogo
    :members:
    :undoc-members:
    :show-inheritance:

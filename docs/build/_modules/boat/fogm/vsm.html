@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat.fogm.vso &mdash; BOAT 0.0.1 documentation</title>
+  <title>boat.fogo.vso &mdash; BOAT 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
 
@@ -69,7 +69,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat.fogm.vso</li>
+      <li class="breadcrumb-item active">boat.fogo.vso</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -78,7 +78,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat.fogm.vso</h1><div class="highlight"><pre>
+  <h1>Source code for boat.fogo.vso</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">boat.utils.op_utils</span> <span class="kn">import</span> <span class="n">l2_reg</span>
 <span class="kn">from</span> <span class="nn">boat.utils.op_utils</span> <span class="kn">import</span> <span class="n">update_grads</span><span class="p">,</span> <span class="n">update_tensor_grads</span>
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -90,7 +90,7 @@
 
 
 <div class="viewcode-block" id="VSO">
-<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.vso.VSO">[docs]</a>
+<a class="viewcode-back" href="../../../boat.fogo.html#boat.fogo.vso.VSO">[docs]</a>
 <span class="nd">@register_class</span>
 <span class="k">class</span> <span class="nc">VSO</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -157,7 +157,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;VSO&quot;</span><span class="p">][</span><span class="s2">&quot;z_lr&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="VSO.optimize">
-<a class="viewcode-back" href="../../../boat.fogm.html#boat.fogm.vso.VSO.optimize">[docs]</a>
+<a class="viewcode-back" href="../../../boat.fogo.html#boat.fogo.vso.VSO.optimize">[docs]</a>
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the optimization procedure with the data from feed_dict.</span>

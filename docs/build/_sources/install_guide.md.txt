@@ -52,7 +52,7 @@ Modify the boat_config to include your gradient mapping and numerical approximat
 
 ```python
 # Example gradient mapping and numerical approximation methods Combination.
-boat_config["fo_op"] = "MESO" # FOGM supports only
+boat_config["fo_op"] = "MESO" # FOGO supports only
 
 # Add methods and model details to the configuration
 boat_config["lower_level_model"] = lower_model

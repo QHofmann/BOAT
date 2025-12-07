@@ -8,7 +8,7 @@
     "accumulate_grad": false,
     "loss_log_path": "loss_log.json",
     "copy_last_param": true,
-    "fogm_batch_input": false,
+    "fogo_batch_input": false,
 
     "DI":{"lr": 0.1},
     "GDA":{"alpha_init": 0.5,"alpha_decay": 0.9},
