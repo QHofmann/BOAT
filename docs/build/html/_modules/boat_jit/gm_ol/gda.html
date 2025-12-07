@@ -87,7 +87,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.gm_ol.dynamical_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
-<div class="viewcode-block" id="GDA"><a class="viewcode-back" href="../../../boat_jit.dm_ol.html#boat_jit.gm_ol.gda.GDA">[docs]</a><span class="nd">@register_class</span>
+<div class="viewcode-block" id="GDA"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.gda.GDA">[docs]</a><span class="nd">@register_class</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">GDA</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the optimization procedure of the Gradient Descent Aggregation (GDA) [1].</span>
@@ -133,7 +133,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha_decay</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_decay&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gda_loss</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;gda_loss&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="GDA.optimize"><a class="viewcode-back" href="../../../boat_jit.dm_ol.html#boat_jit.gm_ol.gda.GDA.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
+<div class="viewcode-block" id="GDA.optimize"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.gda.GDA.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>

@@ -87,13 +87,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.gm_ol.dynamical_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicalSystem</span>
 
 
-<div class="viewcode-block" id="NGD"><a class="viewcode-back" href="../../../boat_jit.dm_ol.html#boat_jit.gm_ol.ngd.NGD">[docs]</a><span class="nd">@register_class</span>
+<div class="viewcode-block" id="NGD"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.ngd.NGD">[docs]</a><span class="nd">@register_class</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">NGD</span><span class="p">(</span><span class="n">DynamicalSystem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implements the optimization procedure of the Naive Gradient Descent (NGD) [1].</span>
 
 <span class="sd">    Jittor version aligned with Torch version.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ll_objective : Callable</span>
@@ -135,7 +135,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">foa</span> <span class="o">=</span> <span class="s2">&quot;FOA&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="NGD.optimize"><a class="viewcode-back" href="../../../boat_jit.dm_ol.html#boat_jit.gm_ol.ngd.NGD.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
+<div class="viewcode-block" id="NGD.optimize"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.ngd.NGD.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>

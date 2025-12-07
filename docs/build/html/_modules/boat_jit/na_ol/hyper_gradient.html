@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_jit.gm_ol.dynamical_system &mdash; BOAT-Jittor 0.0.1 documentation</title>
+  <title>boat_jit.na_ol.hyper_gradient &mdash; BOAT-Jittor 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4ff932f8" />
@@ -67,7 +67,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_jit.gm_ol.dynamical_system</li>
+      <li class="breadcrumb-item active">boat_jit.na_ol.hyper_gradient</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -76,49 +76,65 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_jit.gm_ol.dynamical_system</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicalSystemRules</span><span class="p">,</span> <span class="n">ResultStore</span>
+  <h1>Source code for boat_jit.na_ol.hyper_gradient</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.operation_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_class</span>
 
 <span class="n">importlib</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;importlib&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.operation_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_class</span>
 
+<div class="viewcode-block" id="HyperGradient"><a class="viewcode-back" href="../../../boat_jit.na_ol.html#boat_jit.na_ol.hyper_gradient.HyperGradient">[docs]</a><span class="nd">@register_class</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HyperGradient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for computing hyper-gradients of upper-level variables in bilevel optimization problems.</span>
 
-<div class="viewcode-block" id="DynamicalSystem"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.dynamical_system.DynamicalSystem">[docs]</a><span class="nd">@register_class</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">DynamicalSystem</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="sd">    This class provides an abstract interface for hyper-gradient computation that can be extended</span>
+<span class="sd">    for specific methods such as Conjugate Gradient, Finite Differentiation, or First-Order Approximation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ll_objective : callable</span>
+<span class="sd">        The lower-level objective function of the bilevel optimization problem.</span>
+
+<span class="sd">    ul_objective : callable</span>
+<span class="sd">        The upper-level objective function of the bilevel optimization problem.</span>
+
+<span class="sd">    ul_model : jittor.Module</span>
+<span class="sd">        The upper-level model of the bilevel optimization problem.</span>
+
+<span class="sd">    ll_model : jittor.Module</span>
+<span class="sd">        The lower-level model of the bilevel optimization problem.</span>
+
+<span class="sd">    ll_var : List[jittor.Var]</span>
+<span class="sd">        A list of variables optimized with the lower-level objective.</span>
+
+<span class="sd">    ul_var : List[jittor.Var]</span>
+<span class="sd">        A list of variables optimized with the upper-level objective.</span>
+
+<span class="sd">    solver_config : dict</span>
+<span class="sd">        Dictionary containing configurations for the solver.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Abstract class for defining lower-level optimization procedures in Bilevel Optimization (BLO).</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        ll_objective : Callable</span>
-<span class="sd">            The lower-level objective function of the BLO problem.</span>
-<span class="sd">        ul_objective : Callable</span>
-<span class="sd">            The upper-level objective function of the BLO problem.</span>
-<span class="sd">        ll_model : jittor.Module</span>
-<span class="sd">            The lower-level model of the BLO problem.</span>
-<span class="sd">        ul_model : jittor.Module</span>
-<span class="sd">            The upper-level model of the BLO problem.</span>
-<span class="sd">        lower_loop : int</span>
-<span class="sd">            The number of iterations for lower-level optimization.</span>
-<span class="sd">        solver_config : Dict[str, Any]</span>
-<span class="sd">            A dictionary containing solver configurations. It includes details about optimization algorithms, hyperparameter settings, and additional configurations required for solving the BLO problem.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ll_objective</span><span class="p">,</span>
+        <span class="n">ul_objective</span><span class="p">,</span>
+        <span class="n">ul_model</span><span class="p">,</span>
+        <span class="n">ll_model</span><span class="p">,</span>
+        <span class="n">ll_var</span><span class="p">,</span>
+        <span class="n">ul_var</span><span class="p">,</span>
+        <span class="n">solver_config</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_objective</span> <span class="o">=</span> <span class="n">ll_objective</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_objective</span> <span class="o">=</span> <span class="n">ul_objective</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lower_loop</span> <span class="o">=</span> <span class="n">lower_loop</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span> <span class="o">=</span> <span class="n">ul_model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span> <span class="o">=</span> <span class="n">ll_model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver_config</span> <span class="o">=</span> <span class="n">solver_config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ll_var</span> <span class="o">=</span> <span class="n">ll_var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span> <span class="o">=</span> <span class="n">ul_var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver_configs</span> <span class="o">=</span> <span class="n">solver_config</span>
 
-<div class="viewcode-block" id="DynamicalSystem.optimize"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.dynamical_system.DynamicalSystem.optimize">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="HyperGradient.compute_gradients"><a class="viewcode-back" href="../../../boat_jit.na_ol.html#boat_jit.na_ol.hyper_gradient.HyperGradient.compute_gradients">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_gradients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">pass</span></div></div>
 </pre></div>
 

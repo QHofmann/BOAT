@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>boat_jit.gm_ol.sequential_ds &mdash; BOAT-Jittor 0.0.1 documentation</title>
+  <title>boat_jit.na_ol.sequential_hg &mdash; BOAT-Jittor 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=4ff932f8" />
@@ -67,7 +67,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">boat_jit.gm_ol.sequential_ds</li>
+      <li class="breadcrumb-item active">boat_jit.na_ol.sequential_hg</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -76,68 +76,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for boat_jit.gm_ol.sequential_ds</h1><div class="highlight"><pre>
+  <h1>Source code for boat_jit.na_ol.sequential_hg</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicalSystemRules</span><span class="p">,</span> <span class="n">ResultStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">HyperGradientRules</span><span class="p">,</span> <span class="n">ResultStore</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.operation_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_registered_operation</span>
 
-<span class="n">importlib</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;importlib&quot;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="SequentialDS"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.sequential_ds.SequentialDS">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SequentialDS</span><span class="p">:</span>
+<div class="viewcode-block" id="SequentialHG"><a class="viewcode-back" href="../../../boat_jit.na_ol.html#boat_jit.na_ol.sequential_hg.SequentialHG">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SequentialHG</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A dynamically created class for sequential hyper-gradient operations.</span>
+<span class="sd">    A class for managing sequential hyper-gradient operations.</span>
 
-<span class="sd">    Attributes</span>
+<span class="sd">    This class dynamically organizes and executes a sequence of hyper-gradient computations</span>
+<span class="sd">    using user-defined and validated orders of gradient operators.</span>
+
+<span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    gradient_instances : List[object]</span>
-<span class="sd">        A list of gradient operator instances, each implementing an `optimize` method.</span>
+<span class="sd">    ordered_instances : List[object]</span>
+<span class="sd">        A list of instantiated gradient operator objects, ordered as per the adjusted sequence.</span>
+
 <span class="sd">    custom_order : List[str]</span>
-<span class="sd">        A custom-defined order for executing the gradient operators.</span>
-<span class="sd">    result_store : ResultStore</span>
-<span class="sd">        An instance of the `ResultStore` class for storing intermediate and final results.</span>
+<span class="sd">        The user-defined order of gradient operators.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ordered_instances</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">object</span><span class="p">],</span> <span class="n">custom_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the SequentialDS class with gradient operator instances and a custom execution order.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        ordered_instances : List[object]</span>
-<span class="sd">            A list of gradient operator instances to be executed sequentially.</span>
-<span class="sd">        custom_order : List[str]</span>
-<span class="sd">            A list defining the custom execution order of the gradient operators.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gradient_instances</span> <span class="o">=</span> <span class="n">ordered_instances</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_order</span> <span class="o">=</span> <span class="n">custom_order</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span> <span class="o">=</span> <span class="n">ResultStore</span><span class="p">()</span>  <span class="c1"># Use a dedicated result store</span>
 
-<div class="viewcode-block" id="SequentialDS.optimize"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.sequential_ds.SequentialDS.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="SequentialHG.compute_gradients"><a class="viewcode-back" href="../../../boat_jit.na_ol.html#boat_jit.na_ol.sequential_hg.SequentialHG.compute_gradients">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_gradients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute gradients sequentially using the ordered gradient operator instances.</span>
+<span class="sd">        Compute hyper-gradients sequentially using the ordered instances.</span>
+
+<span class="sd">        This method processes the hyper-gradients in the defined order, passing intermediate results between consecutive gradient operators.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        **kwargs : dict</span>
-<span class="sd">            Arbitrary keyword arguments required for gradient computations.</span>
+<span class="sd">            Additional arguments required for gradient computations.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        List[Dict]</span>
 <span class="sd">            A list of dictionaries containing results for each gradient operator.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - The results of each gradient operator are passed as inputs to the subsequent operator.</span>
-<span class="sd">        - Only the final result is stored in the `ResultStore`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>  <span class="c1"># Reset the result store</span>
         <span class="n">intermediate_result</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">gradient_instance</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gradient_instances</span><span class="p">):</span>
-            <span class="c1"># 传递上一个算子的结果给下一个算子</span>
-            <span class="n">intermediate_result</span> <span class="o">=</span> <span class="n">gradient_instance</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+            <span class="c1"># Compute the gradient, passing the intermediate result as input</span>
+            <span class="n">intermediate_result</span> <span class="o">=</span> <span class="n">gradient_instance</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span>
                 <span class="o">**</span><span class="p">(</span><span class="n">kwargs</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">intermediate_result</span><span class="p">),</span>
                 <span class="n">next_operation</span><span class="o">=</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">custom_order</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
@@ -145,38 +132,43 @@
                     <span class="k">else</span> <span class="kc">None</span>
                 <span class="p">),</span>
             <span class="p">)</span>
+            <span class="c1"># 中间结果不再存储，每次直接覆盖 intermediate_result</span>
 
-        <span class="c1"># 只保存最终结果</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dynamic_results_</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">intermediate_result</span><span class="p">)</span>
+        <span class="c1"># 只保存最后一次的结果</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gradient_operator_results&quot;</span><span class="p">,</span> <span class="n">intermediate_result</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span><span class="o">.</span><span class="n">get_results</span><span class="p">()</span></div></div>
 
 
 
-<div class="viewcode-block" id="makes_functional_dynamical_system"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.sequential_ds.makes_functional_dynamical_system">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">makes_functional_dynamical_system</span><span class="p">(</span>
-    <span class="n">custom_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SequentialDS</span><span class="p">:</span>
+<div class="viewcode-block" id="makes_functional_na_operation"><a class="viewcode-back" href="../../../boat_jit.na_ol.html#boat_jit.na_ol.sequential_hg.makes_functional_na_operation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">makes_functional_na_operation</span><span class="p">(</span><span class="n">custom_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SequentialHG</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Dynamically create a SequentialHyperGradient object with ordered gradient operators.</span>
+<span class="sd">    Dynamically create a SequentialHG object with ordered gradient operators.</span>
+
+<span class="sd">    This function validates the user-defined operator order, adjusts it to conform</span>
+<span class="sd">    with predefined gradient rules, and dynamically loads the corresponding operator classes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    custom_order : List[str]</span>
-<span class="sd">        User-defined operator order.</span>
+<span class="sd">        The user-defined order of gradient operators.</span>
+
+<span class="sd">    **kwargs : dict</span>
+<span class="sd">        Additional arguments required for initializing gradient operator instances.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    SequentialHyperGradient</span>
-<span class="sd">        An instance with ordered gradient operators and result management.</span>
+<span class="sd">    SequentialHG</span>
+<span class="sd">        An instance of SequentialHG containing the ordered gradient operators and result management.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Load the predefined gradient order</span>
-    <span class="n">gradient_order</span> <span class="o">=</span> <span class="n">DynamicalSystemRules</span><span class="o">.</span><span class="n">get_gradient_order</span><span class="p">()</span>
+    <span class="n">gradient_order</span> <span class="o">=</span> <span class="n">HyperGradientRules</span><span class="o">.</span><span class="n">get_gradient_order</span><span class="p">()</span>
 
     <span class="c1"># Adjust custom order based on predefined gradient order</span>
     <span class="n">adjusted_order</span> <span class="o">=</span> <span class="n">validate_and_adjust_order</span><span class="p">(</span><span class="n">custom_order</span><span class="p">,</span> <span class="n">gradient_order</span><span class="p">)</span>
 
     <span class="c1"># Dynamically load classes</span>
     <span class="n">gradient_classes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># module = importlib.import_module(&quot;boat.gm_ol&quot;)</span>
+    <span class="c1"># module = importlib.import_module(&quot;boat.na_ol&quot;)</span>
     <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">custom_order</span><span class="p">:</span>
         <span class="n">gradient_classes</span><span class="p">[</span><span class="n">op</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
 
@@ -184,39 +176,30 @@
     <span class="n">ordered_instances</span> <span class="o">=</span> <span class="p">[</span><span class="n">gradient_classes</span><span class="p">[</span><span class="n">op</span><span class="p">](</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">adjusted_order</span><span class="p">]</span>
 
     <span class="c1"># Return the enhanced sequential hyper-gradient class</span>
-    <span class="k">return</span> <span class="n">SequentialDS</span><span class="p">(</span><span class="n">ordered_instances</span><span class="p">,</span> <span class="n">custom_order</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">SequentialHG</span><span class="p">(</span><span class="n">ordered_instances</span><span class="p">,</span> <span class="n">custom_order</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="validate_and_adjust_order"><a class="viewcode-back" href="../../../boat_jit.gm_ol.html#boat_jit.gm_ol.sequential_ds.validate_and_adjust_order">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_and_adjust_order</span><span class="p">(</span>
+<div class="viewcode-block" id="validate_and_adjust_order"><a class="viewcode-back" href="../../../boat_jit.na_ol.html#boat_jit.na_ol.sequential_hg.validate_and_adjust_order">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_and_adjust_order</span><span class="p">(</span>
     <span class="n">custom_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">gradient_order</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Validate and adjust the custom order to align with the predefined gradient operator groups.</span>
+<span class="sd">    Validate and adjust the custom order to match the predefined gradient order.</span>
+
+<span class="sd">    This function ensures that the user-defined order adheres to the predefined grouping</span>
+<span class="sd">    rules and adjusts it accordingly.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    custom_order : List[str]</span>
-<span class="sd">        The user-defined order of gradient operators.</span>
+<span class="sd">        The user-provided order of gradient operators.</span>
+
 <span class="sd">    gradient_order : List[List[str]]</span>
-<span class="sd">        The predefined grouping of gradient operators, specifying valid order constraints.</span>
+<span class="sd">        The predefined order of gradient operator groups.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    List[str]</span>
-<span class="sd">        A validated and adjusted list of gradient operators that conforms to the predefined order.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    - The function filters out invalid operators from `custom_order` that do not exist in `gradient_order`.</span>
-<span class="sd">    - It ensures that the returned order follows the precedence rules defined in `gradient_order`.</span>
-
-<span class="sd">    Example</span>
-<span class="sd">    -------</span>
-<span class="sd">    &gt;&gt;&gt; custom_order = [&quot;op1&quot;, &quot;op3&quot;, &quot;op2&quot;]</span>
-<span class="sd">    &gt;&gt;&gt; gradient_order = [[&quot;op1&quot;, &quot;op2&quot;], [&quot;op3&quot;]]</span>
-<span class="sd">    &gt;&gt;&gt; adjusted_order = validate_and_adjust_order(custom_order, gradient_order)</span>
-<span class="sd">    &gt;&gt;&gt; print(adjusted_order)</span>
-<span class="sd">    [&#39;op1&#39;, &#39;op2&#39;, &#39;op3&#39;]</span>
+<span class="sd">        Adjusted order of gradient operators following the predefined rules.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Create a set of valid operators for quick lookup</span>
     <span class="n">valid_operators</span> <span class="o">=</span> <span class="p">{</span><span class="n">op</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">gradient_order</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">group</span><span class="p">}</span>
