@@ -112,20 +112,20 @@
 <span class="sd">        A dictionary containing configurations for the solver. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot; (torch.optim.Optimizer): The optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;hyper_op&quot; (List[str]): A list of hyper-gradient operations to apply, such as &quot;PTT&quot; or &quot;FOA&quot;.</span>
+<span class="sd">        - &quot;na_op&quot; (List[str]): A list of hyper-gradient operations to apply, such as &quot;PTT&quot; or &quot;FOA&quot;.</span>
 <span class="sd">        - &quot;RGT&quot; (Dict): Configuration for Truncated Gradient Iteration (RGT):</span>
 <span class="sd">            - &quot;truncate_iter&quot; (int): The number of iterations to truncate the gradient computation.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    truncate_max_loss_iter : bool</span>
-<span class="sd">        Indicates whether to truncate based on a maximum loss iteration (enabled if &quot;PTT&quot; is in `hyper_op`).</span>
+<span class="sd">        Indicates whether to truncate based on a maximum loss iteration (enabled if &quot;PTT&quot; is in `na_op`).</span>
 <span class="sd">    truncate_iters : int</span>
 <span class="sd">        The number of iterations for gradient truncation, derived from `solver_config[&quot;RGT&quot;][&quot;truncate_iter&quot;]`.</span>
 <span class="sd">    ll_opt : torch.optim.Optimizer</span>
 <span class="sd">        The optimizer used for the lower-level model.</span>
 <span class="sd">    foa : bool</span>
-<span class="sd">        Indicates whether First-Order Approximation (FOA) is applied, based on `hyper_op` configuration.</span>
+<span class="sd">        Indicates whether First-Order Approximation (FOA) is applied, based on `na_op` configuration.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>

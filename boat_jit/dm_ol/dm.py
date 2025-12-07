@@ -14,7 +14,7 @@ from ..utils.op_utils import (
 )
 
 from boat_jit.operation_registry import register_class
-from boat_jit.dynamic_ol.dynamical_system import DynamicalSystem
+from boat_jit.dm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class
@@ -56,7 +56,7 @@ class DM(DynamicalSystem):
         super(DM, self).__init__(
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_max_loss_iter = "PTT" in solver_config["na_op"]
         self.alpha = solver_config["GDA"]["alpha_init"]
         self.alpha_decay = solver_config["GDA"]["alpha_decay"]
         self.truncate_iters = solver_config["RGT"]["truncate_iter"]
@@ -70,7 +70,7 @@ class DM(DynamicalSystem):
         self.mu0 = solver_config["DM"]["mu0"]
         self.eta = solver_config["DM"]["eta0"]
         self.strategy = solver_config["DM"]["strategy"]
-        self.hyper_op = solver_config["hyper_op"]
+        self.na_op = solver_config["na_op"]
         self.gda_loss = solver_config.get("gda_loss", None)
 
     def optimize(
@@ -115,7 +115,7 @@ class DM(DynamicalSystem):
         Notes
         -----
         - For GDA operations, this method supports three strategies: 's1', 's2', and 's3'.
-        - When using RAD in `hyper_op`, a higher-order gradient adjustment is applied to the auxiliary variables.
+        - When using RAD in `na_op`, a higher-order gradient adjustment is applied to the auxiliary variables.
         - Ensure that `next_operation` is `None` for NGD, as it does not support additional operations.
 
         Raises
@@ -224,7 +224,7 @@ class DM(DynamicalSystem):
             upper_loss, list(self.ul_model.parameters())
         )
 
-        if "RAD" in self.hyper_op:
+        if "RAD" in self.na_op:
             vsp = custom_grad(
                 grads_phi_params,
                 list(auxiliary_model.parameters()),

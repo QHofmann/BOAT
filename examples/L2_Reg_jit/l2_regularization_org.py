@@ -168,19 +168,19 @@ def main():
             ],
         )
         parser.add_argument(
-            "--dynamic_method",
+            "--dm_op",
             type=str,
             default="DM,NGD",
             help="omniglot or miniimagenet or tieredImagenet",
         )
         parser.add_argument(
-            "--hyper_method",
+            "--na_op",
             type=str,
             default="RAD",
             help="convnet for 4 convs or resnet for Residual blocks",
         )
         parser.add_argument(
-            "--fo_gm",
+            "--fo_op",
             type=str,
             default=None,
             help="convnet for 4 convs or resnet for Residual blocks",
@@ -223,15 +223,15 @@ def main():
     upper_opt = jit.nn.Adam(upper_model.parameters(), lr=0.01)
     lower_opt = jit.nn.SGD(lower_model.parameters(), lr=0.01)
 
-    print(args.dynamic_method)
-    print(args.hyper_method)
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else []
-    hyper_method = args.hyper_method.split(",") if args.hyper_method else []
-    if "RGT" in hyper_method:
+    print(args.dm_op)
+    print(args.na_op)
+    dm_op = args.dm_op.split(",") if args.dm_op else []
+    na_op = args.na_op.split(",") if args.na_op else []
+    if "RGT" in na_op:
         boat_config["RGT"]["truncate_iter"] = 1
-    boat_config["dynamic_op"] = dynamic_method
-    boat_config["hyper_op"] = hyper_method
-    boat_config["fo_gm"] = args.fo_gm
+    boat_config["dm_op"] = dm_op
+    boat_config["na_op"] = na_op
+    boat_config["fo_op"] = args.fo_op
     boat_config["lower_level_model"] = lower_model
     boat_config["upper_level_model"] = upper_model
     boat_config["lower_level_opt"] = lower_opt
@@ -245,17 +245,17 @@ def main():
     ul_feed_dict = {"data": trainset[0], "target": trainset[1]}
     ll_feed_dict = {"data": valset[0], "target": valset[1]}
 
-    if "DM" in boat_config["dynamic_op"] and ("GDA" in boat_config["dynamic_op"]):
+    if "DM" in boat_config["dm_op"] and ("GDA" in boat_config["dm_op"]):
         iterations = 3
     else:
         iterations = 2
     for x_itr in range(iterations):
-        if "DM" in boat_config["dynamic_op"] and ("GDA" in boat_config["dynamic_op"]):
+        if "DM" in boat_config["dm_op"] and ("GDA" in boat_config["dm_op"]):
             b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str(
                 x_itr % 3 + 1
             )
-        elif "DM" in boat_config["dynamic_op"] and (
-            not ("GDA" in boat_config["dynamic_op"])
+        elif "DM" in boat_config["dm_op"] and (
+            not ("GDA" in boat_config["dm_op"])
         ):
             b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str(1)
         loss, run_time = b_optimizer.run_iter(

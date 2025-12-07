@@ -191,8 +191,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">upper_opt</span> <span class="o">=</span> <span class="n">jit</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">upper_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="n">lower_opt</span> <span class="o">=</span> <span class="n">jit</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">lower_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 
-<span class="n">dynamic_method</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dynamic_method</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dynamic_method</span> <span class="k">else</span> <span class="p">[]</span>
-<span class="n">hyper_method</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">hyper_method</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">hyper_method</span> <span class="k">else</span> <span class="p">[]</span>
+<span class="n">dm_op</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dm_op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dm_op</span> <span class="k">else</span> <span class="p">[]</span>
+<span class="n">na_op</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">na_op</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">na_op</span> <span class="k">else</span> <span class="p">[]</span>
 </pre></div>
 </div>
 <section id="id3">
@@ -200,14 +200,14 @@
 <ul class="simple">
 <li><p><strong>Adam optimizer</strong>: Used for the upper-level model to update its parameters.</p></li>
 <li><p><strong>SGD optimizer</strong>: Applied to the lower-level model for efficient gradient updates.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">dynamic_method</span></code> and <code class="docutils literal notranslate"><span class="pre">hyper_method</span></code> parameters allow flexible optimization strategies.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">dm_op</span></code> and <code class="docutils literal notranslate"><span class="pre">na_op</span></code> parameters allow flexible optimization strategies.</p></li>
 </ul>
 </section>
 </section>
 <section id="step-5-bi-level-optimization">
 <h2>Step 5: Bi-Level Optimization<a class="headerlink" href="#step-5-bi-level-optimization" title="Permalink to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_method</span>
-<span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hyper_method</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;dm_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dm_op</span>
+<span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">na_op</span>
 <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;lower_level_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower_model</span>
 <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;upper_level_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upper_model</span>
 <span class="n">boat_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower_opt</span>
@@ -222,9 +222,9 @@
 <span class="n">ul_feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">trainset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;target&quot;</span><span class="p">:</span> <span class="n">trainset</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
 <span class="n">ll_feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">valset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;target&quot;</span><span class="p">:</span> <span class="n">valset</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
 
-<span class="n">iterations</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="n">dynamic_method</span> <span class="ow">and</span> <span class="s2">&quot;GDA&quot;</span> <span class="ow">in</span> <span class="n">dynamic_method</span> <span class="k">else</span> <span class="mi">2</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="n">dm_op</span> <span class="ow">and</span> <span class="s2">&quot;GDA&quot;</span> <span class="ow">in</span> <span class="n">dm_op</span> <span class="k">else</span> <span class="mi">2</span>
 <span class="k">for</span> <span class="n">x_itr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="n">dynamic_method</span> <span class="ow">and</span> <span class="s2">&quot;GDA&quot;</span> <span class="ow">in</span> <span class="n">dynamic_method</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="n">dm_op</span> <span class="ow">and</span> <span class="s2">&quot;GDA&quot;</span> <span class="ow">in</span> <span class="n">dm_op</span><span class="p">:</span>
         <span class="n">b_optimizer</span><span class="o">.</span><span class="n">_ll_solver</span><span class="o">.</span><span class="n">gradient_instances</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
             <span class="n">x_itr</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="p">)</span>
@@ -268,7 +268,7 @@
 <section id="how-to-run">
 <h2>How to Run<a class="headerlink" href="#how-to-run" title="Permalink to this heading"></a></h2>
 <p>To execute the example, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>your_script_name.py<span class="w"> </span>--data_path<span class="w"> </span>./data<span class="w"> </span>--model_path<span class="w"> </span>./save_l2reg<span class="w"> </span>--dynamic_method<span class="w"> </span>NGD<span class="w"> </span>--hyper_method<span class="w"> </span>RAD
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>your_script_name.py<span class="w"> </span>--data_path<span class="w"> </span>./data<span class="w"> </span>--model_path<span class="w"> </span>./save_l2reg<span class="w"> </span>--dm_op<span class="w"> </span>NGD<span class="w"> </span>--na_op<span class="w"> </span>RAD
 </pre></div>
 </div>
 </section>

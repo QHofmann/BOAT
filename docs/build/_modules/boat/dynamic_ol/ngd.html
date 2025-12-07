@@ -113,7 +113,7 @@
 <span class="sd">        A dictionary containing configurations for the solver. Expected keys include:</span>
 
 <span class="sd">        - &quot;lower_level_opt&quot; (torch.optim.Optimizer): The optimizer for the lower-level model.</span>
-<span class="sd">        - &quot;hyper_op&quot; (List[str]): A list of hyper-gradient operations to apply, such as &quot;PTT&quot; or &quot;FOA&quot;.</span>
+<span class="sd">        - &quot;na_op&quot; (List[str]): A list of hyper-gradient operations to apply, such as &quot;PTT&quot; or &quot;FOA&quot;.</span>
 <span class="sd">        - &quot;RGT&quot; (Dict): Configuration for Truncated Gradient Iteration (RGT):</span>
 <span class="sd">            - &quot;truncate_iter&quot; (int): The number of iterations to truncate the gradient computation.</span>
 
@@ -136,10 +136,10 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">NGD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">lower_loop</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">solver_config</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">truncate_iters</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">foa</span> <span class="o">=</span> <span class="s2">&quot;FOA&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">foa</span> <span class="o">=</span> <span class="s2">&quot;FOA&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="NGD.optimize">
 <a class="viewcode-back" href="../../../boat.dynamic_ol.html#boat.dynamic_ol.ngd.NGD.optimize">[docs]</a>

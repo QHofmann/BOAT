@@ -124,7 +124,7 @@
             <span class="n">solver_config</span> <span class="p">:</span> <span class="n">Dict</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IAD_PTT</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ul_objective</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span><span class="n">ll_var</span><span class="p">,</span><span class="n">ul_var</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="IAD_PTT.compute_gradients"><a class="viewcode-back" href="../../../boat.hyper_ol.html#boat.hyper_ol.iad_ptt.IAD_PTT.compute_gradients">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_gradients</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>

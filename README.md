@@ -13,7 +13,7 @@
 
 **BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that focuses on abstracting the key BLO process into modular, flexible components. It enables researchers and developers to tackle learning tasks with hierarchical nested nature by providing customizable and diverse operator decomposition, encapsulation, and combination. BOAT supports specialized optimization strategies, including second-order or first-order, nested or non-nested, and with or without theoretical guarantees, catering to various levels of complexity.
 
-To enhance flexibility and efficiency, BOAT incorporates the **Dynamic Operation Library (D-OL)** and the **Hyper Operation Library (H-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
+To enhance flexibility and efficiency, BOAT incorporates the **Gradient Mapping Operation LIBRARY (GM-OL)** and the **Numerical Approximation Operation LIBRARY (NA-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
 - **[PyTorch-based](https://github.com/callous-youth/BOAT)**: An efficient and widely-used version.
 - **[Jittor-based](https://github.com/callous-youth/BOAT/tree/boat_jit)**: An accelerated version for high-performance tasks.
 - **[MindSpore-based](https://github.com/callous-youth/BOAT/tree/boat_ms)**: Incorporating the latest first-order optimization strategies to support emerging application scenarios.
@@ -23,9 +23,9 @@ BOAT is designed to offer robust computational support for a broad spectrum of B
 
 
 ## 🔑  **Key Features**
-- **Dynamic Operation Library (D-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
+- **Gradient Mapping Operation LIBRARY (GM-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
 - **Hyper-Gradient Operation Library (H-OL)**: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.
-- **First-Order Gradient Methods (FOGMs)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms. With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, resulting in over **63+16** (nearly 80) algorithmic combinations, offering unparalleled adaptability.
+- **First-Order Operation Library (Fo-Ol)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms. With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, resulting in over **63+16** (nearly 80) algorithmic combinations, offering unparalleled adaptability.
 - **Modularized Design for Customization**: Empowers users to flexibly combine dynamic and hyper-gradient operations while customizing the specific forms of problems, parameters, and optimizer choices, enabling seamless integration into diverse task-specific codes.
 - **Comprehensive Testing & Continuous Integration**: Achieves **99% code coverage** through rigorous testing with **pytest** and **Codecov**, coupled with continuous integration via **GitHub Actions**, ensuring software robustness and reliability.
 - **Fast Prototyping & Algorithm Validation**: Streamlined support for defining, testing, and benchmarking new BLO algorithms.
@@ -94,16 +94,16 @@ lower_opt = jit.nn.SGD(lower_model.parameters(), lr=0.01)
 ```
 
 ### **3. Customize BOAT Configuration**
-Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.
+Modify the boat_config to include your gradient mapping and numerical approximation operation, as well as model and variable details.
 
 ```python
-# Example dynamic and hyper-gradient methods Combination.
-dynamic_method = ["NGD","DI", "GDA"]  # Dynamic Methods (Demo Only)
-hyper_method = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
+# Example gradient mapping and numerical approximation operation Combination.
+dm_op = ["NGD","DI", "GDA"]  # Gradient Mapping Operations (Demo Only)
+na_op = ["RGT","RAD"]          # Numerical Approximation Operations (Demo Only)
 
 # Add methods and model details to the configuration
-boat_config["dynamic_op"] = dynamic_method
-boat_config["hyper_op"] = hyper_method
+boat_config["dm_op"] = dm_op
+boat_config["na_op"] = na_op
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model
 boat_config["lower_level_var"] = lower_model.parameters()
@@ -111,7 +111,7 @@ boat_config["upper_level_var"] = upper_model.parameters()
 ```
 
 ### **4. Initialize the BOAT Problem**
-Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.
+Modify the boat_config to include your gradient mapping and numerical approximation operation, as well as model and variable details.
 
 ```python
 # Initialize the problem
@@ -132,7 +132,7 @@ ll_feed_dict = {"data": lower_level_data, "target": lower_level_target}
 ```
 
 ### **6. Run the Optimization Loop**
-Execute the optimization loop, optionally customizing the solver strategy for dynamic methods.
+Execute the optimization loop, optionally customizing the solver strategy for gradient mapping operations.
 
 ```python
 # Set number of iterations
@@ -160,10 +160,10 @@ for x_itr in range(iterations):
 - [Towards gradient-based bilevel optimization with non-convex followers and beyond (PTT, DI)](https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf)
 - [Averaged Method of Multipliers for Bi-Level Optimization without Lower-Level Strong Convexity(DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf)
 - [Learning With Constraint Learning: New Perspective, Solution Strategy and Various Applications (IGA)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445)
-- [BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFM)](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
-- [A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSM)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
-- [On Penalty-based Bilevel Gradient Descent Method (PGDM)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
-- [Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy (MESM)](https://arxiv.org/pdf/2405.09927)
+- [BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFO)](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
+- [A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSO)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
+- [On Penalty-based Bilevel Gradient Descent Method (PGDO)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
+- [Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy (MESO)](https://arxiv.org/pdf/2405.09927)
 
 
 ## License

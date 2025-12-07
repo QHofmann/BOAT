@@ -8,4 +8,4 @@ from .iad import IAD
 from .foa import FOA
 from .rgt import RGT
 from .ptt import PTT
-from .sequential_hg import makes_functional_hyper_operation
+from .sequential_hg import makes_functional_na_operation

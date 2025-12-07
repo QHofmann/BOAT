@@ -81,22 +81,22 @@ lower_model = LowerModel(trainset[0].shape[-1], int(trainset[1].max().item()) + 
 upper_opt = jit.nn.Adam(upper_model.parameters(), lr=0.01)
 lower_opt = jit.nn.SGD(lower_model.parameters(), lr=0.01)
 
-dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else []
-hyper_method = args.hyper_method.split(",") if args.hyper_method else []
+dm_op = args.dm_op.split(",") if args.dm_op else []
+na_op = args.na_op.split(",") if args.na_op else []
 ```
 
 ### Explanation:
 - **Adam optimizer**: Used for the upper-level model to update its parameters.
 - **SGD optimizer**: Applied to the lower-level model for efficient gradient updates.
-- The `dynamic_method` and `hyper_method` parameters allow flexible optimization strategies.
+- The `dm_op` and `na_op` parameters allow flexible optimization strategies.
 
 
 
 ## Step 5: Bi-Level Optimization
 
 ```python
-boat_config["dynamic_op"] = dynamic_method
-boat_config["hyper_op"] = hyper_method
+boat_config["dm_op"] = dm_op
+boat_config["na_op"] = na_op
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model
 boat_config["lower_level_opt"] = lower_opt
@@ -111,9 +111,9 @@ b_optimizer.build_ul_solver()
 ul_feed_dict = {"data": trainset[0], "target": trainset[1]}
 ll_feed_dict = {"data": valset[0], "target": valset[1]}
 
-iterations = 3 if "DM" in dynamic_method and "GDA" in dynamic_method else 2
+iterations = 3 if "DM" in dm_op and "GDA" in dm_op else 2
 for x_itr in range(iterations):
-    if "DM" in dynamic_method and "GDA" in dynamic_method:
+    if "DM" in dm_op and "GDA" in dm_op:
         b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str(
             x_itr % 3 + 1
         )
@@ -155,4 +155,4 @@ print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_acc:.4f}")
 To execute the example, use the following command:
 
 ```bash
-python your_script_name.py --data_path ./data --model_path ./save_l2reg --dynamic_method NGD --hyper_method RAD
+python your_script_name.py --data_path ./data --model_path ./save_l2reg --dm_op NGD --na_op RAD

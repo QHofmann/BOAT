@@ -5,7 +5,7 @@ from ..higher_jit.optim import DifferentiableOptimizer
 from typing import Dict, Any, Callable
 
 from boat_jit.operation_registry import register_class
-from boat_jit.dynamic_ol.dynamical_system import DynamicalSystem
+from boat_jit.dm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class

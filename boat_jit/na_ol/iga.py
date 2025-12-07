@@ -5,7 +5,7 @@ from ..higher_jit.patch import _MonkeyPatchBase
 from boat_jit.utils.op_utils import update_tensor_grads
 
 from boat_jit.operation_registry import register_class
-from boat_jit.hyper_ol.hyper_gradient import HyperGradient
+from boat_jit.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class
@@ -33,7 +33,7 @@ class IGA(HyperGradient):
         - `alpha_init` (float): Initial learning rate for GDA.
         - `alpha_decay` (float): Decay factor for the GDA learning rate.
         - Optional `gda_loss` (Callable): Custom loss function for GDA, if applicable.
-        - `dynamic_op` (List[str]): Specifies dynamic operations, e.g., "DI" for dynamic initialization.
+        - `dm_op` (List[str]): Specifies dynamic operations, e.g., "DI" for dynamic initialization.
 
     Attributes
     ----------
@@ -44,7 +44,7 @@ class IGA(HyperGradient):
     gda_loss : Callable, optional
         Custom loss function for GDA operations, if specified in `solver_config`.
     dynamic_initialization : bool
-        Indicates whether dynamic initialization is enabled, based on `dynamic_op`.
+        Indicates whether dynamic initialization is enabled, based on `dm_op`.
 
     References
     ----------
@@ -75,7 +75,7 @@ class IGA(HyperGradient):
         self.alpha_decay = solver_config["GDA"]["alpha_decay"]
         self.gda_loss = solver_config.get("gda_loss", None)
 
-        self.dynamic_initialization = "DI" in solver_config["dynamic_op"]
+        self.dynamic_initialization = "DI" in solver_config["dm_op"]
 
     def compute_gradients(
         self,

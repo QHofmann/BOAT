@@ -61,7 +61,7 @@ class SequentialHG:
 
 
 
-def makes_functional_hyper_operation(custom_order: List[str], **kwargs) -> SequentialHG:
+def makes_functional_na_operation(custom_order: List[str], **kwargs) -> SequentialHG:
     """
     Dynamically create a SequentialHG object with ordered gradient operators.
 
@@ -89,7 +89,7 @@ def makes_functional_hyper_operation(custom_order: List[str], **kwargs) -> Seque
 
     # Dynamically load classes
     gradient_classes = {}
-    # module = importlib.import_module("boat.hyper_ol")
+    # module = importlib.import_module("boat.na_ol")
     for op in custom_order:
         gradient_classes[op] = get_registered_operation(op)
 

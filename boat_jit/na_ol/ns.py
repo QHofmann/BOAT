@@ -5,7 +5,7 @@ from ..higher_jit.patch import _MonkeyPatchBase
 from boat_jit.utils.op_utils import update_tensor_grads, neumann
 
 from boat_jit.operation_registry import register_class
-from boat_jit.hyper_ol.hyper_gradient import HyperGradient
+from boat_jit.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class
@@ -30,7 +30,7 @@ class NS(HyperGradient):
     solver_config : Dict[str, Any]
         Dictionary containing solver configurations, including:
 
-        - `dynamic_op` (str): Indicates dynamic initialization type (e.g., "DI").
+        - `dm_op` (str): Indicates dynamic initialization type (e.g., "DI").
         - `lower_level_opt` (Optimizer): Lower-level optimizer configuration.
         - `CG` (Dict): Conjugate Gradient-specific parameters:
             - `tolerance` (float): Tolerance for convergence.
@@ -63,7 +63,7 @@ class NS(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.dynamic_initialization = "DI" in solver_config["dynamic_op"]
+        self.dynamic_initialization = "DI" in solver_config["dm_op"]
 
         self.ll_lr = solver_config["lower_level_opt"].defaults["lr"]
         self.tolerance = solver_config["CG"]["tolerance"]

@@ -11,13 +11,13 @@ import copy
 from typing import Dict, Any, Callable, List
 
 from boat_jit.operation_registry import register_class
-from boat_jit.dynamic_ol.dynamical_system import DynamicalSystem
+from boat_jit.dm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class
-class VSM(DynamicalSystem):
+class VSO(DynamicalSystem):
     """
-    Implements the optimization procedure of Value-function based Sequential Method (VSM) [1].
+    Implements the optimization procedure of Value-function based Sequential Method (VSO) [1].
 
     Parameters
     ----------
@@ -39,7 +39,7 @@ class VSM(DynamicalSystem):
         A dictionary containing configurations for the solver. Expected keys include:
 
         - "lower_level_opt" (torch.optim.Optimizer): Optimizer for the lower-level model.
-        - "VSM" (Dict): Configuration for the VSM algorithm:
+        - "VSO" (Dict): Configuration for the VSO algorithm:
             - "z_loop" (int): Number of iterations for optimizing the auxiliary variable `z`.
             - "ll_l2_reg" (float): L2 regularization coefficient for the lower-level model.
             - "ul_l2_reg" (float): L2 regularization coefficient for the upper-level model.
@@ -65,19 +65,19 @@ class VSM(DynamicalSystem):
         ul_var: List,
         solver_config: Dict[str, Any],
     ):
-        super(VSM, self).__init__(
+        super(VSO, self).__init__(
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
         self.ll_opt = solver_config["lower_level_opt"]
         self.ll_var = ll_var
         self.ul_var = ul_var
         self.y_loop = lower_loop
-        self.z_loop = solver_config["VSM"]["z_loop"]
-        self.ll_l2_reg = solver_config["VSM"]["ll_l2_reg"]
-        self.ul_l2_reg = solver_config["VSM"]["ul_l2_reg"]
-        self.ul_ln_reg = solver_config["VSM"]["ul_ln_reg"]
-        self.reg_decay = float(solver_config["VSM"]["reg_decay"])
-        self.z_lr = solver_config["VSM"]["z_lr"]
+        self.z_loop = solver_config["VSO"]["z_loop"]
+        self.ll_l2_reg = solver_config["VSO"]["ll_l2_reg"]
+        self.ul_l2_reg = solver_config["VSO"]["ul_l2_reg"]
+        self.ul_ln_reg = solver_config["VSO"]["ul_ln_reg"]
+        self.reg_decay = float(solver_config["VSO"]["reg_decay"])
+        self.z_lr = solver_config["VSO"]["z_lr"]
 
     def optimize(self, ll_feed_dict: Dict, ul_feed_dict: Dict, current_iter: int):
         """

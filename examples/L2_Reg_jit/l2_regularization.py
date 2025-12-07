@@ -99,9 +99,9 @@ def main():
     parser.add_argument("--max_test", type=int, default=500)
     parser.add_argument("--data_path", default="./data")
     parser.add_argument("--seed", type=int, default=1)
-    parser.add_argument("--dynamic_method", type=str, default="DI,NGD")
-    parser.add_argument("--hyper_method", type=str, default="RAD,RGT,PTT")
-    parser.add_argument("--fo_gm", type=str, default=None)
+    parser.add_argument("--dm_op", type=str, default="DI,NGD")
+    parser.add_argument("--na_op", type=str, default="RAD,RGT,PTT")
+    parser.add_argument("--fo_op", type=str, default=None)
     args = parser.parse_args()
 
     np.random.seed(args.seed); jit.set_global_seed(args.seed)
@@ -162,14 +162,14 @@ def main():
     lower_opt = jit.nn.SGD([lower_model.W], lr=0.01)
 
     # -------------------- 组装 BOAT 配置 --------------------
-    dynamic_method = args.dynamic_method.split(",") if args.dynamic_method else None
-    hyper_method   = args.hyper_method.split(",")   if args.hyper_method   else None
-    if hyper_method is not None and ("RGT" in hyper_method):
+    dm_op = args.dm_op.split(",") if args.dm_op else None
+    na_op   = args.na_op.split(",")   if args.na_op   else None
+    if na_op is not None and ("RGT" in na_op):
         boat_config["RGT"]["truncate_iter"] = 1
 
-    boat_config["dynamic_op"]       = dynamic_method
-    boat_config["hyper_op"]         = hyper_method
-    boat_config["fo_gm"]            = args.fo_gm
+    boat_config["dm_op"]       = dm_op
+    boat_config["na_op"]         = na_op
+    boat_config["fo_op"]            = args.fo_op
     boat_config["lower_level_model"]= lower_model
     boat_config["upper_level_model"]= upper_model
     boat_config["lower_level_opt"]  = lower_opt
@@ -177,7 +177,7 @@ def main():
     boat_config["lower_level_var"]  = list(lower_model.parameters())
     boat_config["upper_level_var"]  = list(upper_model.parameters())
 
-    # FOGM 场景：只传 fo_gm（pytest 的 fo_gm 单测就是这种）
+    # FOGM 场景：只传 fo_op（pytest 的 fo_op 单测就是这种）
     # （由 boat.Problem 内部的 FOGM 分支处理）
     b_optimizer = boat.Problem(boat_config, loss_config)
     b_optimizer.build_ll_solver().build_ul_solver()
@@ -187,8 +187,8 @@ def main():
     ll_feed_dict = {"data": valset[0],   "target": valset[1]}
 
     # 迭代次数：对齐你 torch 版最小逻辑
-    if boat_config["dynamic_op"] is not None:
-        if ("DM" in boat_config["dynamic_op"]) and ("GDA" in boat_config["dynamic_op"]):
+    if boat_config["dm_op"] is not None:
+        if ("DM" in boat_config["dm_op"]) and ("GDA" in boat_config["dm_op"]):
             iterations = 3
         else:
             iterations = 2
@@ -200,10 +200,10 @@ def main():
 
     for it in range(iterations):
         # DM+GDA 的 strategy 切换（如有 DM）
-        if boat_config["dynamic_op"] is not None:
-            if ("DM" in boat_config["dynamic_op"]) and ("GDA" in boat_config["dynamic_op"]):
+        if boat_config["dm_op"] is not None:
+            if ("DM" in boat_config["dm_op"]) and ("GDA" in boat_config["dm_op"]):
                 b_optimizer._ll_solver.gradient_instances[-1].strategy = "s" + str((it % 3) + 1)
-            elif ("DM" in boat_config["dynamic_op"]) and ("GDA" not in boat_config["dynamic_op"]):
+            elif ("DM" in boat_config["dm_op"]) and ("GDA" not in boat_config["dm_op"]):
                 b_optimizer._ll_solver.gradient_instances[-1].strategy = "s1"
 
         _, run_time = b_optimizer.run_iter(ll_feed_dict, ul_feed_dict, current_iter=it)

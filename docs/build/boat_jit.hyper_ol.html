@@ -193,8 +193,8 @@ using user-defined and validated orders of gradient operators.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="boat_jit.hyper_ol.sequential_hg.makes_functional_hyper_operation">
-<span class="sig-prename descclassname"><span class="pre">boat_jit.hyper_ol.sequential_hg.</span></span><span class="sig-name descname"><span class="pre">makes_functional_hyper_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_order</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/hyper_ol/sequential_hg.html#makes_functional_hyper_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.hyper_ol.sequential_hg.makes_functional_hyper_operation" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.hyper_ol.sequential_hg.makes_functional_na_operation">
+<span class="sig-prename descclassname"><span class="pre">boat_jit.hyper_ol.sequential_hg.</span></span><span class="sig-name descname"><span class="pre">makes_functional_na_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_order</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/hyper_ol/sequential_hg.html#makes_functional_na_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.hyper_ol.sequential_hg.makes_functional_na_operation" title="Permalink to this definition"></a></dt>
 <dd><p>Dynamically create a SequentialHG object with ordered gradient operators.</p>
 <p>This function validates the user-defined operator order, adjusts it to conform
 with predefined gradient rules, and dynamically loads the corresponding operator classes.</p>
@@ -257,7 +257,7 @@ rules and adjusts it accordingly.</p>
 <ul>
 <li><p><cite>r</cite> (float): Perturbation radius for finite differences.</p></li>
 <li><p><cite>lower_level_opt</cite> (torch.optim.Optimizer): Lower-level optimizer configuration.</p></li>
-<li><p><cite>dynamic_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
+<li><p><cite>dm_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
 <li><dl class="simple">
 <dt>GDA-specific parameters if applicable, such as:</dt><dd><ul>
 <li><p><cite>alpha_init</cite> (float): Initial learning rate for GDA.</p></li>
@@ -285,7 +285,7 @@ rules and adjusts it accordingly.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="boat_jit.hyper_ol.cg.CG.dynamic_initialization">
 <span class="sig-name descname"><span class="pre">dynamic_initialization</span></span><a class="headerlink" href="#boat_jit.hyper_ol.cg.CG.dynamic_initialization" title="Permalink to this definition"></a></dt>
-<dd><p>Indicates whether dynamic initialization is enabled (based on <cite>dynamic_op</cite>).</p>
+<dd><p>Indicates whether dynamic initialization is enabled (based on <cite>dm_op</cite>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -411,7 +411,7 @@ It serves as the lower-level model for optimization.</p></li>
 <ul>
 <li><p><cite>r</cite> (float): Perturbation radius for finite differences.</p></li>
 <li><p><cite>lower_level_opt</cite> (torch.optim.Optimizer): Lower-level optimizer configuration.</p></li>
-<li><p><cite>dynamic_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
+<li><p><cite>dm_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
 <li><dl class="simple">
 <dt>GDA-specific parameters if applicable, such as:</dt><dd><ul>
 <li><p><cite>alpha_init</cite> (float): Initial learning rate for GDA.</p></li>
@@ -439,7 +439,7 @@ It serves as the lower-level model for optimization.</p></li>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="boat_jit.hyper_ol.fd.FD.dynamic_initialization">
 <span class="sig-name descname"><span class="pre">dynamic_initialization</span></span><a class="headerlink" href="#boat_jit.hyper_ol.fd.FD.dynamic_initialization" title="Permalink to this definition"></a></dt>
-<dd><p>Indicates whether dynamic initialization is enabled (based on <cite>dynamic_op</cite>).</p>
+<dd><p>Indicates whether dynamic initialization is enabled (based on <cite>dm_op</cite>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -656,7 +656,7 @@ including the feed dictionaries, auxiliary model, iteration count, and other opt
 <li><p><cite>alpha_init</cite> (float): Initial learning rate for GDA.</p></li>
 <li><p><cite>alpha_decay</cite> (float): Decay factor for the GDA learning rate.</p></li>
 <li><p>Optional <cite>gda_loss</cite> (Callable): Custom loss function for GDA, if applicable.</p></li>
-<li><p><cite>dynamic_op</cite> (List[str]): Specifies dynamic operations, e.g., “DI” for dynamic initialization.</p></li>
+<li><p><cite>dm_op</cite> (List[str]): Specifies dynamic operations, e.g., “DI” for dynamic initialization.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -698,7 +698,7 @@ including the feed dictionaries, auxiliary model, iteration count, and other opt
 <dl class="py attribute">
 <dt class="sig sig-object py" id="boat_jit.hyper_ol.iga.IGA.dynamic_initialization">
 <span class="sig-name descname"><span class="pre">dynamic_initialization</span></span><a class="headerlink" href="#boat_jit.hyper_ol.iga.IGA.dynamic_initialization" title="Permalink to this definition"></a></dt>
-<dd><p>Indicates whether dynamic initialization is enabled, based on <cite>dynamic_op</cite>.</p>
+<dd><p>Indicates whether dynamic initialization is enabled, based on <cite>dm_op</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -794,7 +794,7 @@ targets, and other information required for the UL objective computation.</p></l
 <li><p><strong>ul_var</strong> (<em>List</em><em>[</em><em>jittor.Var</em><em>]</em>) – List of variables optimized with the upper-level objective.</p></li>
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>Dictionary containing solver configurations, including:</p>
 <ul>
-<li><p><cite>dynamic_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
+<li><p><cite>dm_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
 <li><p><cite>lower_level_opt</cite> (Optimizer): Lower-level optimizer configuration.</p></li>
 <li><dl class="simple">
 <dt><cite>CG</cite> (Dict): Conjugate Gradient-specific parameters:</dt><dd><ul>
@@ -863,7 +863,7 @@ It serves as the lower-level model for optimization.</p></li>
 <li><p><strong>ll_var</strong> (<em>List</em><em>[</em><em>jittor.Var</em><em>]</em>) – List of variables optimized with the lower-level objective.</p></li>
 <li><p><strong>ul_var</strong> (<em>List</em><em>[</em><em>jittor.Var</em><em>]</em>) – List of variables optimized with the upper-level objective.</p></li>
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary containing solver configurations, including:
-- “hyper_op” (List[str]): Indicates if PTT is used in the hyper-gradient operations.</p></li>
+- “na_op” (List[str]): Indicates if PTT is used in the hyper-gradient operations.</p></li>
 </ul>
 </dd>
 </dl>

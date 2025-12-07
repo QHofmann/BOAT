@@ -47,16 +47,16 @@ lower_opt = jit.nn.SGD(lower_model.parameters(), lr=0.01)
 ```
 
 ### **3. Customize BOAT Configuration**
-Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.
+Modify the boat_config to include your gradient mapping and numerical approximation operation, as well as model and variable details.
 
 ```python
-# Example dynamic and hyper-gradient methods Combination.
-dynamic_method = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
-hyper_method = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
+# Example gradient mapping and numerical approximation operation Combination.
+dm_op = ["NGD", "DI", "GDA"]  # Gradient Mapping Operations (Demo Only)
+na_op = ["RGT","RAD"]          # Numerical Approximation Operations (Demo Only)
 
 # Add methods and model details to the configuration
-boat_config["dynamic_op"] = dynamic_method
-boat_config["hyper_op"] = hyper_method
+boat_config["dm_op"] = dm_op
+boat_config["na_op"] = na_op
 boat_config["lower_level_model"] = lower_model
 boat_config["upper_level_model"] = upper_model
 boat_config["lower_level_opt"] = lower_opt
@@ -66,7 +66,7 @@ boat_config["upper_level_var"] = list(upper_model.parameters())
 ```
 
 ### **4. Initialize the BOAT Problem**
-Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.
+Modify the boat_config to include your gradient mapping and numerical approximation operation, as well as model and variable details.
 
 ```python
 # Initialize the problem
@@ -87,7 +87,7 @@ ll_feed_dict = {"data": lower_level_data, "target": lower_level_target}
 ```
 
 ### **6. Run the Optimization Loop**
-Execute the optimization loop, optionally customizing the solver strategy for dynamic methods.
+Execute the optimization loop, optionally customizing the solver strategy for gradient mapping operations.
 
 ```python
 # Set number of iterations

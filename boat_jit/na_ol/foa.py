@@ -2,15 +2,14 @@ from jittor import Module
 from typing import List, Callable, Dict
 from ..higher_jit.patch import _MonkeyPatchBase
 
-
 from boat_jit.operation_registry import register_class
-from boat_jit.hyper_ol.hyper_gradient import HyperGradient
+from boat_jit.na_ol.hyper_gradient import HyperGradient
 
 
 @register_class
-class PTT(HyperGradient):
+class FOA(HyperGradient):
     """
-    Computes the hyper-gradient of the upper-level variables using Pessimistic Trajectory Truncation (PTT) [1].
+    Computes the hyper-gradient of the upper-level variables using First-Order Approximation (FOA) [1], leveraging Initialization-based Auto Differentiation (IAD) [2].
 
     Parameters
     ----------
@@ -27,12 +26,12 @@ class PTT(HyperGradient):
     ul_var : List[jittor.Var]
         List of variables optimized with the upper-level objective.
     solver_config : Dict[str, Any]
-        Dictionary containing solver configurations, including:
-        - "hyper_op" (List[str]): Indicates if PTT is used in the hyper-gradient operations.
+        Dictionary containing solver configurations.
 
     References
     ----------
-    [1] Liu R., Liu Y., Zeng S., et al. "Towards gradient-based bilevel optimization with non-convex followers and beyond," in NeurIPS, 2021.
+    [1] Nichol A., "On first-order meta-learning algorithms," arXiv preprint arXiv:1803.02999, 2018.
+    [2] Finn C., Abbeel P., Levine S., "Model-agnostic meta-learning for fast adaptation of deep networks", in ICML, 2017.
     """
 
     def __init__(
@@ -45,7 +44,7 @@ class PTT(HyperGradient):
         ul_var: List,
         solver_config: Dict,
     ):
-        super(PTT, self).__init__(
+        super(FOA, self).__init__(
             ll_objective,
             ul_objective,
             ul_model,
@@ -54,7 +53,6 @@ class PTT(HyperGradient):
             ul_var,
             solver_config,
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
 
     def compute_gradients(
         self,
@@ -67,7 +65,7 @@ class PTT(HyperGradient):
         **kwargs
     ):
         """
-        Compute the hyper-gradients of the upper-level variables with the data from feed_dict and patched models.
+        Compute the hyper-gradients of the upper-level variables using the data from feed_dict and patched models.
 
         Parameters
         ----------
@@ -80,39 +78,41 @@ class PTT(HyperGradient):
             It typically includes validation data, targets, and other information required to compute the UL objective.
 
         auxiliary_model : _MonkeyPatchBase
-            A patched lower model wrapped by the `higher` library.
+            A patched lower-level model wrapped by the `higher` library.
             It serves as the lower-level model for optimization.
 
         max_loss_iter : int, optional
             The number of iterations used for backpropagation, by default 0.
 
+        hyper_gradient_finished : bool, optional
+            A boolean flag indicating whether the hypergradient computation is finished, by default False.
+
         next_operation : str, optional
             The next operator for the calculation of the hypergradient, by default None.
 
-        hyper_gradient_finished : bool, optional
-            A boolean flag indicating whether the hypergradient computation is finished, by default False.
+        kwargs : dict
+            Additional keyword arguments.
 
         Returns
         -------
         Dict
-            A dictionary containing updated feed_dict, auxiliary model, and gradient computation results.
+            A dictionary containing information required for the next step in the hypergradient computation,
+            including the feed dictionaries, auxiliary model, iteration count, and other optional arguments.
+
+        Raises
+        ------
+        AssertionError
+            If `next_operation` is not defined or if `hyper_gradient_finished` is True.
         """
+        assert next_operation is None, "FOA does not support next_operation"
         assert (
             hyper_gradient_finished is False
         ), "Hypergradient computation should not be finished"
-        assert self.truncate_max_loss_iter and (
-            max_loss_iter > 0
-        ), "With PTT operation, 'max_loss_iter' should be greater than 0"
-        assert next_operation is not None, "Next operation should be defined"
-        lower_model_params = kwargs.get(
-            "lower_model_params", list(auxiliary_model.parameters(time=max_loss_iter))
-        )
         return {
             "ll_feed_dict": ll_feed_dict,
             "ul_feed_dict": ul_feed_dict,
             "auxiliary_model": auxiliary_model,
             "max_loss_iter": max_loss_iter,
             "hyper_gradient_finished": False,
-            "lower_model_params": lower_model_params,
             **kwargs,
         }

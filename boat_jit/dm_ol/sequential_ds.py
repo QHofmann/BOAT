@@ -97,7 +97,7 @@ def makes_functional_dynamical_system(
 
     # Dynamically load classes
     gradient_classes = {}
-    # module = importlib.import_module("boat.dynamic_ol")
+    # module = importlib.import_module("boat.dm_ol")
     for op in custom_order:
         gradient_classes[op] = get_registered_operation(op)
 

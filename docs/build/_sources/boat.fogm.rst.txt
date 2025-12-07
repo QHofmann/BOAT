@@ -4,34 +4,34 @@ boat.fogm package
 Submodules
 ----------
 
-boat.fogm.mesm module
+boat.fogm.meso module
 ---------------------
 
-.. automodule:: boat.fogm.mesm
+.. automodule:: boat.fogm.meso
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat.fogm.pgdm module
+boat.fogm.pgdo module
 ---------------------
 
-.. automodule:: boat.fogm.pgdm
+.. automodule:: boat.fogm.pgdo
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat.fogm.vfm module
+boat.fogm.vfo module
 --------------------
 
-.. automodule:: boat.fogm.vfm
+.. automodule:: boat.fogm.vfo
    :members:
    :undoc-members:
    :show-inheritance:
 
-boat.fogm.vsm module
+boat.fogm.vso module
 --------------------
 
-.. automodule:: boat.fogm.vsm
+.. automodule:: boat.fogm.vso
    :members:
    :undoc-members:
    :show-inheritance:

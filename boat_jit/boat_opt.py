@@ -13,8 +13,8 @@ import boat_jit.higher_jit as higher
 
 importlib = __import__("importlib")
 from boat_jit.operation_registry import get_registered_operation
-from boat_jit.dynamic_ol import makes_functional_dynamical_system
-from boat_jit.hyper_ol import makes_functional_hyper_operation
+from boat_jit.dm_ol import makes_functional_dynamical_system
+from boat_jit.na_ol import makes_functional_na_operation
 
 import matplotlib.pyplot as plt
 import os
@@ -36,17 +36,17 @@ class Problem:
     """
 
     def __init__(self, config: Dict[str, Any], loss_config: Dict[str, Any]):
-        self._fo_gm = config["fo_gm"]
-        self._dynamic_op = config["dynamic_op"]
-        self._hyper_op = config["hyper_op"]
+        self._fo_op = config["fo_op"]
+        self._dm_op = config["dm_op"]
+        self._na_op = config["na_op"]
         self._ll_model = config["lower_level_model"]
         self._ul_model = config["upper_level_model"]
         self._ll_var = config["lower_level_var"]
         self._ul_var = config["upper_level_var"]
         self.boat_configs = config
 
-        if config["dynamic_op"] is not None:
-            if "GDA" in config["dynamic_op"]:
+        if config["dm_op"] is not None:
+            if "GDA" in config["dm_op"]:
                 assert (
                     loss_config.get("gda_loss", None) is not None
                 ), "Set the 'gda_loss' in loss_config properly."
@@ -62,22 +62,22 @@ class Problem:
         self._ll_solver = None
         self._ul_solver = None
         self._lower_init_opt = None
-        self._fo_gm_solver = None
+        self._fo_op_solver = None
         self._log_results = []
         self._track_opt_traj = False
         self.loss_log_path = config["loss_log_path"]
         self.loss_history = []
 
     def build_ll_solver(self):
-        if self.boat_configs["fo_gm"] is None:
-            assert (self.boat_configs["dynamic_op"] is not None) and (
-                self.boat_configs["hyper_op"] is not None
-            ), "Set 'dynamic_op' and 'hyper_op' properly."
+        if self.boat_configs["fo_op"] is None:
+            assert (self.boat_configs["dm_op"] is not None) and (
+                self.boat_configs["na_op"] is not None
+            ), "Set 'dm_op' and 'na_op' properly."
 
             self.check_status()
 
             # DM 需要辅助变量与优化器
-            if "DM" in self._dynamic_op:
+            if "DM" in self._dm_op:
                 self.boat_configs["DM"]["auxiliary_v"] = [
                     jit.zeros_like(param) for param in self._ll_var
                 ]
@@ -90,7 +90,7 @@ class Problem:
                     lr=self.boat_configs["DM"]["auxiliary_v_lr"],
                 )
 
-            sorted_ops = sorted([op.upper() for op in self._dynamic_op])
+            sorted_ops = sorted([op.upper() for op in self._dm_op])
             self._ll_solver = makes_functional_dynamical_system(
                 custom_order=sorted_ops,
                 ll_objective=self._ll_loss,
@@ -102,7 +102,7 @@ class Problem:
             )
 
             # DI：为“动态初始化”准备一个学习率不同的下层优化器
-            if "DI" in self.boat_configs["dynamic_op"]:
+            if "DI" in self.boat_configs["dm_op"]:
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
                 new_groups = []
@@ -117,8 +117,8 @@ class Problem:
 
         else:
             # 一阶方法（FOGM）
-            self._fo_gm_solver = get_registered_operation(
-                "%s" % self.boat_configs["fo_gm"]
+            self._fo_op_solver = get_registered_operation(
+                "%s" % self.boat_configs["fo_op"]
             )(
                 ll_objective=self._ll_loss,
                 ul_objective=self._ul_loss,
@@ -132,12 +132,12 @@ class Problem:
         return self
 
     def build_ul_solver(self):
-        if self.boat_configs["fo_gm"] is None:
+        if self.boat_configs["fo_op"] is None:
             assert (
-                self.boat_configs["hyper_op"] is not None
-            ), "Choose hyper_op properly when not using FOGM."
-            sorted_ops = sorted([op.upper() for op in self._hyper_op])
-            self._ul_solver = makes_functional_hyper_operation(
+                self.boat_configs["na_op"] is not None
+            ), "Choose na_op properly when not using FOGM."
+            sorted_ops = sorted([op.upper() for op in self._na_op])
+            self._ul_solver = makes_functional_na_operation(
                 custom_order=sorted_ops,
                 ul_objective=self._ul_loss,
                 ll_objective=self._ll_loss,
@@ -148,9 +148,9 @@ class Problem:
                 solver_config=self.boat_configs,
             )
         else:
-            # FOGM 模式下通常不需要独立的 hyper_op
+            # FOGM 模式下通常不需要独立的 na_op
             assert (
-                self.boat_configs["fo_gm"] is not None
+                self.boat_configs["fo_op"] is not None
             ), "FOGM is enabled, UL solver is handled by FOGM op."
         return self
 
@@ -160,7 +160,7 @@ class Problem:
         ul_feed_dict: Dict[str, jit.Var],
         current_iter: int,
     ) -> tuple:
-        if self.boat_configs["fo_gm"] is not None:
+        if self.boat_configs["fo_op"] is not None:
             start_time = time.perf_counter()
 
             # FIX: 对齐 Torch 版的 fogm_batch_input（支持批输入/元学习场景）
@@ -169,13 +169,13 @@ class Problem:
                     ll_feed_dict, ul_feed_dict
                 ):
                     self._log_results.append(
-                        self._fo_gm_solver.optimize(
+                        self._fo_op_solver.optimize(
                             batch_ll_feed_dict, batch_ul_feed_dict, current_iter
                         )
                     )
             else:
                 self._log_results.append(
-                    self._fo_gm_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
+                    self._fo_op_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
                 )
 
             run_time = time.perf_counter() - start_time
@@ -207,7 +207,7 @@ class Problem:
 
                         backward_time = time.perf_counter()
                         # FIX: 这里原来把 ul_feed_dict 误传成了 batch_ll_feed_dict，导致超层梯度用错数据
-                        if "DM" not in self._dynamic_op:
+                        if "DM" not in self._dm_op:
                             self._log_results.append(
                                 self._ul_solver.compute_gradients(
                                     ll_feed_dict=batch_ll_feed_dict,
@@ -251,7 +251,7 @@ class Problem:
                     print("forward_time", forward_time)
 
                     backward_time = time.perf_counter()
-                    if "DM" not in self._dynamic_op:
+                    if "DM" not in self._dm_op:
                         self._log_results.append(
                             self._ul_solver.compute_gradients(
                                 ll_feed_dict=ll_feed_dict,
@@ -274,7 +274,7 @@ class Problem:
                         )
 
                 # DI：用 _lower_init_opt 对 LL var 做一次“动态初始化”更新
-                if "DI" in self.boat_configs["dynamic_op"]:
+                if "DI" in self.boat_configs["dm_op"]:
                     manual_update(
                         self._lower_init_opt, self._lower_opt.param_groups[0]["params"]
                     )
@@ -310,25 +310,25 @@ class Problem:
         self._track_opt_traj = track_traj
 
     def check_status(self):
-        if any(item in self._hyper_op for item in ["PTT", "IAD", "RAD"]):
+        if any(item in self._na_op for item in ["PTT", "IAD", "RAD"]):
             self.set_track_trajectory(True)
-        if "DM" in self.boat_configs["dynamic_op"]:
-            assert (self.boat_configs["hyper_op"] == ["RAD"]) or (
-                self.boat_configs["hyper_op"] == ["CG"]
+        if "DM" in self.boat_configs["dm_op"]:
+            assert (self.boat_configs["na_op"] == ["RAD"]) or (
+                self.boat_configs["na_op"] == ["CG"]
             ), "When 'DM' is chosen, set the 'truncate_iter' properly."
-        if "RGT" in self.boat_configs["hyper_op"]:
+        if "RGT" in self.boat_configs["na_op"]:
             assert (
                 self.boat_configs["RGT"]["truncate_iter"] > 0
             ), "When 'RGT' is chosen, set the 'truncate_iter' properly ."
         if self.boat_configs["accumulate_grad"]:
             assert (
-                "IAD" in self.boat_configs["hyper_op"]
+                "IAD" in self.boat_configs["na_op"]
             ), "When using 'accumulate_grad', only 'IAD' based methods are supported."
         if self.boat_configs["GDA"]["alpha_init"] > 0.0:
             assert (
                 0.0 < self.boat_configs["GDA"]["alpha_decay"] <= 1.0
             ), "Parameter 'alpha_decay' used in method BDA should be in the interval (0,1)."
-        if "FD" in self._hyper_op:
+        if "FD" in self._na_op:
             assert (
                 self.boat_configs["RGT"]["truncate_iter"] == 0
             ), "One-stage method doesn't need trajectory truncation."
@@ -340,13 +340,13 @@ class Problem:
                     return False
             return True
 
-        if "IAD" in self._hyper_op:
+        if "IAD" in self._na_op:
             assert check_model_structure(self._ll_model, self._ul_model), (
                 "With IAD or FOA operation, 'upper_level_model' and 'lower_level_model' have the same structure, "
                 "and 'lower_level_var' and 'upper_level_var' are the same group of variables."
             )
-        assert (("DI" in self._dynamic_op) ^ ("IAD" in self._hyper_op)) or (
-            ("DI" not in self._dynamic_op) and ("IAD" not in self._hyper_op)
+        assert (("DI" in self._dm_op) ^ ("IAD" in self._na_op)) or (
+            ("DI" not in self._dm_op) and ("IAD" not in self._na_op)
         ), "Only one of the 'PTT' and 'RGT' methods could be chosen."
         assert (
             0.0 <= self.boat_configs["GDA"]["alpha_init"] <= 1.0

@@ -109,7 +109,7 @@
 
 <span class="sd">        - `r` (float): Perturbation radius for finite differences.</span>
 <span class="sd">        - `lower_level_opt` (torch.optim.Optimizer): Lower-level optimizer configuration.</span>
-<span class="sd">        - `dynamic_op` (str): Indicates dynamic initialization type (e.g., &quot;DI&quot;).</span>
+<span class="sd">        - `dm_op` (str): Indicates dynamic initialization type (e.g., &quot;DI&quot;).</span>
 <span class="sd">        - GDA-specific parameters if applicable, such as:</span>
 <span class="sd">            - `alpha_init` (float): Initial learning rate for GDA.</span>
 <span class="sd">            - `alpha_decay` (float): Decay factor for GDA.</span>
@@ -119,7 +119,7 @@
 <span class="sd">    ll_lr : float</span>
 <span class="sd">        Learning rate for the lower-level optimizer, extracted from `lower_level_opt`.</span>
 <span class="sd">    dynamic_initialization : bool</span>
-<span class="sd">        Indicates whether dynamic initialization is enabled (based on `dynamic_op`).</span>
+<span class="sd">        Indicates whether dynamic initialization is enabled (based on `dm_op`).</span>
 <span class="sd">    _r : float</span>
 <span class="sd">        Perturbation radius for finite differences, used for gradient computation.</span>
 <span class="sd">    alpha : float</span>
@@ -147,7 +147,7 @@
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">FD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ll_objective</span><span class="p">,</span> <span class="n">ul_objective</span><span class="p">,</span> <span class="n">ul_model</span><span class="p">,</span> <span class="n">ll_model</span><span class="p">,</span> <span class="n">ll_var</span><span class="p">,</span> <span class="n">ul_var</span><span class="p">,</span> <span class="n">solver_config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_lr</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_initialization</span> <span class="o">=</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_initialization</span> <span class="o">=</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;dm_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;FD&quot;</span><span class="p">][</span><span class="s2">&quot;r&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_init&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha_decay</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_decay&quot;</span><span class="p">]</span>

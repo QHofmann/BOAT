@@ -377,7 +377,7 @@ hyperparameters and specific settings for NGD, GDA, and DM.</p></li>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><p>For GDA operations, this method supports three strategies: ‘s1’, ‘s2’, and ‘s3’.</p></li>
-<li><p>When using RAD in <cite>hyper_op</cite>, a higher-order gradient adjustment is applied to the auxiliary variables.</p></li>
+<li><p>When using RAD in <cite>na_op</cite>, a higher-order gradient adjustment is applied to the auxiliary variables.</p></li>
 <li><p>Ensure that <cite>next_operation</cite> is <cite>None</cite> for NGD, as it does not support additional operations.</p></li>
 </ul>
 <dl class="field-list simple">
@@ -532,7 +532,7 @@ Keys include:</p>
 <blockquote>
 <div><ul>
 <li><p>”lower_level_opt”: optimizer for LL</p></li>
-<li><p>”hyper_op”: list of hyper-gradient ops</p></li>
+<li><p>”na_op”: list of hyper-gradient ops</p></li>
 <li><p>”RGT”: {“truncate_iter”: int}</p></li>
 </ul>
 </div></blockquote>

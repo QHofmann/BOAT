@@ -54,10 +54,10 @@
 <li class="toctree-l3"><a class="reference internal" href="boat_jit.dynamic_ol.html">boat_jit.dynamic_ol</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">boat_jit.fogm</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.mesm">boat_jit.fogm.mesm</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.pgdm">boat_jit.fogm.pgdm</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.vfm">boat_jit.fogm.vfm</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.vsm">boat_jit.fogm.vsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.meso">boat_jit.fogm.meso</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.pgdo">boat_jit.fogm.pgdo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.vfo">boat_jit.fogm.vfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-boat_jit.fogm.vso">boat_jit.fogm.vso</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="boat_jit.hyper_ol.html">boat_jit.hyper_ol</a></li>
@@ -118,13 +118,13 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="module-boat_jit.fogm.mesm">
-<span id="boat-jit-fogm-mesm"></span><h2>boat_jit.fogm.mesm<a class="headerlink" href="#module-boat_jit.fogm.mesm" title="Permalink to this heading"></a></h2>
+<section id="module-boat_jit.fogm.meso">
+<span id="boat-jit-fogm-meso"></span><h2>boat_jit.fogm.meso<a class="headerlink" href="#module-boat_jit.fogm.meso" title="Permalink to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="boat_jit.fogm.mesm.MESM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.mesm.</span></span><span class="sig-name descname"><span class="pre">MESM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/mesm.html#MESM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.mesm.MESM" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.meso.MESO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.meso.</span></span><span class="sig-name descname"><span class="pre">MESO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/meso.html#MESO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.meso.MESO" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_jit.dynamic_ol.html#boat_jit.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_jit.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESM) [1].</p>
+<p>Implements the optimization procedure of Moreau Envelope based Single-loop Method (MESO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -139,9 +139,9 @@
 <ul>
 <li><p>”lower_level_opt”: The optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”MESM” (Dict): A dictionary containing the following keys:</dt><dd><ul>
-<li><p>”eta”: Learning rate for the MESM optimization procedure.</p></li>
-<li><p>”gamma_1”: Regularization parameter for the MESM algorithm.</p></li>
+<dt>”MESO” (Dict): A dictionary containing the following keys:</dt><dd><ul>
+<li><p>”eta”: Learning rate for the MESO optimization procedure.</p></li>
+<li><p>”gamma_1”: Regularization parameter for the MESO algorithm.</p></li>
 <li><p>”c0”: Initial constant for the update steps.</p></li>
 <li><p>”y_hat_lr”: Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
 </ul>
@@ -156,8 +156,8 @@
 <p class="rubric">References</p>
 <p>[1] Liu R, Liu Z, Yao W, et al. “Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy,” ICML, 2024.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="boat_jit.fogm.mesm.MESM.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/mesm.html#MESM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.mesm.MESM.optimize" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.meso.MESO.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/meso.html#MESO.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.meso.MESO.optimize" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the optimization procedure with the data from feed_dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -181,13 +181,13 @@ It typically includes validation data, targets, and other information required t
 </dd></dl>
 
 </section>
-<section id="module-boat_jit.fogm.pgdm">
-<span id="boat-jit-fogm-pgdm"></span><h2>boat_jit.fogm.pgdm<a class="headerlink" href="#module-boat_jit.fogm.pgdm" title="Permalink to this heading"></a></h2>
+<section id="module-boat_jit.fogm.pgdo">
+<span id="boat-jit-fogm-pgdo"></span><h2>boat_jit.fogm.pgdo<a class="headerlink" href="#module-boat_jit.fogm.pgdo" title="Permalink to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="boat_jit.fogm.pgdm.PGDM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.pgdm.</span></span><span class="sig-name descname"><span class="pre">PGDM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/pgdm.html#PGDM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.pgdm.PGDM" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.pgdo.PGDO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.pgdo.</span></span><span class="sig-name descname"><span class="pre">PGDO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/pgdo.html#PGDO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.pgdo.PGDO" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_jit.dynamic_ol.html#boat_jit.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_jit.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDM) [1].</p>
+<p>Implements the optimization procedure of Penalty-based Gradient Descent Method (PGDO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -202,7 +202,7 @@ It typically includes validation data, targets, and other information required t
 <ul>
 <li><p>”lower_level_opt”: The optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”PGDM” (Dict): A dictionary containing the following keys:</dt><dd><ul>
+<dt>”PGDO” (Dict): A dictionary containing the following keys:</dt><dd><ul>
 <li><p>”y_hat_lr”: Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
 <li><p>”gamma_init”: Initial value of the hyperparameter <cite>gamma</cite>.</p></li>
 <li><p>”gamma_max”: Maximum value of the hyperparameter <cite>gamma</cite>.</p></li>
@@ -219,8 +219,8 @@ It typically includes validation data, targets, and other information required t
 <p class="rubric">References</p>
 <p>[1] Shen H, Chen T. “On penalty-based bilevel gradient descent method,” in ICML, 2023.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="boat_jit.fogm.pgdm.PGDM.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/pgdm.html#PGDM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.pgdm.PGDM.optimize" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.pgdo.PGDO.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/pgdo.html#PGDO.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.pgdo.PGDO.optimize" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the optimization procedure with the data from feed_dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -244,13 +244,13 @@ It typically includes validation data, targets, and other information required t
 </dd></dl>
 
 </section>
-<section id="module-boat_jit.fogm.vfm">
-<span id="boat-jit-fogm-vfm"></span><h2>boat_jit.fogm.vfm<a class="headerlink" href="#module-boat_jit.fogm.vfm" title="Permalink to this heading"></a></h2>
+<section id="module-boat_jit.fogm.vfo">
+<span id="boat-jit-fogm-vfo"></span><h2>boat_jit.fogm.vfo<a class="headerlink" href="#module-boat_jit.fogm.vfo" title="Permalink to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="boat_jit.fogm.vfm.VFM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.vfm.</span></span><span class="sig-name descname"><span class="pre">VFM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vfm.html#VFM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vfm.VFM" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.vfo.VFO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.vfo.</span></span><span class="sig-name descname"><span class="pre">VFO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vfo.html#VFO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vfo.VFO" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_jit.dynamic_ol.html#boat_jit.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_jit.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Value-function based First-Order Method (VFM) [1].</p>
+<p>Implements the optimization procedure of Value-function based First-Order Method (VFO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -265,7 +265,7 @@ It typically includes validation data, targets, and other information required t
 <ul>
 <li><p>”lower_level_opt” (torch.optim.Optimizer): Optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”VFM” (Dict): Configuration for the VFM algorithm:</dt><dd><ul>
+<dt>”VFO” (Dict): Configuration for the VFO algorithm:</dt><dd><ul>
 <li><p>”y_hat_lr” (float): Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
 <li><p>”eta” (float): Step size for value-function updates.</p></li>
 <li><p>”u1” (float): Hyperparameter controlling the penalty in the value function.</p></li>
@@ -285,8 +285,8 @@ It typically includes validation data, targets, and other information required t
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="boat_jit.fogm.vfm.VFM.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vfm.html#VFM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vfm.VFM.optimize" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.vfo.VFO.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vfo.html#VFO.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vfo.VFO.optimize" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the optimization procedure with the data from feed_dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -310,13 +310,13 @@ It typically includes validation data, targets, and other information required t
 </dd></dl>
 
 </section>
-<section id="module-boat_jit.fogm.vsm">
-<span id="boat-jit-fogm-vsm"></span><h2>boat_jit.fogm.vsm<a class="headerlink" href="#module-boat_jit.fogm.vsm" title="Permalink to this heading"></a></h2>
+<section id="module-boat_jit.fogm.vso">
+<span id="boat-jit-fogm-vso"></span><h2>boat_jit.fogm.vso<a class="headerlink" href="#module-boat_jit.fogm.vso" title="Permalink to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="boat_jit.fogm.vsm.VSM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.vsm.</span></span><span class="sig-name descname"><span class="pre">VSM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vsm.html#VSM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vsm.VSM" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.vso.VSO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">boat_jit.fogm.vso.</span></span><span class="sig-name descname"><span class="pre">VSO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vso.html#VSO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vso.VSO" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="boat_jit.dynamic_ol.html#boat_jit.dynamic_ol.dynamical_system.DynamicalSystem" title="boat_jit.dynamic_ol.dynamical_system.DynamicalSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicalSystem</span></code></a></p>
-<p>Implements the optimization procedure of Value-function based Sequential Method (VSM) [1].</p>
+<p>Implements the optimization procedure of Value-function based Sequential Method (VSO) [1].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -331,7 +331,7 @@ It typically includes validation data, targets, and other information required t
 <ul>
 <li><p>”lower_level_opt” (torch.optim.Optimizer): Optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
-<dt>”VSM” (Dict): Configuration for the VSM algorithm:</dt><dd><ul>
+<dt>”VSO” (Dict): Configuration for the VSO algorithm:</dt><dd><ul>
 <li><p>”z_loop” (int): Number of iterations for optimizing the auxiliary variable <cite>z</cite>.</p></li>
 <li><p>”ll_l2_reg” (float): L2 regularization coefficient for the lower-level model.</p></li>
 <li><p>”ul_l2_reg” (float): L2 regularization coefficient for the upper-level model.</p></li>
@@ -354,8 +354,8 @@ It typically includes validation data, targets, and other information required t
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="boat_jit.fogm.vsm.VSM.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vsm.html#VSM.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vsm.VSM.optimize" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="boat_jit.fogm.vso.VSO.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ll_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ul_feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_iter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/boat_jit/fogm/vso.html#VSO.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boat_jit.fogm.vso.VSO.optimize" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the optimization procedure with the data from feed_dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

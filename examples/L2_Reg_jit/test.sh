@@ -16,7 +16,7 @@ hyper_list=("CG" "CG,PTT" "RAD" "RAD,PTT" "RAD,RGT" "PTT,RAD,RGT" "FD" "FD,PTT" 
 for dyn in "${dynamic_list[@]}"; do
   for hyp in "${hyper_list[@]}"; do
     echo "[RUN] dynamic=${dyn}, hyper=${hyp}"
-    python $SCRIPT --dynamic_method $dyn --hyper_method $hyp $COMMON_ARGS || {
+    python $SCRIPT --dm_op $dyn --na_op $hyp $COMMON_ARGS || {
       echo "❌ Failed: dyn=$dyn hyp=$hyp"
       exit 1
     }
@@ -30,7 +30,7 @@ hyper_dm_list=("RAD" "CG")
 for dyn in "${dynamic_dm_list[@]}"; do
   for hyp in "${hyper_dm_list[@]}"; do
     echo "[RUN] dynamic=${dyn}, hyper=${hyp}"
-    python $SCRIPT --dynamic_method $dyn --hyper_method $hyp $COMMON_ARGS || {
+    python $SCRIPT --dm_op $dyn --na_op $hyp $COMMON_ARGS || {
       echo "❌ Failed: dyn=$dyn hyp=$hyp"
       exit 1
     }

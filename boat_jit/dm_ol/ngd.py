@@ -5,7 +5,7 @@ from typing import Dict, Any, Callable
 from ..utils.op_utils import stop_grads
 import jittor
 from boat_jit.operation_registry import register_class
-from boat_jit.dynamic_ol.dynamical_system import DynamicalSystem
+from boat_jit.dm_ol.dynamical_system import DynamicalSystem
 
 
 @register_class
@@ -31,7 +31,7 @@ class NGD(DynamicalSystem):
         A dictionary containing configurations for the solver.
         Keys include:
           - "lower_level_opt": optimizer for LL
-          - "hyper_op": list of hyper-gradient ops
+          - "na_op": list of hyper-gradient ops
           - "RGT": {"truncate_iter": int}
 
     References
@@ -51,10 +51,10 @@ class NGD(DynamicalSystem):
         super(NGD, self).__init__(
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
-        self.truncate_max_loss_iter = "PTT" in solver_config["hyper_op"]
+        self.truncate_max_loss_iter = "PTT" in solver_config["na_op"]
         self.truncate_iters = solver_config["RGT"]["truncate_iter"]
         self.ll_opt = solver_config["lower_level_opt"]
-        self.foa = "FOA" in solver_config["hyper_op"]
+        self.foa = "FOA" in solver_config["na_op"]
 
     def optimize(
         self,
