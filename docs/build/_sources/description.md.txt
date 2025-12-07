@@ -12,7 +12,7 @@
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
 
-To enhance flexibility and efficiency, *BOAT* incorporates the **Dynamic Operation Library (D-OL)** and the **Hyper Operation Library (H-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
+To enhance flexibility and efficiency, *BOAT* incorporates the **Gradient Mapping Operation Library (GM-OL)** and the **Numerical Approximation Operation Library (NA-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
 - **[PyTorch-based](https://github.com/callous-youth/BOAT)**: An efficient and widely-used version.
 - **[Jittor-based](https://github.com/callous-youth/BOAT/tree/boat_jit)**: An accelerated version for high-performance tasks.
 - **[MindSpore-based](https://github.com/callous-youth/BOAT/tree/boat_ms)**: Incorporating the latest first-order optimization strategies to support emerging application scenarios.
@@ -22,8 +22,8 @@ BOAT is designed to offer robust computational support for a broad spectrum of B
 
 
 ## 🔑  **Key Features**
-- **Dynamic Operation Library (D-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
-- **Hyper-Gradient Operation Library (H-OL)**: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.
+- **Gradient Mapping Operation Library (GM-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
+- **Numerical Approximation Operation Library (NA-OL)**: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.
 - **First-Order Operation Library (FO-Ol)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms.
 - **Modularized Design for Customization**: With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, leading to new dynamic sequential operations. With nearly **85** algorithmic combinations, *BOAT* allows for customization of the specific forms of problems, parameters, and optimizer choices, enabling seamless integration into diverse task-specific codes.
 - **Comprehensive Testing & Continuous Integration**: Achieves **99% code coverage** through rigorous testing with **pytest** and **Codecov**, coupled with continuous integration via **GitHub Actions**, ensuring software robustness and reliability.
@@ -50,13 +50,13 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 
 ## 🚩 **Related Operations**
 
-### **Dynamic Operation Library (D-OL)**
+### **Gradient Mapping Operation Library (GM-OL)**
 - [Towards gradient-based bilevel optimization with non-convex followers and beyond (DI)](https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf)
 - [Averaged Method of Multipliers for Bi-Level Optimization without Lower-Level Strong Convexity(DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf)
 - [A General Descent Aggregation Framework for Gradient-based Bi-level Optimization (GDA)](https://arxiv.org/abs/2102.07976)
 - [Bilevel Programming for Hyperparameter Optimization and Meta-Learning (NGD)](http://export.arxiv.org/pdf/1806.04910)
 
-### **Hyper-Gradient Operation Library (H-OL)**
+### **Numerical Approximation Operation Library (NA-OL)**
 - [Hyperparameter optimization with approximate gradient (CG)](https://arxiv.org/abs/1602.02355)
 - [Optimizing millions of hyperparameters by implicit differentiation (NS)](http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf)
 - [Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks (IAD)](https://arxiv.org/abs/1703.03400)
