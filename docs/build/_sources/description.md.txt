@@ -24,7 +24,7 @@ BOAT is designed to offer robust computational support for a broad spectrum of B
 ## 🔑  **Key Features**
 - **Gradient Mapping Operation Library (GM-OL)**: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.
 - **Numerical Approximation Operation Library (NA-OL)**: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.
-- **First-Order Operation Library (FO-Ol)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms.
+- **First-Order Operation Library (FO-OL)**: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms.
 - **Modularized Design for Customization**: With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, leading to new dynamic sequential operations. With nearly **85** algorithmic combinations, *BOAT* allows for customization of the specific forms of problems, parameters, and optimizer choices, enabling seamless integration into diverse task-specific codes.
 - **Comprehensive Testing & Continuous Integration**: Achieves **99% code coverage** through rigorous testing with **pytest** and **Codecov**, coupled with continuous integration via **GitHub Actions**, ensuring software robustness and reliability.
 - **Fast Prototyping & Algorithm Validation**: Streamlined support for defining, testing, and benchmarking new BLO algorithms.
@@ -67,7 +67,7 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 - [Towards gradient-based bilevel optimization with non-convex followers and beyond (PTT)](https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf)
 - [Learning With Constraint Learning: New Perspective, Solution Strategy and Various Applications (IGA)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445)
 
-### **First-Order Operation Library (FO-Ol)**
+### **First-Order Operation Library (FO-OL)**
 - [BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFO)](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
 - [A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSO)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
 - [On Penalty-based Bilevel Gradient Descent Method (PGDO)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
