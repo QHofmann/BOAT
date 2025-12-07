@@ -108,15 +108,17 @@
 <span class="sd">        The number of iterations for lower-level optimization.</span>
 <span class="sd">    solver_config : Dict[str, Any]</span>
 <span class="sd">        A dictionary containing configurations for the solver.</span>
-<span class="sd">        Keys include:</span>
-<span class="sd">          - &quot;lower_level_opt&quot;: optimizer for LL</span>
-<span class="sd">          - &quot;na_op&quot;: list of hyper-gradient ops</span>
-<span class="sd">          - &quot;RGT&quot;: {&quot;truncate_iter&quot;: int}</span>
+<span class="sd">        Keys include::</span>
+
+<span class="sd">            - &quot;lower_level_opt&quot;: optimizer for LL</span>
+<span class="sd">            - &quot;na_op&quot;: list of hyper-gradient ops</span>
+<span class="sd">            - &quot;RGT&quot;: {&quot;truncate_iter&quot;: int}</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    [1] Franceschi et al., ICML 2018</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

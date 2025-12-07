@@ -29,15 +29,17 @@ class NGD(DynamicalSystem):
         The number of iterations for lower-level optimization.
     solver_config : Dict[str, Any]
         A dictionary containing configurations for the solver.
-        Keys include:
-          - "lower_level_opt": optimizer for LL
-          - "na_op": list of hyper-gradient ops
-          - "RGT": {"truncate_iter": int}
+        Keys include::
+
+            - "lower_level_opt": optimizer for LL
+            - "na_op": list of hyper-gradient ops
+            - "RGT": {"truncate_iter": int}
 
     References
     ----------
     [1] Franceschi et al., ICML 2018
     """
+
 
     def __init__(
         self,
