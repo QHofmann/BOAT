@@ -4,7 +4,7 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/callous-youth/BOAT/workflow.yml)
 [![codecov](https://codecov.io/github/callous-youth/BOAT/graph/badge.svg?token=0MKAOQ9KL3)](https://codecov.io/github/callous-youth/BOAT)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/callous-youth/BOAT)
-![Python version](https://img.shields.io/pypi/pyversions/boml)
+![Python version](https://img.shields.io/badge/python-3.8-blue)
 [![pages-build-deployment](https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment)
 ![GitHub language count](https://img.shields.io/github/languages/count/callous-youth/BOAT)
 ![GitHub top language](https://img.shields.io/github/languages/top/callous-youth/BOAT)

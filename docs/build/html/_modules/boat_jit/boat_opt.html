@@ -92,8 +92,13 @@
 
 <span class="n">importlib</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;importlib&quot;</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.operation_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_registered_operation</span>
+<<<<<<< HEAD
 <span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.gm_ol</span><span class="w"> </span><span class="kn">import</span> <span class="n">makes_functional_dynamical_system</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.na_ol</span><span class="w"> </span><span class="kn">import</span> <span class="n">makes_functional_na_operation</span>
+=======
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.dynamic_ol</span><span class="w"> </span><span class="kn">import</span> <span class="n">makes_functional_dynamical_system</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boat_jit.hyper_ol</span><span class="w"> </span><span class="kn">import</span> <span class="n">makes_functional_hyper_operation</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -115,17 +120,28 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">loss_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+<<<<<<< HEAD
         <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
+=======
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fo_gm</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
         <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;lower_level_model&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;upper_level_model&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ll_var</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;lower_level_var&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ul_var</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;upper_level_var&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span> <span class="o">=</span> <span class="n">config</span>
 
+<<<<<<< HEAD
         <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;GDA&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
+=======
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;GDA&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                 <span class="k">assert</span> <span class="p">(</span>
                     <span class="n">loss_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gda_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="p">),</span> <span class="s2">&quot;Set the &#39;gda_loss&#39; in loss_config properly.&quot;</span>
@@ -141,22 +157,37 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_ll_solver</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span> <span class="o">=</span> <span class="kc">None</span>
+<<<<<<< HEAD
         <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span> <span class="o">=</span> <span class="kc">None</span>
+=======
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fo_gm_solver</span> <span class="o">=</span> <span class="kc">None</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
         <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_track_opt_traj</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_log_path</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;loss_log_path&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_history</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Problem.build_ll_solver"><a class="viewcode-back" href="../../boat_jit.html#boat_jit.boat_opt.Problem.build_ll_solver">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_ll_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<<<<<<< HEAD
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">),</span> <span class="s2">&quot;Set &#39;gm_op&#39; and &#39;na_op&#39; properly.&quot;</span>
+=======
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">),</span> <span class="s2">&quot;Set &#39;dynamic_op&#39; and &#39;hyper_op&#39; properly.&quot;</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
 
             <span class="bp">self</span><span class="o">.</span><span class="n">check_status</span><span class="p">()</span>
 
             <span class="c1"># DM 需要辅助变量与优化器</span>
+<<<<<<< HEAD
             <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">:</span>
+=======
+            <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span><span class="p">:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;auxiliary_v&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">jit</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_var</span>
                 <span class="p">]</span>
@@ -169,7 +200,11 @@
                     <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;auxiliary_v_lr&quot;</span><span class="p">],</span>
                 <span class="p">)</span>
 
+<<<<<<< HEAD
             <span class="n">sorted_ops</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">op</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">])</span>
+=======
+            <span class="n">sorted_ops</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">op</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span><span class="p">])</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="bp">self</span><span class="o">.</span><span class="n">_ll_solver</span> <span class="o">=</span> <span class="n">makes_functional_dynamical_system</span><span class="p">(</span>
                 <span class="n">custom_order</span><span class="o">=</span><span class="n">sorted_ops</span><span class="p">,</span>
                 <span class="n">ll_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ll_loss</span><span class="p">,</span>
@@ -181,7 +216,11 @@
             <span class="p">)</span>
 
             <span class="c1"># DI：为“动态初始化”准备一个学习率不同的下层优化器</span>
+<<<<<<< HEAD
             <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
+=======
+            <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                 <span class="n">opt_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper_opt</span><span class="p">)</span>
                 <span class="n">di_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DI&quot;</span><span class="p">][</span><span class="s2">&quot;lr&quot;</span><span class="p">])</span>
                 <span class="n">new_groups</span> <span class="o">=</span> <span class="p">[]</span>
@@ -196,8 +235,13 @@
 
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># 一阶方法（FOGM）</span>
+<<<<<<< HEAD
             <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span>
                 <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span>
+=======
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fo_gm_solver</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="p">)(</span>
                 <span class="n">ll_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ll_loss</span><span class="p">,</span>
                 <span class="n">ul_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">,</span>
@@ -211,12 +255,21 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Problem.build_ul_solver"><a class="viewcode-back" href="../../boat_jit.html#boat_jit.boat_opt.Problem.build_ul_solver">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_ul_solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<<<<<<< HEAD
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">),</span> <span class="s2">&quot;Choose na_op properly when not using FOGM.&quot;</span>
             <span class="n">sorted_ops</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">op</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span> <span class="o">=</span> <span class="n">makes_functional_na_operation</span><span class="p">(</span>
+=======
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">),</span> <span class="s2">&quot;Choose hyper_op properly when not using FOGM.&quot;</span>
+            <span class="n">sorted_ops</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">op</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span> <span class="o">=</span> <span class="n">makes_functional_hyper_operation</span><span class="p">(</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                 <span class="n">custom_order</span><span class="o">=</span><span class="n">sorted_ops</span><span class="p">,</span>
                 <span class="n">ul_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">,</span>
                 <span class="n">ll_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ll_loss</span><span class="p">,</span>
@@ -227,9 +280,15 @@
                 <span class="n">solver_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+<<<<<<< HEAD
             <span class="c1"># FOGM 模式下通常不需要独立的 na_op</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+=======
+            <span class="c1"># FOGM 模式下通常不需要独立的 hyper_op</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="p">),</span> <span class="s2">&quot;FOGM is enabled, UL solver is handled by FOGM op.&quot;</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -239,7 +298,11 @@
         <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">jit</span><span class="o">.</span><span class="n">Var</span><span class="p">],</span>
         <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<<<<<<< HEAD
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+=======
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_gm&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
 
             <span class="c1"># FIX: 对齐 Torch 版的 fogm_batch_input（支持批输入/元学习场景）</span>
@@ -248,13 +311,21 @@
                     <span class="n">ll_feed_dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span>
                 <span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<<<<<<< HEAD
                         <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+=======
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_fo_gm_solver</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                             <span class="n">batch_ll_feed_dict</span><span class="p">,</span> <span class="n">batch_ul_feed_dict</span><span class="p">,</span> <span class="n">current_iter</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<<<<<<< HEAD
                     <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">)</span>
+=======
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_fo_gm_solver</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span><span class="p">,</span> <span class="n">current_iter</span><span class="p">)</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                 <span class="p">)</span>
 
             <span class="n">run_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
@@ -286,7 +357,11 @@
 
                         <span class="n">backward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
                         <span class="c1"># FIX: 这里原来把 ul_feed_dict 误传成了 batch_ll_feed_dict，导致超层梯度用错数据</span>
+<<<<<<< HEAD
                         <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">:</span>
+=======
+                        <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span><span class="p">:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                             <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span>
                                     <span class="n">ll_feed_dict</span><span class="o">=</span><span class="n">batch_ll_feed_dict</span><span class="p">,</span>
@@ -330,7 +405,11 @@
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;forward_time&quot;</span><span class="p">,</span> <span class="n">forward_time</span><span class="p">)</span>
 
                     <span class="n">backward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<<<<<<< HEAD
                     <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">:</span>
+=======
+                    <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span><span class="p">:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                         <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span>
                                 <span class="n">ll_feed_dict</span><span class="o">=</span><span class="n">ll_feed_dict</span><span class="p">,</span>
@@ -353,7 +432,11 @@
                         <span class="p">)</span>
 
                 <span class="c1"># DI：用 _lower_init_opt 对 LL var 做一次“动态初始化”更新</span>
+<<<<<<< HEAD
                 <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
+=======
+                <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
                     <span class="n">manual_update</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
                     <span class="p">)</span>
@@ -389,6 +472,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_track_opt_traj</span> <span class="o">=</span> <span class="n">track_traj</span></div>
 
 <div class="viewcode-block" id="Problem.check_status"><a class="viewcode-back" href="../../boat_jit.html#boat_jit.boat_opt.Problem.check_status">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<<<<<<< HEAD
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;PTT&quot;</span><span class="p">,</span> <span class="s2">&quot;IAD&quot;</span><span class="p">,</span> <span class="s2">&quot;RAD&quot;</span><span class="p">]):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_track_trajectory</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
@@ -396,18 +480,35 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;CG&quot;</span><span class="p">]</span>
             <span class="p">),</span> <span class="s2">&quot;When &#39;DM&#39; is chosen, set the &#39;truncate_iter&#39; properly.&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;RGT&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]:</span>
+=======
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;PTT&quot;</span><span class="p">,</span> <span class="s2">&quot;IAD&quot;</span><span class="p">,</span> <span class="s2">&quot;RAD&quot;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_track_trajectory</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;dynamic_op&quot;</span><span class="p">]:</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;RAD&quot;</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;CG&quot;</span><span class="p">]</span>
+            <span class="p">),</span> <span class="s2">&quot;When &#39;DM&#39; is chosen, set the &#39;truncate_iter&#39; properly.&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;RGT&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
             <span class="p">),</span> <span class="s2">&quot;When &#39;RGT&#39; is chosen, set the &#39;truncate_iter&#39; properly .&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;accumulate_grad&quot;</span><span class="p">]:</span>
             <span class="k">assert</span> <span class="p">(</span>
+<<<<<<< HEAD
                 <span class="s2">&quot;IAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
+=======
+                <span class="s2">&quot;IAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;hyper_op&quot;</span><span class="p">]</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="p">),</span> <span class="s2">&quot;When using &#39;accumulate_grad&#39;, only &#39;IAD&#39; based methods are supported.&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_init&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_decay&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
             <span class="p">),</span> <span class="s2">&quot;Parameter &#39;alpha_decay&#39; used in method BDA should be in the interval (0,1).&quot;</span>
+<<<<<<< HEAD
         <span class="k">if</span> <span class="s2">&quot;FD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span><span class="p">:</span>
+=======
+        <span class="k">if</span> <span class="s2">&quot;FD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span><span class="p">:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="p">),</span> <span class="s2">&quot;One-stage method doesn&#39;t need trajectory truncation.&quot;</span>
@@ -419,13 +520,22 @@
                     <span class="k">return</span> <span class="kc">False</span>
             <span class="k">return</span> <span class="kc">True</span>
 
+<<<<<<< HEAD
         <span class="k">if</span> <span class="s2">&quot;IAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span><span class="p">:</span>
+=======
+        <span class="k">if</span> <span class="s2">&quot;IAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span><span class="p">:</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
             <span class="k">assert</span> <span class="n">check_model_structure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">),</span> <span class="p">(</span>
                 <span class="s2">&quot;With IAD or FOA operation, &#39;upper_level_model&#39; and &#39;lower_level_model&#39; have the same structure, &quot;</span>
                 <span class="s2">&quot;and &#39;lower_level_var&#39; and &#39;upper_level_var&#39; are the same group of variables.&quot;</span>
             <span class="p">)</span>
+<<<<<<< HEAD
         <span class="k">assert</span> <span class="p">((</span><span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">)</span> <span class="o">^</span> <span class="p">(</span><span class="s2">&quot;IAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span>
             <span class="p">(</span><span class="s2">&quot;DI&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;IAD&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_na_op</span><span class="p">)</span>
+=======
+        <span class="k">assert</span> <span class="p">((</span><span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span><span class="p">)</span> <span class="o">^</span> <span class="p">(</span><span class="s2">&quot;IAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;DI&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_op</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;IAD&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyper_op</span><span class="p">)</span>
+>>>>>>> 33010815b298bed2960965cd123ce176361054c8
         <span class="p">),</span> <span class="s2">&quot;Only one of the &#39;PTT&#39; and &#39;RGT&#39; methods could be chosen.&quot;</span>
         <span class="k">assert</span> <span class="p">(</span>
             <span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_init&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>

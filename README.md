@@ -7,7 +7,7 @@
 [![pages-build-deployment](https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment)
 ![GitHub top language](https://img.shields.io/github/languages/top/callous-youth/BOAT)
 ![GitHub language count](https://img.shields.io/github/languages/count/callous-youth/BOAT)
-![Python version](https://img.shields.io/pypi/pyversions/boml)
+![Python version](https://img.shields.io/badge/python-3.8-blue)
 ![license](https://img.shields.io/badge/license-MIT-000000.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
