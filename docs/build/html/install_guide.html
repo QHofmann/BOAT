@@ -94,19 +94,110 @@
   <section id="installation-and-usage-guide">
 <h1>Installation and Usage Guide<a class="headerlink" href="#installation-and-usage-guide" title="Permalink to this heading"></a></h1>
 <section id="installation">
-<h2>🔨 <strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
-<p>To install BOAT with <em>PyPi</em>, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-ms
-</pre></div>
-</div>
-<p>or you can install the latest version from the source code on <em>GitHub</em>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-ms
-or<span class="w"> </span>run<span class="w"> </span>
-git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>boat_ms<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/callous-youth/BOAT.git
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>
-</pre></div>
-</div>
+  <h2>🔨 <strong>Installation</strong>
+    <a class="headerlink" href="#installation" title="Permalink to this heading"></a>
+  </h2>
+
+  <p>
+    BOAT-Jittor (<code>boat-jit</code>) is built on top of the
+    <strong>Jittor</strong> deep learning framework.
+    Please install <strong>Jittor first</strong> according to your operating system,
+    and then install <strong>BOAT-Jittor</strong>.
+  </p>
+
+  <hr/>
+
+  <h3>1️⃣ Install Jittor</h3>
+
+  <p>
+    You can follow the official Jittor installation guide:
+  </p>
+  <p>
+    👉
+    <a href="https://cg.cs.tsinghua.edu.cn/jittor/download/" target="_blank">
+      https://cg.cs.tsinghua.edu.cn/jittor/download/
+    </a>
+  </p>
+
+  <p>Below are typical installation examples for different platforms.</p>
+
+  <h4><strong>Linux (Ubuntu / CentOS / Arch)</strong></h4>
+  <div class="highlight-bash notranslate">
+    <div class="highlight">
+      <pre>
+<span></span># Make sure Python version &gt;= 3.7
+sudo apt install python3.7-dev libomp-dev
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+
+# If you have an Nvidia GPU, optionally test cuDNN acceleration
+python3.7 -m jittor.test.test_cudnn_op
+      </pre>
+    </div>
+  </div>
+
+  <h4><strong>macOS</strong></h4>
+  <div class="highlight-bash notranslate">
+    <div class="highlight">
+      <pre>
+<span></span># Make sure Python version &gt;= 3.7
+brew install libomp
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+      </pre>
+    </div>
+  </div>
+
+  <h4><strong>Windows</strong></h4>
+  <div class="highlight-bash notranslate">
+    <div class="highlight">
+      <pre>
+<span></span># Make sure Python version &gt;= 3.8
+python --version
+python -m pip install jittor
+python -m jittor.test.test_core
+python -m jittor.test.test_example
+
+# If you have an Nvidia GPU, optionally test cuDNN acceleration
+python -m jittor.test.test_cudnn_op
+      </pre>
+    </div>
+  </div>
+
+  <p>
+    Please ensure that Jittor is installed correctly before proceeding to the next step.
+  </p>
+
+  <hr/>
+
+  <h3>2️⃣ Install BOAT-Jittor</h3>
+
+  <p>
+    After Jittor is successfully installed, you can install
+    <strong>BOAT-Jittor</strong> using one of the following methods.
+  </p>
+
+  <p><strong>Install from PyPI:</strong></p>
+  <div class="highlight-bash notranslate">
+    <div class="highlight">
+      <pre>
+<span></span>pip install boat-jit
+      </pre>
+    </div>
+  </div>
+
+  <p><strong>Or install from source:</strong></p>
+  <div class="highlight-bash notranslate">
+    <div class="highlight">
+      <pre>
+<span></span>git clone -b boat_jit --single-branch https://github.com/callous-youth/BOAT.git
+cd BOAT
+pip install -e .
+      </pre>
+    </div>
+  </div>
 </section>
+
 <section id="how-to-use-boat">
 <h2>⚡ <strong>How to Use BOAT</strong><a class="headerlink" href="#how-to-use-boat" title="Permalink to this heading"></a></h2>
 <section id="load-configuration-files">
