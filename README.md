@@ -7,7 +7,7 @@
 [![pages-build-deployment](https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment)
 ![GitHub top language](https://img.shields.io/github/languages/top/callous-youth/BOAT)
 ![GitHub language count](https://img.shields.io/github/languages/count/callous-youth/BOAT)
-![Python version](https://img.shields.io/pypi/pyversions/boml)
+![Python version](https://img.shields.io/badge/python-3.8-blue)
 ![license](https://img.shields.io/badge/license-MIT-000000.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
@@ -51,7 +51,7 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 
 ##  🔨 **Installation**
 
-### 1️⃣ Install MindSpore
+### 1. Install MindSpore
 
 Before installing BOAT, please install a suitable version of **MindSpore** according to your hardware (Ascend / GPU / CPU), operating system, and Python version.  
 You can follow the official installation guide:
@@ -78,7 +78,7 @@ sudo apt-get install gcc-9 -y
 export MS_VERSION=2.7.1
 pip install mindspore==${MS_VERSION} -i https://repo.mindspore.cn/pypi/simple --trusted-host repo.mindspore.cn --extra-index-url https://repo.huaweicloud.com/repository/pypi/simple/
 ```
-### 2️⃣ Install BOAT-ms
+### 2. Install BOAT-ms
 ```bash
 pip install boat-ms
 or run 

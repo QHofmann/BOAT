@@ -2,7 +2,7 @@
 
 ##  🔨 **Installation**
 
-### 1️⃣ Install MindSpore
+### 1. Install MindSpore
 
 Before installing BOAT, please install a suitable version of **MindSpore** according to your hardware (Ascend / GPU / CPU), operating system, and Python version.  
 You can follow the official installation guide:
@@ -29,13 +29,14 @@ sudo apt-get install gcc-9 -y
 export MS_VERSION=2.7.1
 pip install mindspore==${MS_VERSION} -i https://repo.mindspore.cn/pypi/simple --trusted-host repo.mindspore.cn --extra-index-url https://repo.huaweicloud.com/repository/pypi/simple/
 ```
-### 2️⃣ Install BOAT-ms
+### 2. Install BOAT-ms
 ```bash
 pip install boat-ms
 or run 
 git clone -b boat_ms --single-branch https://github.com/callous-youth/BOAT.git
 pip install -e . 
 ```
+
 ##  ⚡ **How to Use BOAT**
 
 ### **1. Load Configuration Files**
