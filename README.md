@@ -11,7 +11,7 @@
 ![license](https://img.shields.io/badge/license-MIT-000000.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-**BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that focuses on abstracting the key BLO process into modular, flexible components. It enables researchers and developers to tackle learning tasks with hierarchical nested nature by providing customizable and diverse operator decomposition, encapsulation, and combination. BOAT supports specialized optimization strategies, including second-order or first-order, nested or non-nested, and with or without theoretical guarantees, catering to various levels of complexity.
+**BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** library that abstracts the core BLO pipeline into modular, flexible components. In this **MindSpore-based** implementation, BOAT is seamlessly integrated into MindSpore’s computation graph and heterogeneous hardware ecosystem (Ascend/GPU/CPU), enabling researchers and developers to build hierarchical learning tasks with customizable operator decomposition, encapsulation, and composition. 
 
 To enhance flexibility and efficiency, BOAT incorporates the **Gradient Mapping Operation Library (GM-OL)** and the **Numerical Approximation Operation Library (NA-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
 - **[PyTorch-based](https://github.com/callous-youth/BOAT)**: An efficient and widely-used version.
@@ -50,14 +50,41 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 - ...
 
 ##  🔨 **Installation**
-To install BOAT, use the following command:
+
+### 1️⃣ Install MindSpore
+
+Before installing BOAT, please install a suitable version of **MindSpore** according to your hardware (Ascend / GPU / CPU), operating system, and Python version.  
+You can follow the official installation guide:
+
+👉 https://www.mindspore.cn/install
+
+Typical examples (please refer to the official website for the latest and detailed commands):
+
+- **CPU (Linux-x86_64)**:
+```bash
+# Create a dedicated conda environment with Python 3.9
+conda create -n mindspore_py39 python=3.9.11 -y
+conda activate mindspore_py39
+
+# (Linux only) Prepare system dependencies and install a compatible GCC version
+# MindSpore relies on a modern GCC toolchain for compilation and runtime support
+sudo apt-get install software-properties-common -y
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-9 -y
+
+# Install MindSpore from the official MindSpore PyPI mirror
+# MS_VERSION can be adjusted based on hardware and system compatibility
+export MS_VERSION=2.7.1
+pip install mindspore==${MS_VERSION} -i https://repo.mindspore.cn/pypi/simple --trusted-host repo.mindspore.cn --extra-index-url https://repo.huaweicloud.com/repository/pypi/simple/
+```
+### 2️⃣ Install BOAT-ms
 ```bash
 pip install boat-ms
 or run 
 git clone -b boat_ms --single-branch https://github.com/callous-youth/BOAT.git
 pip install -e . 
 ```
-
 ##  ⚡ **How to Use BOAT**
 
 ### **1. Load Configuration Files**
@@ -68,7 +95,7 @@ BOAT relies on two key configuration files:
 ```python
 import os
 import json
-import boat
+import boat_ms
 
 # Load configuration files
 with open("path_to_configs/boat_config.json", "r") as f:
