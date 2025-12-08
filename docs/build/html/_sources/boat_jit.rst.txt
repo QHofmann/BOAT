@@ -17,15 +17,9 @@ Main Subpackages
 .. toctree::
    :maxdepth: 4
 
-<<<<<<< HEAD
    boat_jit.gm_ol
    boat_jit.fo_ol
    boat_jit.na_ol
-=======
-   boat_jit.dynamic_ol
-   boat_jit.fogm
-   boat_jit.hyper_ol
->>>>>>> 33010815b298bed2960965cd123ce176361054c8
    boat_jit.utils
 
 
