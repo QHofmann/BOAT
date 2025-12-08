@@ -1,18 +1,41 @@
 # Installation and Usage Guide
 
 ##  🔨 **Installation**
-To install BOAT with *PyPi*, use the following command:
+
+### 1️⃣ Install MindSpore
+
+Before installing BOAT, please install a suitable version of **MindSpore** according to your hardware (Ascend / GPU / CPU), operating system, and Python version.  
+You can follow the official installation guide:
+
+👉 https://www.mindspore.cn/install
+
+Typical examples (please refer to the official website for the latest and detailed commands):
+
+- **CPU (Linux-x86_64)**:
 ```bash
-pip install boat-ms
+# Create a dedicated conda environment with Python 3.9
+conda create -n mindspore_py39 python=3.9.11 -y
+conda activate mindspore_py39
+
+# (Linux only) Prepare system dependencies and install a compatible GCC version
+# MindSpore relies on a modern GCC toolchain for compilation and runtime support
+sudo apt-get install software-properties-common -y
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-9 -y
+
+# Install MindSpore from the official MindSpore PyPI mirror
+# MS_VERSION can be adjusted based on hardware and system compatibility
+export MS_VERSION=2.7.1
+pip install mindspore==${MS_VERSION} -i https://repo.mindspore.cn/pypi/simple --trusted-host repo.mindspore.cn --extra-index-url https://repo.huaweicloud.com/repository/pypi/simple/
 ```
-or you can install the latest version from the source code on *GitHub*:
+### 2️⃣ Install BOAT-ms
 ```bash
 pip install boat-ms
 or run 
 git clone -b boat_ms --single-branch https://github.com/callous-youth/BOAT.git
 pip install -e . 
 ```
-
 ##  ⚡ **How to Use BOAT**
 
 ### **1. Load Configuration Files**
