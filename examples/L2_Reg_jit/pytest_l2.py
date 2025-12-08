@@ -46,7 +46,7 @@ fogm_method = (
 
 # 脚本路径 (注意用 r'' 原始字符串，避免 \ 转义问题)
 #SCRIPT = r"/public/home/panjibao/project/jit/examples/L2_Reg_jit/l2_regularization_org.py"
-SCRIPT = r"/public/home/panjibao/project/jit/examples/L2_Reg_jit/l2_regularization.py"
+SCRIPT = r"/public/home/panjibao/project/jit/jit_127/BOAT/examples/L2_Reg_jit/l2_regularization.py"
 
 
 
