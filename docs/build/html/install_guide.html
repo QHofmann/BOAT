@@ -48,7 +48,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="description.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation and Usage Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">🔨 <strong>Installation</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">🔨 <strong>Installation</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-jittor">1. Install Jittor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux-ubuntu-centos-arch">Linux (Ubuntu / CentOS / Arch)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#install-boat-jit">2. Install BOAT-jit</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-use-boat">⚡ <strong>How to Use BOAT</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#load-configuration-files"><strong>1. Load Configuration Files</strong></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#define-models-and-optimizers"><strong>2. Define Models and Optimizers</strong></a></li>
@@ -95,16 +104,54 @@
 <h1>Installation and Usage Guide<a class="headerlink" href="#installation-and-usage-guide" title="Permalink to this heading"></a></h1>
 <section id="installation">
 <h2>🔨 <strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
-<p>To install BOAT with <em>PyPi</em>, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-jit
+<p>BOAT-jit is built on top of <strong>Jittor</strong>, so please <strong>install Jittor first</strong>, and then install <strong>BOAT-jit</strong>.</p>
+<section id="install-jittor">
+<h3>1. Install Jittor<a class="headerlink" href="#install-jittor" title="Permalink to this heading"></a></h3>
+<p>You can follow the official installation guide:</p>
+<p>👉 https://cg.cs.tsinghua.edu.cn/jittor/download/</p>
+<section id="linux-ubuntu-centos-arch">
+<h4>Linux (Ubuntu / CentOS / Arch)<a class="headerlink" href="#linux-ubuntu-centos-arch" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查 python 版本大于等于 3.7</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3.7-dev<span class="w"> </span>libomp-dev
+python3.7<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jittor
+python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_example
+<span class="c1"># 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库</span>
+python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_cudnn_op
 </pre></div>
 </div>
-<p>or you can install the latest version from the source code on <em>GitHub</em>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>boat_jit<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/callous-youth/BOAT.git
-
+</section>
+<section id="macos">
+<h4>macOS<a class="headerlink" href="#macos" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查 python 版本大于等于 3.7</span>
+brew<span class="w"> </span>install<span class="w"> </span>libomp
+python3.7<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jittor
+python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_example
+</pre></div>
+</div>
+</section>
+<section id="windows">
+<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查 python 版本大于等于 3.8</span>
+python<span class="w"> </span>--version
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jittor
+python<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_core
+python<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_example
+<span class="c1"># 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库</span>
+python<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_cudnn_op
+</pre></div>
+</div>
+</section>
+</section>
+<section id="install-boat-jit">
+<h3>2. Install BOAT-jit<a class="headerlink" href="#install-boat-jit" title="Permalink to this heading"></a></h3>
+<p>To install BOAT, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-jit<span class="w"> </span>
+or<span class="w"> </span>
+git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>boat_jit<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/callous-youth/BOAT.git
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
+</section>
 </section>
 <section id="how-to-use-boat">
 <h2>⚡ <strong>How to Use BOAT</strong><a class="headerlink" href="#how-to-use-boat" title="Permalink to this heading"></a></h2>

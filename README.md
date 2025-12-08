@@ -11,7 +11,7 @@
 ![license](https://img.shields.io/badge/license-MIT-000000.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-**BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that focuses on abstracting the key BLO process into modular, flexible components. It enables researchers and developers to tackle learning tasks with hierarchical nested nature by providing customizable and diverse operator decomposition, encapsulation, and combination. BOAT supports specialized optimization strategies, including second-order or first-order, nested or non-nested, and with or without theoretical guarantees, catering to various levels of complexity.
+**BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that abstracts the key BLO process into modular and flexible components, enabling researchers and developers to tackle learning tasks with hierarchical nested structures via customizable operator decomposition, encapsulation, and composition. It supports specialized optimization strategies—second-order or first-order, nested or non-nested, with or without theoretical guarantees—covering a wide range of complexity levels. In this repository, we provide the **Jittor-based** implementation (boat-jit), which leverages Jittor’s just-in-time compilation, operator fusion, and efficient CUDA/cuDNN backends to further accelerate gradient-based BLO solvers and facilitate large-scale experiments on diverse hardware platforms.
 
 To enhance flexibility and efficiency, BOAT incorporates the **Gradient Mapping Operation LIBRARY (GM-OL)** and the **Numerical Approximation Operation LIBRARY (NA-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
 - **[PyTorch-based](https://github.com/callous-youth/BOAT)**: An efficient and widely-used version.
@@ -49,7 +49,45 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 - **Transfer Attack**
 - ...
 
-##  🔨 **Installation**
+## 🔨 **Installation**
+
+BOAT-jit is built on top of **Jittor**, so please **install Jittor first**, and then install **BOAT-jit**.
+
+### 1. Install Jittor
+You can follow the official installation guide:
+
+👉 https://cg.cs.tsinghua.edu.cn/jittor/download/
+#### Linux (Ubuntu / CentOS / Arch)
+
+```bash
+# 检查 python 版本大于等于 3.7
+sudo apt install python3.7-dev libomp-dev
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+# 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库
+python3.7 -m jittor.test.test_cudnn_op
+```
+#### macOS
+
+```bash
+# 检查 python 版本大于等于 3.7
+brew install libomp
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+```
+#### Windows
+
+```bash
+# 检查 python 版本大于等于 3.8
+python --version
+python -m pip install jittor
+python -m jittor.test.test_core
+python -m jittor.test.test_example
+# 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库
+python -m jittor.test.test_cudnn_op
+```
+
+### 2. Install BOAT-jit
 To install BOAT, use the following command:
 ```bash
 pip install boat-jit 
@@ -57,6 +95,7 @@ or
 git clone -b boat_jit --single-branch https://github.com/callous-youth/BOAT.git
 pip install -e .
 ```
+
 
 ##  ⚡ **How to Use BOAT**
 

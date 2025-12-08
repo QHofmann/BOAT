@@ -1,14 +1,48 @@
 # Installation and Usage Guide
 
-##  🔨 **Installation**
-To install BOAT with *PyPi*, use the following command:
-```bash
-pip install boat-jit
-```
-or you can install the latest version from the source code on *GitHub*:
-```bash
-git clone -b boat_jit --single-branch https://github.com/callous-youth/BOAT.git
+## 🔨 **Installation**
+BOAT-jit is built on top of **Jittor**, so please **install Jittor first**, and then install **BOAT-jit**.
 
+### 1. Install Jittor
+You can follow the official installation guide:
+
+👉 https://cg.cs.tsinghua.edu.cn/jittor/download/
+#### Linux (Ubuntu / CentOS / Arch)
+
+```bash
+# 检查 python 版本大于等于 3.7
+sudo apt install python3.7-dev libomp-dev
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+# 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库
+python3.7 -m jittor.test.test_cudnn_op
+```
+#### macOS
+
+```bash
+# 检查 python 版本大于等于 3.7
+brew install libomp
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+```
+#### Windows
+
+```bash
+# 检查 python 版本大于等于 3.8
+python --version
+python -m pip install jittor
+python -m jittor.test.test_core
+python -m jittor.test.test_example
+# 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库
+python -m jittor.test.test_cudnn_op
+```
+
+### 2. Install BOAT-jit
+To install BOAT, use the following command:
+```bash
+pip install boat-jit 
+or 
+git clone -b boat_jit --single-branch https://github.com/callous-youth/BOAT.git
 pip install -e .
 ```
 
