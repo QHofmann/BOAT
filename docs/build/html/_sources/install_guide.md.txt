@@ -1,40 +1,51 @@
 # Installation and Usage Guide
 
 ##  🔨 **Installation**
+BOAT-Jittor (`boat-jit`) relies on the Jittor deep learning framework. Please install Jittor first according to your operating system.
 
-### 1️⃣ Install MindSpore
-
-Before installing BOAT, please install a suitable version of **MindSpore** according to your hardware (Ascend / GPU / CPU), operating system, and Python version.
+### 1️⃣ Install Jittor
 You can follow the official installation guide:
 
-👉 https://www.mindspore.cn/install
+👉 https://cg.cs.tsinghua.edu.cn/jittor/download/
+**Linux (Ubuntu / CentOS / Arch)**
 
-Typical examples (please refer to the official website for the latest and detailed commands):
-
-- **CPU (Linux-x86_64)**:
 ```bash
-# Create a dedicated conda environment with Python 3.9
-conda create -n mindspore_py39 python=3.9.11 -y
-conda activate mindspore_py39
-
-# (Linux only) Prepare system dependencies and install a compatible GCC version
-# MindSpore relies on a modern GCC toolchain for compilation and runtime support
-sudo apt-get install software-properties-common -y
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get install gcc-9 -y
-
-# Install MindSpore from the official MindSpore PyPI mirror
-# MS_VERSION can be adjusted based on hardware and system compatibility
-export MS_VERSION=2.7.1
-pip install mindspore==${MS_VERSION} -i https://repo.mindspore.cn/pypi/simple --trusted-host repo.mindspore.cn --extra-index-url https://repo.huaweicloud.com/repository/pypi/simple/
+# Make sure Python version >= 3.7
+sudo apt install python3.7-dev libomp-dev
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+# If you have an Nvidia GPU, optionally test cuDNN acceleration:
+python3.7 -m jittor.test.test_cudnn_op
 ```
-### 2️⃣ Install BOAT-ms
+
+**macOS**
+
 ```bash
-pip install boat-ms
-or run 
-git clone -b boat_ms --single-branch https://github.com/callous-youth/BOAT.git
-pip install -e . 
+# Make sure Python version >= 3.7
+brew install libomp
+python3.7 -m pip install jittor
+python3.7 -m jittor.test.test_example
+```
+
+**Windows**
+
+```bash
+# Make sure Python version >= 3.8
+python --version
+python -m pip install jittor
+python -m jittor.test.test_core
+python -m jittor.test.test_example
+# If you have an Nvidia GPU, optionally test cuDNN acceleration:
+python -m jittor.test.test_cudnn_op
+```
+
+### 2️⃣ Install BOAT-jit
+```bash
+pip install boat-jit
+or
+git clone -b boat_jit --single-branch https://github.com/callous-youth/BOAT.git
+cd BOAT
+pip install -e .
 ```
 
 ##  ⚡ **How to Use BOAT**
