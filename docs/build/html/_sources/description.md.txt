@@ -78,7 +78,7 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 
 MIT License
 
-Copyright (c) 2024 Yaohua Liu
+Copyright (c) 2025 Yaohua Liu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
