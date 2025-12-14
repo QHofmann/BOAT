@@ -11,7 +11,8 @@
 ![license](https://img.shields.io/badge/license-MIT-000000.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-**BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that abstracts the key BLO process into modular and flexible components, enabling researchers and developers to tackle learning tasks with hierarchical nested structures via customizable operator decomposition, encapsulation, and composition. It supports specialized optimization strategies—second-order or first-order, nested or non-nested, with or without theoretical guarantees—covering a wide range of complexity levels. In this repository, we provide the **Jittor-based** implementation (boat-jit), which leverages Jittor’s just-in-time compilation, operator fusion, and efficient CUDA/cuDNN backends to further accelerate gradient-based BLO solvers and facilitate large-scale experiments on diverse hardware platforms.
+**BOAT** is a task-agnostic, gradient-based **Bi-Level Optimization (BLO)** Python library that abstracts BLO into modular and flexible components, enabling efficient modeling of hierarchical and nested learning problems. It supports a wide spectrum of optimization settings, including first- and second-order methods, nested or non-nested formulations, with or without theoretical guarantees. This repository provides the **Jittor-based** implementation (boat-jit), leveraging Jittor’s JIT compilation and efficient CUDA/cuDNN backends to accelerate large-scale gradient-based BLO experiments.
+
 
 To enhance flexibility and efficiency, BOAT incorporates the **Gradient Mapping Operation LIBRARY (GM-OL)** and the **Numerical Approximation Operation LIBRARY (NA-OL)**, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:
 - **[PyTorch-based](https://github.com/callous-youth/BOAT)**: An efficient and widely-used version.
