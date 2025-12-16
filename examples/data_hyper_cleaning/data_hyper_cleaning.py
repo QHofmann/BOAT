@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 import boat_torch as boat
 import torch
 import torch.nn.functional as F
-from .util_file import data_splitting, initialize, accuary, Binarization
+from util_file import data_splitting, initialize, accuary, Binarization
 from boat_torch.utils import HyperGradientRules, DynamicalSystemRules
 from torchvision.datasets import MNIST
 
