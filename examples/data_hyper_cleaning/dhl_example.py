@@ -5,7 +5,7 @@ import json
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 import boat_torch as boat
 import torch
-from .util_file import data_splitting, initialize
+from util_file import data_splitting, initialize
 from torchvision.datasets import MNIST
 
 base_folder = os.path.dirname(os.path.abspath(__file__))
@@ -41,10 +41,10 @@ y_opt = torch.optim.SGD(y.parameters(), lr=0.01)
 initialize(x)
 initialize(y)
 
-with open(os.path.join(parent_folder, "configs/boat_config_dhl.json"), "r") as f:
+with open(os.path.join(parent_folder, "./configs/boat_config_dhl.json"), "r") as f:
     boat_config = json.load(f)
 
-with open(os.path.join(parent_folder, "configs/loss_config_dhl.json"), "r") as f:
+with open(os.path.join(parent_folder, "./configs/loss_config_dhl.json"), "r") as f:
     loss_config = json.load(f)
 
 

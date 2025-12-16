@@ -253,7 +253,7 @@ def train(train_queue, valid_queue, model, criterion, optimizer, boat_optimizer)
                 time.avg,
             )
 
-        if step > 200:
+        if step > 20:
             break
     return top1.avg, objs.avg, time.avg
 
@@ -286,7 +286,7 @@ def infer(valid_queue, model, criterion):
                 top5.avg,
             )
 
-        if step > 200:
+        if step > 20:
             break
 
     return top1.avg, objs.avg
