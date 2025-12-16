@@ -58,13 +58,13 @@ def main():
     parser.add_argument(
         "--gm_op",
         type=str,
-        default="NGD",
+        default=None,
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
         "--na_op",
         type=str,
-        default="CG",
+        default=None,
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
