@@ -1,15 +1,18 @@
 # Data HyperCleaning
 
+---
+
 ## Step 1: Data Preparation
 
 ```python
 import sys
 import os
 import json
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-import boat
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+import boat_torch as boat
 import torch
-from .util_file import data_splitting, initialize
+from util_file import data_splitting, initialize
 from torchvision.datasets import MNIST
 
 base_folder = os.path.dirname(os.path.abspath(__file__))
@@ -67,16 +70,15 @@ initialize(y)
 ### Explanation:
 - **Optimizers**: Adam optimizer is used for the lower-level model (`x`), and SGD is used for the upper-level model (`y`).
 - **Initialization**: The `initialize` function resets the model parameters before training.
-
 ---
 
 ## Step 4: Configuration Loading
 
 ```python
-with open(os.path.join(parent_folder, "configs/boat_config_dhl.json"), "r") as f:
+with open(os.path.join(parent_folder, "data_hyper_cleaning/configs/boat_config_dhl.json"), "r") as f:
     boat_config = json.load(f)
 
-with open(os.path.join(parent_folder, "configs/loss_config_dhl.json"), "r") as f:
+with open(os.path.join(parent_folder, "data_hyper_cleaning/configs/loss_config_dhl.json"), "r") as f:
     loss_config = json.load(f)
 ```
 
@@ -84,12 +86,12 @@ with open(os.path.join(parent_folder, "configs/loss_config_dhl.json"), "r") as f
 - Configuration files for BOAT are loaded, including:
   - **`boat_config`**: Contains configuration for the optimization process.
   - **`loss_config`**: Defines the loss functions used for training.
-
 ---
 
 ## Step 5: Main Function
 
 ```python
+
 def main():
     import argparse
 
@@ -99,19 +101,19 @@ def main():
         "--gm_op",
         type=str,
         default="NGD",
-        help="Gradient mapping operation to use, e.g., NGD or FOA",
+        help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
         "--na_op",
         type=str,
         default="RAD",
-        help="Numerical approximation operation to use, e.g., RAD or IAD",
+        help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
         "--fo_op",
         type=str,
         default=None,
-        help="First-order gradient method, optional.",
+        help="convnet for 4 convs or resnet for Residual blocks",
     )
 
     args = parser.parse_args()
@@ -126,20 +128,14 @@ def main():
     boat_config["upper_level_opt"] = x_opt
     boat_config["lower_level_var"] = list(y.parameters())
     boat_config["upper_level_var"] = list(x.parameters())
-
     b_optimizer = boat.Problem(boat_config, loss_config)
     b_optimizer.build_ll_solver()
     b_optimizer.build_ul_solver()
-
     ul_feed_dict = {"data": val.data.to(device), "target": val.clean_target.to(device)}
     ll_feed_dict = {"data": tr.data.to(device), "target": tr.dirty_target.to(device)}
-
     iterations = 3
     for x_itr in range(iterations):
-        loss, run_time = b_optimizer.run_iter(
-            ll_feed_dict, ul_feed_dict, current_iter=x_itr
-        )
-
+        b_optimizer.run_iter(ll_feed_dict, ul_feed_dict, current_iter=x_itr)
 ```
 
 ### Explanation:
