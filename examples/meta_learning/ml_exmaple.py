@@ -46,7 +46,7 @@ def initialize(net):
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description="BOAT Omniglot Meta-Training (Train Only)")
+    parser = argparse.ArgumentParser(description="BOAT Omniglot Meta-Training ")
     parser.add_argument("--dynamic_method", type=str, default="NGD")
     parser.add_argument("--hyper_method", type=str, default="CG")
     parser.add_argument("--fo_gm", type=str, default=None)
@@ -58,7 +58,7 @@ def main():
     # ===== device =====
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # ===== dataset (TRAIN ONLY) =====
+    # ===== dataset  =====
     dataset = omniglot(
         "./data/",
         ways=args.ways,
