@@ -13,10 +13,10 @@ from examples.L2_Reg.utils_l2 import get_data, UpperModel, LowerModel
 base_folder = os.path.dirname(os.path.abspath(__file__))
 parent_folder = os.path.dirname(base_folder)
 
-with open(os.path.join(parent_folder, "configs/boat_config_l2.json"), "r") as f:
+with open(os.path.join(parent_folder, "L2_Reg/configs/boat_config_l2.json"), "r") as f:
     boat_config = json.load(f)
 
-with open(os.path.join(parent_folder, "configs/loss_config_l2.json"), "r") as f:
+with open(os.path.join(parent_folder, "L2_Reg/configs/loss_config_l2.json"), "r") as f:
     loss_config = json.load(f)
 
 
@@ -36,6 +36,7 @@ def main():
             help="whether to create data",
         )
         parser.add_argument("--epochs", type=int, default=1000)
+        parser.add_argument("--seed", type=int, default=1234)
         parser.add_argument("--iterations", type=int, default=10, help="T")
         parser.add_argument("--data_path", default="./data", help="where to save data")
         parser.add_argument(
@@ -44,13 +45,13 @@ def main():
         parser.add_argument(
             "--gm_op",
             type=str,
-            default=None,
+            default="NGD",
             help="omniglot or miniimagenet or tieredImagenet",
         )
         parser.add_argument(
             "--na_op",
             type=str,
-            default=None,
+            default="RAD",
             help="convnet for 4 convs or resnet for Residual blocks",
         )
         parser.add_argument(

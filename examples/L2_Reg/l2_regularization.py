@@ -73,10 +73,10 @@ def evaluate(x, w, testset):
 base_folder = os.path.dirname(os.path.abspath(__file__))
 parent_folder = os.path.dirname(base_folder)
 
-with open(os.path.join(parent_folder, "configs/boat_config_l2.json"), "r") as f:
+with open(os.path.join(parent_folder, "L2_Reg/configs/boat_config_l2.json"), "r") as f:
     boat_config = json.load(f)
 
-with open(os.path.join(parent_folder, "configs/loss_config_l2.json"), "r") as f:
+with open(os.path.join(parent_folder, "L2_Reg/configs/loss_config_l2.json"), "r") as f:
     loss_config = json.load(f)
 
 
@@ -199,10 +199,11 @@ def main():
     lower_opt = torch.optim.SGD(lower_model.parameters(), lr=0.01)
     print(args.gm_op)
     print(args.na_op)
-    gm_op = args.gm_op.split(",") if args.gm_op else []
-    na_op = args.na_op.split(",") if args.na_op else []
-    if "RGT" in na_op:
-        boat_config["RGT"]["truncate_iter"] = 1
+    gm_op = args.gm_op.split(",") if args.gm_op else None
+    na_op = args.na_op.split(",") if args.na_op else None
+    if na_op is not None:
+        if "RGT" in na_op:
+            boat_config["RGT"]["truncate_iter"] = 1
     boat_config["gm_op"] = gm_op
     boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
@@ -218,18 +219,22 @@ def main():
 
     ul_feed_dict = {"data": trainset[0].to(device), "target": trainset[1].to(device)}
     ll_feed_dict = {"data": valset[0].to(device), "target": valset[1].to(device)}
-
-    if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
-        iterations = 30
-    else:
-        iterations = 10
-    for x_itr in range(iterations):
+    iterations = 10
+    if boat_config["gm_op"] is not None:
         if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
-            b_optimizer._ll_solver.strategy = "s" + str(x_itr % 3 + 1)
-        elif "DM" in boat_config["gm_op"] and (
-            not ("GDA" in boat_config["gm_op"])
-        ):
-            b_optimizer._ll_solver.strategy = "s" + str(1)
+            iterations = 30
+        else:
+            iterations = 10
+    for x_itr in range(iterations):
+        if boat_config["gm_op"] is not None:
+            if "DM" in boat_config["gm_op"] and ("GDA" in boat_config["gm_op"]):
+                b_optimizer._ll_solver.strategy = "s" + str(x_itr % 3 + 1)
+            elif "DM" in boat_config["gm_op"] and (
+                not ("GDA" in boat_config["gm_op"])
+            ):
+                b_optimizer._ll_solver.strategy = "s" + str(1)
+
+
         loss, run_time = b_optimizer.run_iter(
             ll_feed_dict, ul_feed_dict, current_iter=x_itr
         )
