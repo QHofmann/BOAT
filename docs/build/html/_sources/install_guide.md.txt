@@ -1,11 +1,13 @@
 # Installation and Usage Guide
 
 ##  🔨 **Installation**
-To install BOAT with *PyPi*, use the following command:
+To install BOAT, first create and activate the conda environment, then install the required dependencies:
 ```bash
-pip install boat-torch
+conda create -n boat python=3.9
+conda activate boat
+pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 ```
-or you can install the latest version from the source code on *GitHub*:
+then you can install the latest version from pypi or the source code on *GitHub*:
 ```bash
 pip install boat-torch 
 or run 

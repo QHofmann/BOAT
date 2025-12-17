@@ -97,11 +97,13 @@
 <h1>Installation and Usage Guide<a class="headerlink" href="#installation-and-usage-guide" title="Permalink to this heading"></a></h1>
 <section id="installation">
 <h2>🔨 <strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
-<p>To install BOAT with <em>PyPi</em>, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-torch
+<p>To install BOAT, first create and activate the conda environment, then install the required dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>boat<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+conda<span class="w"> </span>activate<span class="w"> </span>boat
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">1</span>.9.1+cu111<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.10.1+cu111<span class="w"> </span><span class="nv">torchaudio</span><span class="o">==</span><span class="m">0</span>.9.1<span class="w"> </span>-f<span class="w"> </span>https://download.pytorch.org/whl/torch_stable.html
 </pre></div>
 </div>
-<p>or you can install the latest version from the source code on <em>GitHub</em>:</p>
+<p>then you can install the latest version from pypi or the source code on <em>GitHub</em>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-torch<span class="w"> </span>
 or<span class="w"> </span>run<span class="w"> </span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/callous-youth/BOAT.git

@@ -66,7 +66,13 @@ BOAT enables efficient implementation and adaptation of advanced BLO techniques 
 - ...
 
 ##  🔨 **Installation**
-To install BOAT, use the following command:
+To install BOAT, first create and activate the conda environment, then install the required dependencies:
+```bash
+conda create -n boat python=3.9
+conda activate boat
+pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+```
+then you can install the latest version from pypi or the source code on *GitHub*:
 ```bash
 pip install boat-torch 
 or run 
@@ -74,7 +80,6 @@ git clone https://github.com/callous-youth/BOAT.git
 cd BOAT
 pip install -e .
 ```
-
 ##  ⚡ **How to Use BOAT**
 
 ### **1. Load Configuration Files**
