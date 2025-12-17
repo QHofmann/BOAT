@@ -151,8 +151,8 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </section>
 <section id="customize-boat-configuration">
 <h3><strong>3. Customize BOAT Configuration</strong><a class="headerlink" href="#customize-boat-configuration" title="Permalink to this heading"></a></h3>
-<p>Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example dynamic and hyper-gradient methods Combination.</span>
+<p>Modify the boat_config to include your gradient mapping and numerical approximation opreation, as well as model and variable details.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example gradient mapping and numerical approximation opreation Combination.</span>
 <span class="n">gm_op</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NGD&quot;</span><span class="p">,</span> <span class="s2">&quot;DI&quot;</span><span class="p">,</span> <span class="s2">&quot;GDA&quot;</span><span class="p">]</span>  <span class="c1"># Dynamic Methods (Demo Only)</span>
 <span class="n">na_op</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">,</span><span class="s2">&quot;RAD&quot;</span><span class="p">]</span>          <span class="c1"># Hyper-Gradient Methods (Demo Only)</span>
 
@@ -170,7 +170,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </section>
 <section id="initialize-the-boat-problem">
 <h3><strong>4. Initialize the BOAT Problem</strong><a class="headerlink" href="#initialize-the-boat-problem" title="Permalink to this heading"></a></h3>
-<p>Modify the boat_config to include your dynamic and hyper-gradient methods, as well as model and variable details.</p>
+<p>Modify the boat_config to include your gradient mapping and numerical approximation opreation, as well as model and variable details.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize the problem</span>
 <span class="n">b_optimizer</span> <span class="o">=</span> <span class="n">boat</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">boat_config</span><span class="p">,</span> <span class="n">loss_config</span><span class="p">)</span>
 
