@@ -9,9 +9,8 @@ from torchmeta.datasets.helpers import omniglot
 from torchmeta.utils.data import BatchMetaDataLoader
 from tqdm import tqdm
 
-# =====================
+
 # Model definitions
-# =====================
 def get_cnn_omniglot(hidden_size, n_classes):
     def conv_block(ic, oc):
         return nn.Sequential(

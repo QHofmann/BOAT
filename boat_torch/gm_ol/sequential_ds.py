@@ -73,9 +73,7 @@ class SequentialDS:
                     else None
                 ),
             )
-            # Store the result
-            # self.result_store.add(f"dynamic_results_{idx}", result)
-            # intermediate_result = result
+
         self.result_store.add(f"dynamic_results_{idx}", intermediate_result)
         return self.result_store.get_results()
 

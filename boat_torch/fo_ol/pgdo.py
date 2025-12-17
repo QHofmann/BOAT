@@ -97,8 +97,6 @@ class PGDO(DynamicalSystem):
             A dictionary containing the upper-level objective and the status of hypergradient computation.
         """
 
-
-
         if self.gamma_init > self.gamma_max:
             self.gamma_max = self.gamma_init
             print(

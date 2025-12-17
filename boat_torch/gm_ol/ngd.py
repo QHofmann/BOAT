@@ -92,7 +92,6 @@ class NGD(DynamicalSystem):
         None
         """
 
-        # assert next_operation is None, "NGD does not support next_operation"
         if "gda_loss" in kwargs:
             gda_loss = kwargs["gda_loss"]
             alpha = kwargs["alpha"]
@@ -119,17 +118,13 @@ class NGD(DynamicalSystem):
                 loss_f.backward()
                 self.ll_opt.step()
                 self.ll_opt.zero_grad()
-            # for x, y in zip(self.ll_model.parameters(), auxiliary_model.parameters()):
-            #     y.data = x.data.clone().detach().requires_grad_()
-            # for x, y in zip(ll_backup, self.ll_model.parameters()):
-            #     y.data = x.data.clone().detach().requires_grad_()
-            # 改为（不会制造新存储，也不会挂计算图）
+
             with torch.no_grad():
                 for x, y in zip(self.ll_model.parameters(), auxiliary_model.parameters()):
                     y.copy_(x)
                 for x, y in zip(ll_backup, self.ll_model.parameters()):
                     y.copy_(x)
-            del ll_backup  # 显式释放临时备份引用
+            del ll_backup
 
 
         # # truncate with PTT method

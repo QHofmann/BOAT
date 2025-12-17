@@ -122,29 +122,17 @@ class Problem:
                 lower_loop=self._lower_loop,
                 solver_config=self.boat_configs,
             )
-            # if "DI" in self.boat_configs["gm_op"]:
-            #     self._lower_init_opt = copy.deepcopy(self._lower_opt)
-            #     for _ in range(len(self._lower_init_opt.param_groups)):
-            #         self._lower_init_opt.param_groups[_]["params"] = (
-            #             self._lower_opt.param_groups[_]["params"]
-            #         )
-            #         self._lower_init_opt.param_groups[_]["lr"] = self.boat_configs[
-            #             "DI"
-            #         ]["lr"]
+
             if "DI" in self.boat_configs["gm_op"]:
-                # 用与 upper_opt 相同的优化器类型
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
-
-                # 构造新的 param_groups，保留除 lr 外的其他超参数
                 new_groups = []
                 for g in self._lower_opt.param_groups:
                     ng = {k: v for k, v in g.items() if k != "params"}
                     ng["params"] = g["params"]
-                    ng["lr"] = di_lr  # 覆盖学习率
+                    ng["lr"] = di_lr
                     new_groups.append(ng)
 
-                # 创建新的优化器实例
                 self._lower_init_opt = opt_cls(new_groups)
 
         else:
@@ -242,12 +230,7 @@ class Problem:
         :rtype: tuple
         """
 
-        # if self.boat_configs["fo_op"] is not None:
-        #     start_time = time.perf_counter()
-        #     self._log_results.append(
-        #         self._fo_op_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)
-        #     )
-        #     run_time = time.perf_counter() - start_time
+
         if self.boat_configs["fo_op"] is not None:
             start_time = time.perf_counter()
             if self.boat_configs["fo_ol_batch_input"]:
@@ -318,7 +301,7 @@ class Problem:
                     )
                     max_loss_iter = list(dynamic_results[-1].values())[-1]
                     forward_time = time.perf_counter() - forward_time
-                    #print("forward_time", forward_time)
+
                     backward_time = time.perf_counter()
                     if self._ul_solver is not None:
                         self._log_results.append(
@@ -353,13 +336,12 @@ class Problem:
         else:
             ll_loss = self._ll_loss(ll_fd, self._ul_model, self._ll_model)
             ul_loss = self._ul_loss(ul_fd, self._ul_model, self._ll_model)
-            #print(f"ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}")
             self.save_losses(current_iter = current_iter, ll_loss = ll_loss, ul_loss = ul_loss)
             return [var.grad for var in list(self._ul_var)], run_time
 
         ll_loss = self._ll_loss(ll_fd, self._ul_model, self._ll_model)
         ul_loss = self._ul_loss(ul_fd, self._ul_model, self._ll_model)
-        #print(f"ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}")
+
         self.save_losses(current_iter = current_iter, ll_loss = ll_loss, ul_loss = ul_loss)
 
         return self._log_results, run_time
@@ -378,10 +360,7 @@ class Problem:
             assert (
                 self.boat_configs["RGT"]["truncate_iter"] > 0
             ), "When 'RGT' is chosen, set the 'truncate_iter' properly ."
-        # if self.boat_configs["accumulate_grad"]:
-        #     assert (
-        #         "IAD" in self.boat_configs["na_op"]
-        #     ), "When using 'accumulate_grad', only 'IAD' based methods are supported."
+
         if self.boat_configs["GDA"]["alpha_init"] > 0.0:
             assert (
                 0.0 < self.boat_configs["GDA"]["alpha_decay"] <= 1.0
@@ -423,23 +402,20 @@ class Problem:
 
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-        # 左图 - 下层 loss
         axes[0].plot(iters, ll_losses, label="Lower-level Loss", color="blue")
         axes[0].set_xlabel("Iteration")
         axes[0].set_ylabel("Loss")
         axes[0].set_title("Lower-level Loss")
-        axes[0].legend(loc="upper left")  # 图例在左上角
+        axes[0].legend(loc="upper left")
         axes[0].grid(True)
 
-        # 右图 - 上层 loss
         axes[1].plot(iters, ul_losses, label="Upper-level Loss", color="orange")
         axes[1].set_xlabel("Iteration")
         axes[1].set_ylabel("Loss")
         axes[1].set_title("Upper-level Loss")
-        axes[1].legend(loc="upper left")  # 图例在左上角
+        axes[1].legend(loc="upper left")
         axes[1].grid(True)
 
-        # 保存
         plt.tight_layout()
         save_path = os.path.join(os.path.dirname(self.loss_log_path), "loss_curve.png")
         plt.savefig(save_path)
@@ -459,6 +435,5 @@ class Problem:
             "ul_loss": float(ul_loss.item())
         })
 
-        # 追加写入文件（每次迭代都更新）
         with open(self.loss_log_path, "w") as f:
             json.dump(self.loss_history, f)

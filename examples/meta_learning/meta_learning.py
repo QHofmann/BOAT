@@ -68,18 +68,10 @@ def initialize(net):
             m.bias.data.zero_()
         elif isinstance(m, nn.Linear):
             m.weight.data.normal_(0, 0.01)
-            # m.bias.data = torch.ones(m.bias.data.size())
-            # m.weight.data.zero_()
             m.bias.data.zero_()
     return net
 
 
-# device = torch.device("cpu")
-# dataset = omniglot("C:/Users/ASUS/Documents/GitHub/BOAT/data/", ways=5, shots=1, test_shots=15, meta_train=True,download=True)
-# test_dataset = omniglot("C:/Users/ASUS/Documents/GitHub/BOAT/data/", ways=5, shots=1, test_shots=15, meta_test=True,download=True)
-#
-# meta_model = get_cnn_omniglot(64, 5)
-# initialize(meta_model)
 
 batch_size = 4
 kwargs = {"num_workers": 1, "pin_memory": True}
@@ -91,9 +83,7 @@ test_dataloader = BatchMetaDataLoader(dataset, batch_size=batch_size, **kwargs)
 
 inner_opt = torch.optim.SGD(lr=0.1, params=meta_model.parameters())
 outer_opt = torch.optim.Adam(meta_model.parameters(), lr=0.01)
-# y_lr_schedular = torch.optim.lr_scheduler.CosineAnnealingLR(
-#     optimizer=outer_opt, T_max=80000, eta_min=0.001
-# )
+
 import os
 import json
 
@@ -164,12 +154,10 @@ def main():
                 }
                 for k in range(batch_size)
             ]
-            # print(ll_feed_dict[0]['data'].shape,ll_feed_dict[0]['target'].shape)
             loss, run_time = b_optimizer.run_iter(
                 ll_feed_dict, ul_feed_dict, current_iter=meta_iter
             )
-            # y_lr_schedular.step()
-            # print("validation loss:", loss[-1][-1])
+
             if meta_iter >= 1:
                 break
     b_optimizer.plot_losses()

@@ -195,7 +195,7 @@ class DM(DynamicalSystem):
                     params["lr"] = eta
                 for params in self.ul_opt.param_groups:
                     params["lr"] = x_lr
-        #############
+
         self.ll_opt.zero_grad()
         self.auxiliary_v_opt.zero_grad()
         upper_loss = self.ul_objective(ul_feed_dict, self.ul_model, auxiliary_model)
@@ -270,22 +270,13 @@ class DM(DynamicalSystem):
             )  # dy (dy f) v=d2y f v
 
             ita_l = list_tensor_matmul(tem, grad_tem)
-            # print(ita_u,ita_l)
+
             ita = ita_u / (ita_l + 1e-12)
             self.auxiliary_v = [
                 v0 - ita * v + ita * gow
                 for v0, v, gow in zip(self.auxiliary_v, vsp, grad_outer_params)
             ]  # (I-ita*d2yf)v+ita*dy F)
 
-            # vsp = torch.autograd.grad(
-            #     grads_phi_params,
-            #     list(auxiliary_model.parameters()),
-            #     grad_outputs=self.auxiliary_v,
-            #     allow_unused=True,
-            # )  # dy (dy f) v=d2y f v
-            #
-            # for v0, v, gow in zip(self.auxiliary_v, vsp, grad_outer_params):
-            #     v0.grad = v - gow
             update_tensor_grads(list(self.ll_model.parameters()), grad_y_temp)
             self.ll_opt.step()
 
