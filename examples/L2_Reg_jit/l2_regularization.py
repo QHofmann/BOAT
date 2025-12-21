@@ -222,10 +222,11 @@ def main():
 
     print(args.gm_op)
     print(args.na_op)
-    gm_op = args.gm_op.split(",") if args.gm_op else []
-    na_op = args.na_op.split(",") if args.na_op else []
-    if "RGT" in na_op:
-        boat_config["RGT"]["truncate_iter"] = 1
+    gm_op = args.gm_op.split(",") if args.gm_op else None
+    na_op = args.na_op.split(",") if args.na_op else None
+    if na_op is not None:
+        if "RGT" in na_op:
+            boat_config["RGT"]["truncate_iter"] = 1
     boat_config["gm_op"] = gm_op
     boat_config["na_op"] = na_op
     boat_config["fo_op"] = args.fo_op
