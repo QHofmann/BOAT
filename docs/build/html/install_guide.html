@@ -111,18 +111,18 @@
 <p>👉 https://cg.cs.tsinghua.edu.cn/jittor/download/</p>
 <section id="linux-ubuntu-centos-arch">
 <h4>Linux (Ubuntu / CentOS / Arch)<a class="headerlink" href="#linux-ubuntu-centos-arch" title="Permalink to this heading"></a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查 python 版本大于等于 3.7</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if Python version is 3.7 or higher</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3.7-dev<span class="w"> </span>libomp-dev
 python3.7<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jittor
 python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_example
-<span class="c1"># 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库</span>
+<span class="c1"># If your computer has an NVIDIA graphics card, check the cuDNN acceleration library</span>
 python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_cudnn_op
 </pre></div>
 </div>
 </section>
 <section id="macos">
 <h4>macOS<a class="headerlink" href="#macos" title="Permalink to this heading"></a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查 python 版本大于等于 3.7</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if Python version is 3.7 or higher</span>
 brew<span class="w"> </span>install<span class="w"> </span>libomp
 python3.7<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jittor
 python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_example
@@ -131,12 +131,12 @@ python3.7<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_exam
 </section>
 <section id="windows">
 <h4>Windows<a class="headerlink" href="#windows" title="Permalink to this heading"></a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 检查 python 版本大于等于 3.8</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if Python version is 3.8 or higher</span>
 python<span class="w"> </span>--version
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jittor
 python<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_core
 python<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_example
-<span class="c1"># 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库</span>
+<span class="c1"># If your computer has an NVIDIA graphics card, check the cuDNN acceleration library</span>
 python<span class="w"> </span>-m<span class="w"> </span>jittor.test.test_cudnn_op
 </pre></div>
 </div>

@@ -10,17 +10,17 @@ You can follow the official installation guide:
 #### Linux (Ubuntu / CentOS / Arch)
 
 ```bash
-# 检查 python 版本大于等于 3.7
+# Check if Python version is 3.7 or higher
 sudo apt install python3.7-dev libomp-dev
 python3.7 -m pip install jittor
 python3.7 -m jittor.test.test_example
-# 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库
+# If your computer has an NVIDIA graphics card, check the cuDNN acceleration library
 python3.7 -m jittor.test.test_cudnn_op
 ```
 #### macOS
 
 ```bash
-# 检查 python 版本大于等于 3.7
+# Check if Python version is 3.7 or higher
 brew install libomp
 python3.7 -m pip install jittor
 python3.7 -m jittor.test.test_example
@@ -28,12 +28,12 @@ python3.7 -m jittor.test.test_example
 #### Windows
 
 ```bash
-# 检查 python 版本大于等于 3.8
+# Check if Python version is 3.8 or higher
 python --version
 python -m pip install jittor
 python -m jittor.test.test_core
 python -m jittor.test.test_example
-# 如果您电脑包含 Nvidia 显卡，检查 cuDNN 加速库
+# If your computer has an NVIDIA graphics card, check the cuDNN acceleration library
 python -m jittor.test.test_cudnn_op
 ```
 
