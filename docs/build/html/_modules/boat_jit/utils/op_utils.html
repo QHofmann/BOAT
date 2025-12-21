@@ -205,21 +205,20 @@
 
 <div class="viewcode-block" id="l2_reg"><a class="viewcode-back" href="../../../boat_jit.utils.html#boat_jit.utils.op_utils.l2_reg">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">l2_reg</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    计算 L2 正则化项 (Jittor 版)</span>
+<span class="sd">    Compute L2 regularization term (Jittor version).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    parameters : List[jt.Var]</span>
-<span class="sd">        需要计算 L2 正则化的参数列表</span>
+<span class="sd">        need to compute L2 regularization parameter list</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    jt.Var</span>
-<span class="sd">        L2 正则化损失</span>
+<span class="sd">        L2 regularization loss</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">jit</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
-        <span class="c1"># 等价于 torch.sum(w ** 2)</span>
         <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">loss</span></div>
 
@@ -357,63 +356,19 @@
             <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">variable_ids</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="c1"># 如果没梯度 → 跳过更新</span>
+            <span class="c1"># if param is not in variables, skip</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;_custom_grad&quot;</span><span class="p">):</span>
-                <span class="c1"># 打个 warning 或直接 continue</span>
-                <span class="c1"># print(f&quot;[warn] Variable {param.name()} has no _custom_grad, skipping update.&quot;)</span>
                 <span class="k">continue</span>  
 
             <span class="n">grad</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">_custom_grad</span>
 
-            <span class="c1"># 形状对不上 → 跳过（或者置零）</span>
+            <span class="c1"># if shapes do not match, skip</span>
             <span class="k">if</span> <span class="n">grad</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">param</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-                <span class="c1"># print(f&quot;[warn] Shape mismatch for {param.name()}, skipping update.&quot;)</span>
                 <span class="k">continue</span>  
 
-            <span class="c1"># 执行更新</span>
             <span class="n">param</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
 
-            <span class="c1"># 清零 custom_grad，避免累积</span>
             <span class="n">param</span><span class="o">.</span><span class="n">_custom_grad</span> <span class="o">*=</span> <span class="mi">0</span></div>
-
-
-
-<span class="c1"># def manual_update(optimizer, variables):</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-<span class="c1">#     Manually update variables using gradients stored in _custom_grad.</span>
-
-<span class="c1">#     Parameters</span>
-<span class="c1">#     ----------</span>
-<span class="c1">#     optimizer : jittor.optim.Optimizer</span>
-<span class="c1">#         The Jittor optimizer instance.</span>
-<span class="c1">#     variables : List[jittor.Var]</span>
-<span class="c1">#         A list of Jittor variables to be updated.</span>
-
-<span class="c1">#     Raises</span>
-<span class="c1">#     ------</span>
-<span class="c1">#     AttributeError</span>
-<span class="c1">#         If a variable does not have the &#39;_custom_grad&#39; attribute.</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-<span class="c1">#     print(len(variables))</span>
-<span class="c1">#     print(len(optimizer.param_groups))</span>
-<span class="c1">#     for group in optimizer.param_groups:</span>
-<span class="c1">#         lr = group.get(&quot;lr&quot;, optimizer.lr)</span>
-
-<span class="c1">#         for param in group[&quot;params&quot;]:</span>
-<span class="c1">#             # print(variables)</span>
-<span class="c1">#             print(param.shape)</span>
-<span class="c1">#             print(param._custom_grad.shape)</span>
-<span class="c1">#             if param in variables:</span>
-<span class="c1">#                 if not hasattr(param, &quot;_custom_grad&quot;):</span>
-<span class="c1">#                     raise AttributeError(</span>
-<span class="c1">#                         f&quot;Variable &#39;{param.name}&#39; does not have &#39;_custom_grad&#39;. &quot;</span>
-<span class="c1">#                         f&quot;Ensure gradients are precomputed and stored before updating.&quot;</span>
-<span class="c1">#                     )</span>
-
-<span class="c1">#                 grad = param._custom_grad</span>
-<span class="c1">#                 param -= lr * grad</span>
-<span class="c1">#                 param._custom_grad *= 0</span>
-
 
 
 
@@ -435,7 +390,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hparams</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">is_stop_grad</span><span class="p">():</span>
-            <span class="c1"># 跳过这些变量，不报错</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;_custom_grad&quot;</span><span class="p">):</span>
             <span class="n">l</span><span class="o">.</span><span class="n">_custom_grad</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>

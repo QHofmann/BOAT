@@ -111,7 +111,7 @@
 
 <div class="viewcode-block" id="Problem"><a class="viewcode-back" href="../../boat_jit.html#boat_jit.boat_opt.Problem">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Problem</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Jittor 版的 bi-level 优化 Problem，与 Torch 版在接口和逻辑上对齐。</span>
+<span class="sd">    Jittor-based bi-level optimization Problem, aligned in interface and logic with the Torch version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">loss_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
@@ -155,12 +155,12 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">check_status</span><span class="p">()</span>
 
-            <span class="c1"># DM 需要辅助变量与优化器</span>
+            <span class="c1"># DM need auxiliary variables</span>
             <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;auxiliary_v&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">jit</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_var</span>
                 <span class="p">]</span>
-                <span class="c1"># 这些辅助变量需要参与更新</span>
+                <span class="c1"># these auxiliary variables require gradients</span>
                 <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DM&quot;</span><span class="p">][</span><span class="s2">&quot;auxiliary_v&quot;</span><span class="p">]:</span>
                     <span class="n">v</span><span class="o">.</span><span class="n">start_grad</span><span class="p">()</span>
 
@@ -180,7 +180,7 @@
                 <span class="n">solver_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="c1"># DI：为“动态初始化”准备一个学习率不同的下层优化器</span>
+            <span class="c1"># DI： dynamic initialization optimizer</span>
             <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
                 <span class="n">opt_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper_opt</span><span class="p">)</span>
                 <span class="n">di_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DI&quot;</span><span class="p">][</span><span class="s2">&quot;lr&quot;</span><span class="p">])</span>
@@ -195,7 +195,6 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span> <span class="o">=</span> <span class="n">opt_cls</span><span class="p">(</span><span class="n">new_groups</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">di_lr</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># 一阶方法（FOGM）</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span>
                 <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span>
             <span class="p">)(</span>
@@ -227,7 +226,7 @@
                 <span class="n">solver_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># FOGM 模式下通常不需要独立的 na_op</span>
+            <span class="c1"># FOGO does not need UL solver</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">),</span> <span class="s2">&quot;FOGM is enabled, UL solver is handled by FOGM op.&quot;</span>
@@ -242,7 +241,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
 
-            <span class="c1"># FIX: 对齐 Torch 版的 fogm_batch_input（支持批输入/元学习场景）</span>
+            <span class="c1"># FIX: align with Torch version</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fogm_batch_input&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">batch_ll_feed_dict</span><span class="p">,</span> <span class="n">batch_ul_feed_dict</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
                     <span class="n">ll_feed_dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span>
@@ -262,7 +261,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">run_time</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;accumulate_grad&quot;</span><span class="p">]:</span>
-                <span class="c1"># 累积梯度：ll_feed_dict / ul_feed_dict 均为 list[dict]</span>
                 <span class="k">for</span> <span class="n">batch_ll_feed_dict</span><span class="p">,</span> <span class="n">batch_ul_feed_dict</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
                     <span class="n">ll_feed_dict</span><span class="p">,</span> <span class="n">ul_feed_dict</span>
                 <span class="p">):</span>
@@ -285,7 +283,6 @@
                         <span class="n">forward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">forward_time</span>
 
                         <span class="n">backward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-                        <span class="c1"># FIX: 这里原来把 ul_feed_dict 误传成了 batch_ll_feed_dict，导致超层梯度用错数据</span>
                         <span class="k">if</span> <span class="s2">&quot;DM&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gm_op</span><span class="p">:</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span>
@@ -296,7 +293,6 @@
                                 <span class="p">)</span>
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="c1"># DM 情况下与下方非累积分支一致：直接用 UL loss 反传</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">(</span>
                                     <span class="n">batch_ul_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span>
@@ -306,7 +302,6 @@
 
                     <span class="n">run_time</span> <span class="o">+=</span> <span class="n">forward_time</span> <span class="o">+</span> <span class="n">backward_time</span>
 
-                <span class="c1"># 对 UL 参数做平均梯度（list 模式下 len(ll_feed_dict) 等于 batch 数）</span>
                 <span class="n">average_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">))</span>
 
             <span class="k">else</span><span class="p">:</span>
@@ -340,7 +335,7 @@
                             <span class="p">)</span>
                         <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="c1"># DM：直接用 UL loss 反传（与 Torch 版一致）</span>
+                        <span class="c1"># DM：use UL loss to update upper variables</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">(</span><span class="n">ul_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span><span class="p">)</span>
                         <span class="p">)</span>
@@ -352,7 +347,7 @@
                             <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">auxiliary_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(</span><span class="n">time</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
                         <span class="p">)</span>
 
-                <span class="c1"># DI：用 _lower_init_opt 对 LL var 做一次“动态初始化”更新</span>
+                <span class="c1"># DI：use dynamic initialization optimizer to update lower variables</span>
                 <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
                     <span class="n">manual_update</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
@@ -360,7 +355,6 @@
 
                 <span class="n">run_time</span> <span class="o">=</span> <span class="n">forward_time</span> <span class="o">+</span> <span class="n">backward_time</span>
 
-        <span class="c1"># 计算/记录损失 &amp; 更新上层参数</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">ll_fd</span> <span class="o">=</span> <span class="n">ll_feed_dict</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ul_fd</span> <span class="o">=</span> <span class="n">ul_feed_dict</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -369,10 +363,8 @@
             <span class="n">ul_fd</span> <span class="o">=</span> <span class="n">ul_feed_dict</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;return_grad&quot;</span><span class="p">]:</span>
-            <span class="c1"># 不返回梯度：直接用保存的 _custom_grad 更新上层参数</span>
             <span class="n">manual_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper_opt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_var</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># 返回 UL 的梯度列表（与 Torch 版 return_grad 行为一致）</span>
             <span class="n">ll_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_loss</span><span class="p">(</span><span class="n">ll_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">)</span>
             <span class="n">ul_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">(</span><span class="n">ul_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ll_loss: </span><span class="si">{</span><span class="n">ll_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">  ul_loss: </span><span class="si">{</span><span class="n">ul_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -414,7 +406,6 @@
 
         <span class="k">def</span><span class="w"> </span><span class="nf">check_model_structure</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="n">meta_model</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">param1</span><span class="p">,</span> <span class="n">param2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">base_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">meta_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()):</span>
-                <span class="c1"># jittor 参数没有 device 属性；只校验 shape / dtype</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">param1</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">param2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">param1</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">param2</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
                     <span class="k">return</span> <span class="kc">False</span>
             <span class="k">return</span> <span class="kc">True</span>

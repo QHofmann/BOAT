@@ -219,16 +219,9 @@
         <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_objective</span><span class="p">(</span>
             <span class="n">ul_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="n">auxiliary_model</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">lower_model_params</span>
         <span class="p">)</span>
-        <span class="c1"># print(type(loss))</span>
-        <span class="c1"># print(type(self.ul_var))</span>
-        <span class="c1"># loss = loss.astype(&#39;float32&#39;)  # 强制转换为 float32</span>
-        <span class="c1"># self.ul_var = [v.astype(&#39;float32&#39;) for v in self.ul_var]</span>
-        <span class="c1"># for variable in self.ul_var:</span>
-        <span class="c1">#     print(type(variable))</span>
-        <span class="c1"># import time</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;step 1 time&#39;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
-        <span class="c1"># dalpha = jit.grad(loss, self.ul_var)</span>
+
         <span class="n">dalpha</span> <span class="o">=</span> <span class="n">jit</span><span class="o">.</span><span class="n">jittor_core</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ul_var</span><span class="p">,</span><span class="n">retain_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">vector</span> <span class="o">=</span> <span class="n">jit</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span>
@@ -236,8 +229,6 @@
             <span class="n">lower_model_params</span><span class="p">,</span>
             <span class="n">retain_graph</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dynamic_initialization</span><span class="p">,</span>
         <span class="p">)</span>
-
-        <span class="c1"># dalpha = jit.grad(loss, self.ul_var, retain_graph=True)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;step 2 time&#39;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>

@@ -132,9 +132,7 @@
                     <span class="k">else</span> <span class="kc">None</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-            <span class="c1"># 中间结果不再存储，每次直接覆盖 intermediate_result</span>
 
-        <span class="c1"># 只保存最后一次的结果</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gradient_operator_results&quot;</span><span class="p">,</span> <span class="n">intermediate_result</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_store</span><span class="o">.</span><span class="n">get_results</span><span class="p">()</span></div></div>
 

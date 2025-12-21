@@ -266,14 +266,6 @@
                 <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta</span>
             <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
                 <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_lr</span>
-        <span class="c1">#############</span>
-        <span class="c1"># self.ll_opt.zero_grad()</span>
-        <span class="c1"># self.auxiliary_v_opt.zero_grad()</span>
-        <span class="c1"># loss_f = self.ll_objective(ll_feed_dict, self.ul_model, auxiliary_model)</span>
-        <span class="c1"># upper_loss = self.ul_objective(ul_feed_dict, self.ul_model, auxiliary_model)</span>
-        <span class="c1"># assert (self.alpha&gt;0) and (self.alpha&lt;1), \</span>
-        <span class="c1">#         &quot;Set the coefficient alpha properly in (0,1).&quot;</span>
-        <span class="c1"># loss_full = (1.0 - self.alpha) * loss_f + self.alpha * upper_loss</span>
 
         <span class="k">if</span> <span class="n">gda_loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ll_feed_dict</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
@@ -313,9 +305,9 @@
             <span class="k">for</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gow</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_v</span><span class="p">,</span> <span class="n">vsp</span><span class="p">,</span> <span class="n">grad_outer_params</span><span class="p">):</span>
                 <span class="n">v0</span><span class="o">.</span><span class="n">_custom_grad</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">gow</span>
             <span class="n">update_tensor_grads</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()),</span> <span class="n">grad_y_temp</span><span class="p">)</span>
-            <span class="c1"># self.ll_opt.step()</span>
+
             <span class="n">manual_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()))</span>
-            <span class="c1"># self.auxiliary_v_opt.step()</span>
+
             <span class="n">manual_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_v_opt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_v</span><span class="p">)</span>
 
             <span class="n">grads</span> <span class="o">=</span> <span class="p">[</span>
