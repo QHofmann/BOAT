@@ -32,7 +32,7 @@ def _load_loss_function(loss_config: Dict[str, Any]) -> Callable:
 
 class Problem:
     """
-    Jittor 版的 bi-level 优化 Problem，与 Torch 版在接口和逻辑上对齐。
+    Jittor-based bi-level optimization Problem, aligned in interface and logic with the Torch version.
     """
 
     def __init__(self, config: Dict[str, Any], loss_config: Dict[str, Any]):
@@ -76,12 +76,12 @@ class Problem:
 
             self.check_status()
 
-            # DM 需要辅助变量与优化器
+            # DM need auxiliary variables
             if "DM" in self._gm_op:
                 self.boat_configs["DM"]["auxiliary_v"] = [
                     jit.zeros_like(param) for param in self._ll_var
                 ]
-                # 这些辅助变量需要参与更新
+                # these auxiliary variables require gradients
                 for v in self.boat_configs["DM"]["auxiliary_v"]:
                     v.start_grad()
 
@@ -101,7 +101,7 @@ class Problem:
                 solver_config=self.boat_configs,
             )
 
-            # DI：为“动态初始化”准备一个学习率不同的下层优化器
+            # DI： dynamic initialization optimizer
             if "DI" in self.boat_configs["gm_op"]:
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
@@ -116,7 +116,6 @@ class Problem:
                 self._lower_init_opt = opt_cls(new_groups, lr=di_lr)
 
         else:
-            # 一阶方法（FOGM）
             self._fo_op_solver = get_registered_operation(
                 "%s" % self.boat_configs["fo_op"]
             )(
@@ -148,7 +147,7 @@ class Problem:
                 solver_config=self.boat_configs,
             )
         else:
-            # FOGM 模式下通常不需要独立的 na_op
+            # FOGO does not need UL solver
             assert (
                 self.boat_configs["fo_op"] is not None
             ), "FOGM is enabled, UL solver is handled by FOGM op."
@@ -163,7 +162,7 @@ class Problem:
         if self.boat_configs["fo_op"] is not None:
             start_time = time.perf_counter()
 
-            # FIX: 对齐 Torch 版的 fogm_batch_input（支持批输入/元学习场景）
+            # FIX: align with Torch version
             if self.boat_configs.get("fogm_batch_input", False):
                 for batch_ll_feed_dict, batch_ul_feed_dict in zip(
                     ll_feed_dict, ul_feed_dict
@@ -183,7 +182,6 @@ class Problem:
         else:
             run_time = 0.0
             if self.boat_configs["accumulate_grad"]:
-                # 累积梯度：ll_feed_dict / ul_feed_dict 均为 list[dict]
                 for batch_ll_feed_dict, batch_ul_feed_dict in zip(
                     ll_feed_dict, ul_feed_dict
                 ):
@@ -206,7 +204,6 @@ class Problem:
                         forward_time = time.perf_counter() - forward_time
 
                         backward_time = time.perf_counter()
-                        # FIX: 这里原来把 ul_feed_dict 误传成了 batch_ll_feed_dict，导致超层梯度用错数据
                         if "DM" not in self._gm_op:
                             self._log_results.append(
                                 self._ul_solver.compute_gradients(
@@ -217,7 +214,6 @@ class Problem:
                                 )
                             )
                         else:
-                            # DM 情况下与下方非累积分支一致：直接用 UL loss 反传
                             self._log_results.append(
                                 self._ul_loss(
                                     batch_ul_feed_dict, self._ul_model, auxiliary_model
@@ -227,7 +223,6 @@ class Problem:
 
                     run_time += forward_time + backward_time
 
-                # 对 UL 参数做平均梯度（list 模式下 len(ll_feed_dict) 等于 batch 数）
                 average_grad(self._ul_model, len(ll_feed_dict))
 
             else:
@@ -261,7 +256,7 @@ class Problem:
                             )
                         )
                     else:
-                        # DM：直接用 UL loss 反传（与 Torch 版一致）
+                        # DM：use UL loss to update upper variables
                         self._log_results.append(
                             self._ul_loss(ul_feed_dict, self._ul_model, auxiliary_model)
                         )
@@ -273,7 +268,7 @@ class Problem:
                             self._ll_model, list(auxiliary_model.parameters(time=-1))
                         )
 
-                # DI：用 _lower_init_opt 对 LL var 做一次“动态初始化”更新
+                # DI：use dynamic initialization optimizer to update lower variables
                 if "DI" in self.boat_configs["gm_op"]:
                     manual_update(
                         self._lower_init_opt, self._lower_opt.param_groups[0]["params"]
@@ -281,7 +276,6 @@ class Problem:
 
                 run_time = forward_time + backward_time
 
-        # 计算/记录损失 & 更新上层参数
         if isinstance(ll_feed_dict, list):
             ll_fd = ll_feed_dict[0]
             ul_fd = ul_feed_dict[0]
@@ -290,10 +284,8 @@ class Problem:
             ul_fd = ul_feed_dict
 
         if not self.boat_configs["return_grad"]:
-            # 不返回梯度：直接用保存的 _custom_grad 更新上层参数
             manual_update(self._upper_opt, self._ul_var)
         else:
-            # 返回 UL 的梯度列表（与 Torch 版 return_grad 行为一致）
             ll_loss = self._ll_loss(ll_fd, self._ul_model, self._ll_model)
             ul_loss = self._ul_loss(ul_fd, self._ul_model, self._ll_model)
             print(f"ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}")
@@ -335,7 +327,6 @@ class Problem:
 
         def check_model_structure(base_model, meta_model):
             for param1, param2 in zip(base_model.parameters(), meta_model.parameters()):
-                # jittor 参数没有 device 属性；只校验 shape / dtype
                 if (param1.shape != param2.shape) or (param1.dtype != param2.dtype):
                     return False
             return True

@@ -187,14 +187,6 @@ class DM(DynamicalSystem):
                 params["lr"] = eta
             for params in self.ul_opt.param_groups:
                 params["lr"] = x_lr
-        #############
-        # self.ll_opt.zero_grad()
-        # self.auxiliary_v_opt.zero_grad()
-        # loss_f = self.ll_objective(ll_feed_dict, self.ul_model, auxiliary_model)
-        # upper_loss = self.ul_objective(ul_feed_dict, self.ul_model, auxiliary_model)
-        # assert (self.alpha>0) and (self.alpha<1), \
-        #         "Set the coefficient alpha properly in (0,1)."
-        # loss_full = (1.0 - self.alpha) * loss_f + self.alpha * upper_loss
 
         if gda_loss is not None:
             ll_feed_dict["alpha"] = self.alpha
@@ -234,9 +226,9 @@ class DM(DynamicalSystem):
             for v0, v, gow in zip(self.auxiliary_v, vsp, grad_outer_params):
                 v0._custom_grad = v - gow
             update_tensor_grads(list(self.ll_model.parameters()), grad_y_temp)
-            # self.ll_opt.step()
+
             manual_update(self.ll_opt, list(self.ll_model.parameters()))
-            # self.auxiliary_v_opt.step()
+
             manual_update(self.auxiliary_v_opt, self.auxiliary_v)
 
             grads = [

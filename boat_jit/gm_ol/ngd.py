@@ -68,7 +68,7 @@ class NGD(DynamicalSystem):
         next_operation: str = None,
         **kwargs
     ):
-        # 兼容 gda_loss
+
         if "gda_loss" in kwargs:
             gda_loss = kwargs["gda_loss"]
             alpha = kwargs["alpha"]
@@ -89,10 +89,10 @@ class NGD(DynamicalSystem):
                 else:
                     loss_f = self.ll_objective(ll_feed_dict, self.ul_model, auxiliary_model)
 
-                # 普通 LL 优化
+                # naive gd step
                 self.ll_opt.step(loss_f)
 
-            # 恢复参数：不会制造新存储，也不会挂计算图
+            # reco
             with jittor.no_grad():
                 for x, y in zip(self.ll_model.parameters(), auxiliary_model.parameters()):
                     y.update(x.clone())
@@ -133,7 +133,7 @@ class NGD(DynamicalSystem):
 
             auxiliary_opt.step(loss_f, grad_callback=stop_grads if self.foa else None)
 
-        # ----------------- 返回对齐 Torch -----------------
+
         if next_operation is None:
             return -1
         else:

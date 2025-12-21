@@ -53,9 +53,7 @@ class SequentialHG:
                     else None
                 ),
             )
-            # 中间结果不再存储，每次直接覆盖 intermediate_result
 
-        # 只保存最后一次的结果
         self.result_store.add(f"gradient_operator_results", intermediate_result)
         return self.result_store.get_results()
 

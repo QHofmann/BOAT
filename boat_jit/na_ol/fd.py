@@ -140,16 +140,9 @@ class FD(HyperGradient):
         loss = self.ul_objective(
             ul_feed_dict, self.ul_model, auxiliary_model, params=lower_model_params
         )
-        # print(type(loss))
-        # print(type(self.ul_var))
-        # loss = loss.astype('float32')  # 强制转换为 float32
-        # self.ul_var = [v.astype('float32') for v in self.ul_var]
-        # for variable in self.ul_var:
-        #     print(type(variable))
-        # import time
         print('step 1 time',time.perf_counter() - start_time)
         start_time = time.perf_counter()
-        # dalpha = jit.grad(loss, self.ul_var)
+
         dalpha = jit.jittor_core.grad(loss,self.ul_var,retain_graph=True)
 
         vector = jit.grad(
@@ -157,8 +150,6 @@ class FD(HyperGradient):
             lower_model_params,
             retain_graph=self.dynamic_initialization,
         )
-
-        # dalpha = jit.grad(loss, self.ul_var, retain_graph=True)
 
         print('step 2 time',time.perf_counter() - start_time)
         start_time = time.perf_counter()

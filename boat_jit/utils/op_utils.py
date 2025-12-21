@@ -126,21 +126,20 @@ class HyperGradientRules:
 
 def l2_reg(parameters):
     """
-    计算 L2 正则化项 (Jittor 版)
+    Compute L2 regularization term (Jittor version).
 
     Parameters
     ----------
     parameters : List[jt.Var]
-        需要计算 L2 正则化的参数列表
+        need to compute L2 regularization parameter list
 
     Returns
     -------
     jt.Var
-        L2 正则化损失
+        L2 regularization loss
     """
     loss = jit.zeros(1)
     for w in parameters:
-        # 等价于 torch.sum(w ** 2)
         loss += (w * w).sum()
     return loss
 
@@ -278,63 +277,19 @@ def manual_update(optimizer, variables):
             if id(param) not in variable_ids:
                 continue
 
-            # 如果没梯度 → 跳过更新
+            # if param is not in variables, skip
             if not hasattr(param, "_custom_grad"):
-                # 打个 warning 或直接 continue
-                # print(f"[warn] Variable {param.name()} has no _custom_grad, skipping update.")
                 continue  
 
             grad = param._custom_grad
 
-            # 形状对不上 → 跳过（或者置零）
+            # if shapes do not match, skip
             if grad.shape != param.shape:
-                # print(f"[warn] Shape mismatch for {param.name()}, skipping update.")
                 continue  
 
-            # 执行更新
             param -= lr * grad
 
-            # 清零 custom_grad，避免累积
             param._custom_grad *= 0
-
-
-
-# def manual_update(optimizer, variables):
-#     """
-#     Manually update variables using gradients stored in _custom_grad.
-
-#     Parameters
-#     ----------
-#     optimizer : jittor.optim.Optimizer
-#         The Jittor optimizer instance.
-#     variables : List[jittor.Var]
-#         A list of Jittor variables to be updated.
-
-#     Raises
-#     ------
-#     AttributeError
-#         If a variable does not have the '_custom_grad' attribute.
-#     """
-#     print(len(variables))
-#     print(len(optimizer.param_groups))
-#     for group in optimizer.param_groups:
-#         lr = group.get("lr", optimizer.lr)
-
-#         for param in group["params"]:
-#             # print(variables)
-#             print(param.shape)
-#             print(param._custom_grad.shape)
-#             if param in variables:
-#                 if not hasattr(param, "_custom_grad"):
-#                     raise AttributeError(
-#                         f"Variable '{param.name}' does not have '_custom_grad'. "
-#                         f"Ensure gradients are precomputed and stored before updating."
-#                     )
-
-#                 grad = param._custom_grad
-#                 param -= lr * grad
-#                 param._custom_grad *= 0
-
 
 
 
@@ -356,7 +311,6 @@ def update_tensor_grads(hparams, grads):
     """
     for l, g in zip(hparams, grads):
         if l.is_stop_grad():
-            # 跳过这些变量，不报错
             continue
         if not hasattr(l, "_custom_grad"):
             l._custom_grad = g.clone().detach()

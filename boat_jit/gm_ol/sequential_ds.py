@@ -57,7 +57,7 @@ class SequentialDS:
         intermediate_result = None
 
         for idx, gradient_instance in enumerate(self.gradient_instances):
-            # 传递上一个算子的结果给下一个算子
+
             intermediate_result = gradient_instance.optimize(
                 **(kwargs if idx == 0 else intermediate_result),
                 next_operation=(
@@ -67,7 +67,7 @@ class SequentialDS:
                 ),
             )
 
-        # 只保存最终结果
+        # only store the final result
         self.result_store.add(f"dynamic_results_{idx}", intermediate_result)
         return self.result_store.get_results()
 
