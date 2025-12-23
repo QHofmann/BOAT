@@ -126,14 +126,7 @@ class Problem:
             if "DI" in self.boat_configs["gm_op"]:
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
-                new_groups = []
-                for g in self._lower_opt.param_groups:
-                    ng = {k: v for k, v in g.items() if k != "params"}
-                    ng["params"] = g["params"]
-                    ng["lr"] = di_lr
-                    new_groups.append(ng)
-
-                self._lower_init_opt = opt_cls(new_groups)
+                self._lower_init_opt = opt_cls([{'params': self._ll_var, 'lr': di_lr}])
 
         else:
             self._fo_op_solver = get_registered_operation(
@@ -230,7 +223,6 @@ class Problem:
         :rtype: tuple
         """
 
-
         if self.boat_configs["fo_op"] is not None:
             start_time = time.perf_counter()
             if self.boat_configs["fo_ol_batch_input"]:
@@ -255,7 +247,7 @@ class Problem:
                     with higher.innerloop_ctx(
                         self._ll_model,
                         self._lower_opt,
-                        copy_initial_weights=True,
+                        copy_initial_weights=False,
                         device=self._device,
                         track_higher_grads=self._track_opt_traj,
                     ) as (auxiliary_model, auxiliary_opt):
@@ -282,7 +274,7 @@ class Problem:
                             )
                         backward_time = time.perf_counter() - backward_time
                     run_time += forward_time + backward_time
-                average_grad(self._ul_model, len(ll_feed_dict))
+
             else:
                 with higher.innerloop_ctx(
                     self._ll_model,
@@ -313,16 +305,20 @@ class Problem:
                             )
                         )
                     backward_time = time.perf_counter() - backward_time
-                    #print("backward_time", backward_time)
+
                     if self.boat_configs["copy_last_param"]:
                         copy_parameter_from_list(
                             self._ll_model,
                             list(auxiliary_model.parameters(time=-1)),
                         )
                 run_time = forward_time + backward_time
+
             if "DI" in self.boat_configs["gm_op"]:
+
                 self._lower_init_opt.step()
                 self._lower_init_opt.zero_grad()
+
+
         if isinstance(ll_feed_dict, list):
             ll_fd = ll_feed_dict[0]
             ul_fd = ul_feed_dict[0]
@@ -336,6 +332,7 @@ class Problem:
         else:
             ll_loss = self._ll_loss(ll_fd, self._ul_model, self._ll_model)
             ul_loss = self._ul_loss(ul_fd, self._ul_model, self._ll_model)
+
             self.save_losses(current_iter = current_iter, ll_loss = ll_loss, ul_loss = ul_loss)
             return [var.grad for var in list(self._ul_var)], run_time
 
@@ -360,7 +357,6 @@ class Problem:
             assert (
                 self.boat_configs["RGT"]["truncate_iter"] > 0
             ), "When 'RGT' is chosen, set the 'truncate_iter' properly ."
-
         if self.boat_configs["GDA"]["alpha_init"] > 0.0:
             assert (
                 0.0 < self.boat_configs["GDA"]["alpha_decay"] <= 1.0
