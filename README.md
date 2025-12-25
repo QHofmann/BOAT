@@ -18,7 +18,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/callous-youth/BOAT)
 ![GitHub top language](https://img.shields.io/github/languages/top/callous-youth/BOAT)
 ![GitHub language count](https://img.shields.io/github/languages/count/callous-youth/BOAT)
-![Python version](https://img.shields.io/badge/python-3.9-blue)
+![Python version](https://img.shields.io/badge/python-3.12-blue)
 ![license](https://img.shields.io/badge/license-MIT-000000.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
