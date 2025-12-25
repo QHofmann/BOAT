@@ -1,5 +1,7 @@
 # Data HyperCleaning
 
+This example demonstrates how to use the BOAT library to perform bi-level optimization with data hyper-cleaning.
+
 ---
 
 ## Step 1: Data Preparation
@@ -70,6 +72,7 @@ initialize(y)
 ### Explanation:
 - **Optimizers**: Adam optimizer is used for the lower-level model (`x`), and SGD is used for the upper-level model (`y`).
 - **Initialization**: The `initialize` function resets the model parameters before training.
+
 ---
 
 ## Step 4: Configuration Loading

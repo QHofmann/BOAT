@@ -121,13 +121,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">ll_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-        <span class="n">lower_loop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">ul_model</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
-        <span class="n">ul_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-        <span class="n">ll_model</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
-        <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">ll_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+            <span class="n">lower_loop</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">ul_model</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
+            <span class="n">ul_objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+            <span class="n">ll_model</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
+            <span class="n">solver_config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">):</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">DM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -137,7 +137,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">truncate_max_loss_iter</span> <span class="o">=</span> <span class="s2">&quot;PTT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_init&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha_decay</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_decay&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_iters</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truncate_iters</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;RGT&quot;</span> <span class="ow">in</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;na_op&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;lower_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ul_opt</span> <span class="o">=</span> <span class="n">solver_config</span><span class="p">[</span><span class="s2">&quot;upper_level_opt&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_v</span> <span class="o">=</span> <span class="p">[</span>
@@ -156,14 +156,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">gda_loss</span> <span class="o">=</span> <span class="n">solver_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gda_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DM.optimize"><a class="viewcode-back" href="../../../boat_torch.gm_ol.html#boat_torch.gm_ol.dm.DM.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-        <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
-        <span class="n">auxiliary_model</span><span class="p">:</span> <span class="n">_MonkeyPatchBase</span><span class="p">,</span>
-        <span class="n">auxiliary_opt</span><span class="p">:</span> <span class="n">DifferentiableOptimizer</span><span class="p">,</span>
-        <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">next_operation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">ll_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">ul_feed_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">auxiliary_model</span><span class="p">:</span> <span class="n">_MonkeyPatchBase</span><span class="p">,</span>
+            <span class="n">auxiliary_opt</span><span class="p">:</span> <span class="n">DifferentiableOptimizer</span><span class="p">,</span>
+            <span class="n">current_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">next_operation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Executes the lower-level optimization procedure with support for NGD, GDA, and RAD operations.</span>
@@ -210,8 +210,8 @@
 <span class="sd">        [1] Liu R, Liu Y, Yao W, et al. &quot;Averaged method of multipliers for bi-level optimization without lower-level strong convexity&quot;, in ICML, 2023.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1">#assert next_operation is None, &quot;NGD does not support next_operation&quot;</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_loop</span> <span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;DM only supports one-step lower-level optimization.&quot;</span>
+        <span class="c1"># assert next_operation is None, &quot;NGD does not support next_operation&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_loop</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;DM only supports one-step lower-level optimization.&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;gda_loss&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">gda_loss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;gda_loss&quot;</span><span class="p">]</span>
             <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">[</span>
@@ -222,55 +222,58 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;s1&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu0</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">**</span><span class="mi">2</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">2</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">x_lr</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">**</span><span class="mi">7</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">7</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;s2&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu0</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">x_lr</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">**</span><span class="mi">5</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">5</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;s3&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu0</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span>
-                    <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span>
+                        <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span>
                 <span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="n">x_lr</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">**</span><span class="mi">3</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">3</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
             <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
                 <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_lr</span>
+
+            <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_v_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">gda_loss</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="s2">&quot;RAD&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">na_op</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;s1&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;s1&quot;</span>
                 <span class="p">),</span> <span class="s2">&quot;Only &#39;s1&#39; strategy is supported for DM without GDA operation.&quot;</span>
 
                 <span class="n">x_lr</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">ul_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
-                    <span class="o">*</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ul_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="o">*</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">eta</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">eta</span>
-                    <span class="o">*</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span>
+                        <span class="o">*</span> <span class="p">(</span><span class="n">current_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">auxiliary_v_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
                     <span class="n">params</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta</span>

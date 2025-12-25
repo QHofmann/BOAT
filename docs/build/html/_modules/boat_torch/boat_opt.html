@@ -203,30 +203,11 @@
                 <span class="n">lower_loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lower_loop</span><span class="p">,</span>
                 <span class="n">solver_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="c1"># if &quot;DI&quot; in self.boat_configs[&quot;gm_op&quot;]:</span>
-            <span class="c1">#     self._lower_init_opt = copy.deepcopy(self._lower_opt)</span>
-            <span class="c1">#     for _ in range(len(self._lower_init_opt.param_groups)):</span>
-            <span class="c1">#         self._lower_init_opt.param_groups[_][&quot;params&quot;] = (</span>
-            <span class="c1">#             self._lower_opt.param_groups[_][&quot;params&quot;]</span>
-            <span class="c1">#         )</span>
-            <span class="c1">#         self._lower_init_opt.param_groups[_][&quot;lr&quot;] = self.boat_configs[</span>
-            <span class="c1">#             &quot;DI&quot;</span>
-            <span class="c1">#         ][&quot;lr&quot;]</span>
+
             <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
-                <span class="c1"># 用与 upper_opt 相同的优化器类型</span>
                 <span class="n">opt_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper_opt</span><span class="p">)</span>
                 <span class="n">di_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DI&quot;</span><span class="p">][</span><span class="s2">&quot;lr&quot;</span><span class="p">])</span>
-
-                <span class="c1"># 构造新的 param_groups，保留除 lr 外的其他超参数</span>
-                <span class="n">new_groups</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lower_opt</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
-                    <span class="n">ng</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;params&quot;</span><span class="p">}</span>
-                    <span class="n">ng</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
-                    <span class="n">ng</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">di_lr</span>  <span class="c1"># 覆盖学习率</span>
-                    <span class="n">new_groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ng</span><span class="p">)</span>
-
-                <span class="c1"># 创建新的优化器实例</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span> <span class="o">=</span> <span class="n">opt_cls</span><span class="p">(</span><span class="n">new_groups</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span> <span class="o">=</span> <span class="n">opt_cls</span><span class="p">([{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_var</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="n">di_lr</span><span class="p">}])</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span>
@@ -323,12 +304,6 @@
 <span class="sd">        :rtype: tuple</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># if self.boat_configs[&quot;fo_op&quot;] is not None:</span>
-        <span class="c1">#     start_time = time.perf_counter()</span>
-        <span class="c1">#     self._log_results.append(</span>
-        <span class="c1">#         self._fo_op_solver.optimize(ll_feed_dict, ul_feed_dict, current_iter)</span>
-        <span class="c1">#     )</span>
-        <span class="c1">#     run_time = time.perf_counter() - start_time</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_op&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;fo_ol_batch_input&quot;</span><span class="p">]:</span>
@@ -353,7 +328,7 @@
                     <span class="k">with</span> <span class="n">higher</span><span class="o">.</span><span class="n">innerloop_ctx</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_lower_opt</span><span class="p">,</span>
-                        <span class="n">copy_initial_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">copy_initial_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="p">,</span>
                         <span class="n">track_higher_grads</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_track_opt_traj</span><span class="p">,</span>
                     <span class="p">)</span> <span class="k">as</span> <span class="p">(</span><span class="n">auxiliary_model</span><span class="p">,</span> <span class="n">auxiliary_opt</span><span class="p">):</span>
@@ -380,7 +355,7 @@
                             <span class="p">)</span>
                         <span class="n">backward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">backward_time</span>
                     <span class="n">run_time</span> <span class="o">+=</span> <span class="n">forward_time</span> <span class="o">+</span> <span class="n">backward_time</span>
-                <span class="n">average_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">))</span>
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">with</span> <span class="n">higher</span><span class="o">.</span><span class="n">innerloop_ctx</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">,</span>
@@ -399,7 +374,7 @@
                     <span class="p">)</span>
                     <span class="n">max_loss_iter</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dynamic_results</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                     <span class="n">forward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">forward_time</span>
-                    <span class="c1">#print(&quot;forward_time&quot;, forward_time)</span>
+
                     <span class="n">backward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_solver</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -411,16 +386,20 @@
                             <span class="p">)</span>
                         <span class="p">)</span>
                     <span class="n">backward_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">backward_time</span>
-                    <span class="c1">#print(&quot;backward_time&quot;, backward_time)</span>
+
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;copy_last_param&quot;</span><span class="p">]:</span>
                         <span class="n">copy_parameter_from_list</span><span class="p">(</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">,</span>
                             <span class="nb">list</span><span class="p">(</span><span class="n">auxiliary_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(</span><span class="n">time</span><span class="o">=-</span><span class="mi">1</span><span class="p">)),</span>
                         <span class="p">)</span>
                 <span class="n">run_time</span> <span class="o">=</span> <span class="n">forward_time</span> <span class="o">+</span> <span class="n">backward_time</span>
+
             <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
+
                 <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">ll_fd</span> <span class="o">=</span> <span class="n">ll_feed_dict</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ul_fd</span> <span class="o">=</span> <span class="n">ul_feed_dict</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -434,13 +413,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ll_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_loss</span><span class="p">(</span><span class="n">ll_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">)</span>
             <span class="n">ul_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">(</span><span class="n">ul_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">)</span>
-            <span class="c1">#print(f&quot;ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}&quot;)</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">save_losses</span><span class="p">(</span><span class="n">current_iter</span> <span class="o">=</span> <span class="n">current_iter</span><span class="p">,</span> <span class="n">ll_loss</span> <span class="o">=</span> <span class="n">ll_loss</span><span class="p">,</span> <span class="n">ul_loss</span> <span class="o">=</span> <span class="n">ul_loss</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">grad</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ul_var</span><span class="p">)],</span> <span class="n">run_time</span>
 
         <span class="n">ll_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_loss</span><span class="p">(</span><span class="n">ll_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">)</span>
         <span class="n">ul_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_loss</span><span class="p">(</span><span class="n">ul_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_model</span><span class="p">)</span>
-        <span class="c1">#print(f&quot;ll_loss: {ll_loss.item()}  ul_loss: {ul_loss.item()}&quot;)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">save_losses</span><span class="p">(</span><span class="n">current_iter</span> <span class="o">=</span> <span class="n">current_iter</span><span class="p">,</span> <span class="n">ll_loss</span> <span class="o">=</span> <span class="n">ll_loss</span><span class="p">,</span> <span class="n">ul_loss</span> <span class="o">=</span> <span class="n">ul_loss</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_results</span><span class="p">,</span> <span class="n">run_time</span></div>
@@ -459,10 +438,6 @@
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;RGT&quot;</span><span class="p">][</span><span class="s2">&quot;truncate_iter&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
             <span class="p">),</span> <span class="s2">&quot;When &#39;RGT&#39; is chosen, set the &#39;truncate_iter&#39; properly .&quot;</span>
-        <span class="c1"># if self.boat_configs[&quot;accumulate_grad&quot;]:</span>
-        <span class="c1">#     assert (</span>
-        <span class="c1">#         &quot;IAD&quot; in self.boat_configs[&quot;na_op&quot;]</span>
-        <span class="c1">#     ), &quot;When using &#39;accumulate_grad&#39;, only &#39;IAD&#39; based methods are supported.&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_init&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;GDA&quot;</span><span class="p">][</span><span class="s2">&quot;alpha_decay&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
@@ -504,23 +479,20 @@
 
         <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
-        <span class="c1"># 左图 - 下层 loss</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iters</span><span class="p">,</span> <span class="n">ll_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lower-level Loss&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Lower-level Loss&quot;</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>  <span class="c1"># 图例在左上角</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># 右图 - 上层 loss</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iters</span><span class="p">,</span> <span class="n">ul_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Upper-level Loss&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orange&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Upper-level Loss&quot;</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>  <span class="c1"># 图例在左上角</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
         <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># 保存</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
         <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_log_path</span><span class="p">),</span> <span class="s2">&quot;loss_curve.png&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
@@ -540,7 +512,6 @@
             <span class="s2">&quot;ul_loss&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">ul_loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
         <span class="p">})</span>
 
-        <span class="c1"># 追加写入文件（每次迭代都更新）</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_log_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_history</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div></div>
 </pre></div>
