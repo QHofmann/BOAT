@@ -188,22 +188,14 @@ for x_itr in range(iterations):
 
 
 ## Related Methods
+### **GM_OL**
+[Dynamic Initialization (DI)](https://proceedings.neurips.cc/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf) • [Dual Multiplier (DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf) • [Gradient Descent Aggregation (GDA)](https://arxiv.org/pdf/2006.04045.pdf) • [Naive Gradient Descent (NGD)](https://arxiv.org/pdf/2006.04045.pdf)
 
-- [Hyperparameter optimization with approximate gradient (CG)](https://arxiv.org/abs/1602.02355)
-- [Optimizing millions of hyperparameters by implicit differentiation (NS)](http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf)
-- [Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks (IAD)](https://arxiv.org/abs/1703.03400)
-- [On First-Order Meta-Learning Algorithms (FOA)](https://arxiv.org/abs/1703.03400)
-- [Bilevel Programming for Hyperparameter Optimization and Meta-Learning (RAD)](http://export.arxiv.org/pdf/1806.04910)
-- [Truncated Back-propagation for Bilevel Optimization (RGT)](https://arxiv.org/pdf/1810.10667.pdf)
-- [DARTS: Differentiable Architecture Search (FD)](https://arxiv.org/pdf/1806.09055.pdf)
-- [A Generic First-Order Algorithmic Framework for Bi-Level Programming Beyond Lower-Level Singleton (GDA)](https://arxiv.org/pdf/2006.04045.pdf)
-- [Towards gradient-based bilevel optimization with non-convex followers and beyond (PTT, DI)](https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf)
-- [Averaged Method of Multipliers for Bi-Level Optimization without Lower-Level Strong Convexity(DM)](https://proceedings.mlr.press/v202/liu23y/liu23y.pdf)
-- [Learning With Constraint Learning: New Perspective, Solution Strategy and Various Applications (IGA)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445)
-- [BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFO)](https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf)
-- [A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSO)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
-- [On Penalty-based Bilevel Gradient Descent Method (PGDO)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf)
-- [Moreau Envelope for Nonconvex Bi-Level Optimization: A Single-loop and Hessian-free Solution Strategy (MESO)](https://arxiv.org/pdf/2405.09927)
+### **NA_OL**
+[Conjugate Gradient (CG)](https://arxiv.org/abs/1602.02355) • [Finite Differentiation (FD)](https://arxiv.org/pdf/1806.09055.pdf) • [First-Order Approximation (FOA)](https://arxiv.org/abs/1703.03400) • [Initialization-based Automatic Differentiation (IAD)](https://arxiv.org/abs/1703.03400) • [Implicit Gradient Approximation (IGA)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10430445) • [Neumann Series (NS)](http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf) • [Pessimistic Trajectory Truncation (PTT)](https://proceedings.neurips.cc/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf) • [Reverse Automatic Differentiation (RAD)](http://export.arxiv.org/pdf/1806.04910) • [Reverse Gradient Truncation (RGT)](https://arxiv.org/pdf/1810.10667.pdf)
+
+### **FO_OL**
+[Moreau Envelope based Single-loop Operation (MESO)](https://arxiv.org/pdf/2405.09927) • [Penalty Gradient Descent Operation (PGDO)](https://proceedings.mlr.press/v202/shen23c/shen23c.pdf) • [Value-Function based First-order Operation (VFO)](https://proceedings.neurips.cc/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf) • [Value-Function based Sequential Operation (VSO)](http://proceedings.mlr.press/v139/liu21o/liu21o.pdf)
 
 
 ## License
