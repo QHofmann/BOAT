@@ -241,7 +241,7 @@ rules and adjusts it accordingly.</p>
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>Dictionary containing solver configurations. Expected keys include:</p>
 <ul>
 <li><p><cite>r</cite> (float): Perturbation radius for finite differences.</p></li>
-<li><p><cite>lower_level_opt</cite> (torch.optim.Optimizer): Lower-level optimizer configuration.</p></li>
+<li><p><cite>lower_level_opt</cite> (jittor.optim.Optimizer): Lower-level optimizer configuration.</p></li>
 <li><p><cite>gm_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
 <li><dl class="simple">
 <dt>GDA-specific parameters if applicable, such as:</dt><dd><ul>
@@ -395,7 +395,7 @@ It serves as the lower-level model for optimization.</p></li>
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>Dictionary containing solver configurations. Expected keys include:</p>
 <ul>
 <li><p><cite>r</cite> (float): Perturbation radius for finite differences.</p></li>
-<li><p><cite>lower_level_opt</cite> (torch.optim.Optimizer): Lower-level optimizer configuration.</p></li>
+<li><p><cite>lower_level_opt</cite> (jittor.optim.Optimizer): Lower-level optimizer configuration.</p></li>
 <li><p><cite>gm_op</cite> (str): Indicates dynamic initialization type (e.g., “DI”).</p></li>
 <li><dl class="simple">
 <dt>GDA-specific parameters if applicable, such as:</dt><dd><ul>
@@ -714,7 +714,7 @@ targets, and other information required for the UL objective computation.</p></l
 <li><p><strong>**kwargs</strong> (<em>dict</em>) – <p>Additional arguments, such as:</p>
 <ul>
 <li><dl class="simple">
-<dt><cite>lower_model_params</cite><span class="classifier">List[torch.nn.Parameter]</span></dt><dd><p>List of parameters for the lower-level model.</p>
+<dt><cite>lower_model_params</cite><span class="classifier">List[jt.Var]</span></dt><dd><p>List of parameters for the lower-level model.</p>
 </dd>
 </dl>
 </li>
@@ -726,7 +726,7 @@ targets, and other information required for the UL objective computation.</p></l
 <dd class="field-even"><p><p>A dictionary containing:</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt><cite>upper_loss</cite><span class="classifier">torch.Tensor</span></dt><dd><p>The upper-level objective value after optimization.</p>
+<dt><cite>upper_loss</cite><span class="classifier">jt.Var</span></dt><dd><p>The upper-level objective value after optimization.</p>
 </dd>
 </dl>
 </li>

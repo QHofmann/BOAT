@@ -38,7 +38,7 @@ class VFO(DynamicalSystem):
     solver_config : Dict[str, Any]
         A dictionary containing configurations for the solver. Expected keys include:
 
-        - "lower_level_opt" (torch.optim.Optimizer): Optimizer for the lower-level model.
+        - "lower_level_opt" (jittor.optim.Optimizer): Optimizer for the lower-level model.
         - "VFO" (Dict): Configuration for the VFO algorithm:
             - "y_hat_lr" (float): Learning rate for optimizing the surrogate variable `y_hat`.
             - "eta" (float): Step size for value-function updates.

@@ -38,7 +38,7 @@ class VSO(DynamicalSystem):
     solver_config : Dict[str, Any]
         A dictionary containing configurations for the solver. Expected keys include:
 
-        - "lower_level_opt" (torch.optim.Optimizer): Optimizer for the lower-level model.
+        - "lower_level_opt" (jittor.optim.Optimizer): Optimizer for the lower-level model.
         - "VSO" (Dict): Configuration for the VSO algorithm:
             - "z_loop" (int): Number of iterations for optimizing the auxiliary variable `z`.
             - "ll_l2_reg" (float): L2 regularization coefficient for the lower-level model.

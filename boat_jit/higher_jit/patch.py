@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Functions for making ``torch.nn.Module`` subclass instances stateless."""
+"""Functions for making ``jittor.Module`` subclass instances stateless."""
 
 import abc as _abc
 from collections import OrderedDict as _OrderedDict
@@ -64,7 +64,7 @@ def _patched_parameters(
             and all submodules. Otherwise, this *still* yields parameters of
             this module and all submodules, and raises a warning. This keyword
             exists only to satisfy API compatibility with
-            ``torch.nn.Module.parameters``.
+            ``jittor.Module.parameters``.
         time (int or None): if None, the most recent fast parameters are
             provided. The int provided stands for the number of steps since the
             module was created. *Note* that the step counter is incremented
@@ -170,7 +170,7 @@ def buffer_sync(
             )
 
 # ==============================================================================
-# Helper class to use instead of actual torch.nn.Parameters when patching.
+# Helper class used as a stand-in for jittor.Var during module patching.
 # ==============================================================================
 
 
@@ -373,7 +373,6 @@ def _make_functional(
             ):
                 setattr(self, name, param)
 
-            # This snippet deals with torch.nn.{RNN,GRU,LSTM}
             if hasattr(self, "_flat_weights_names"):
                 self._flat_weights = [
                     self._parameters[wn] for wn in self._flat_weights_names
@@ -396,7 +395,6 @@ def _make_functional(
     def flatten_parameters(self):
         return  # no-op
 
-    # This (hopefully) avoids trouble on GPU with torch.nn.{RNN,GRU,LSTM}
     if hasattr(module, "flatten_parameters"):
         setattr(MonkeyPatched, "flatten_parameters", flatten_parameters)
         # MonkeyPatched.safe_setattr("flatten_parameters", flatten_parameters)
@@ -513,7 +511,7 @@ def monkeypatch(
     to diverge without changing the state of the original module.
 
     Args:
-        module: a ``torch.nn.Module`` subclass instance.
+        module: a ``jit.Module`` subclass instance.
         device (optional): a device to cast the fast weights and state to.
         copy_initial_weights: if True, the weights of the patched module are
             copied to form the initial weights of the patched module, and thus
@@ -532,7 +530,7 @@ def monkeypatch(
     Returns:
         ``fmodule``: a "stateless" version of the original module, for which calls
         to forward take the additional kwarg-only parameter ``params``, which
-        should be a list of torch tensors requiring gradients, ideally
+        should be a list of tensors requiring gradients, ideally
         provided by this function (see below) or by an update step from one
         of the optimizers in ``higher.optim``.
     """

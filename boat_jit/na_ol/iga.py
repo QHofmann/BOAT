@@ -109,15 +109,16 @@ class IGA(HyperGradient):
         **kwargs : dict
             Additional arguments, such as:
 
-            - `lower_model_params` : List[torch.nn.Parameter]
+            - `lower_model_params` : List[jt.Var]
                 List of parameters for the lower-level model.
+
 
         Returns
         -------
         Dict
             A dictionary containing:
 
-            - `upper_loss` : torch.Tensor
+            - `upper_loss` : jt.Var
                 The upper-level objective value after optimization.
             - `hyper_gradient_finished` : bool
                 Indicates whether the hypergradient computation is complete.

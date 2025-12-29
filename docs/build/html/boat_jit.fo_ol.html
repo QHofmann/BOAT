@@ -248,7 +248,7 @@ It typically includes validation data, targets, and other information required t
 <li><p><strong>lower_loop</strong> (<em>int</em>) – The number of iterations for lower-level optimization.</p></li>
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>A dictionary containing configurations for the solver. Expected keys include:</p>
 <ul>
-<li><p>”lower_level_opt” (torch.optim.Optimizer): Optimizer for the lower-level model.</p></li>
+<li><p>”lower_level_opt” (jittor.optim.Optimizer): Optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
 <dt>”VFO” (Dict): Configuration for the VFO algorithm:</dt><dd><ul>
 <li><p>”y_hat_lr” (float): Learning rate for optimizing the surrogate variable <cite>y_hat</cite>.</p></li>
@@ -314,7 +314,7 @@ It typically includes validation data, targets, and other information required t
 <li><p><strong>lower_loop</strong> (<em>int</em>) – The number of iterations for lower-level optimization.</p></li>
 <li><p><strong>solver_config</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>A dictionary containing configurations for the solver. Expected keys include:</p>
 <ul>
-<li><p>”lower_level_opt” (torch.optim.Optimizer): Optimizer for the lower-level model.</p></li>
+<li><p>”lower_level_opt” (jittor.optim.Optimizer): Optimizer for the lower-level model.</p></li>
 <li><dl class="simple">
 <dt>”VSO” (Dict): Configuration for the VSO algorithm:</dt><dd><ul>
 <li><p>”z_loop” (int): Number of iterations for optimizing the auxiliary variable <cite>z</cite>.</p></li>

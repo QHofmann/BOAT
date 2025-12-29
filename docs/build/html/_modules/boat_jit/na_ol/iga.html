@@ -188,15 +188,16 @@
 <span class="sd">        **kwargs : dict</span>
 <span class="sd">            Additional arguments, such as:</span>
 
-<span class="sd">            - `lower_model_params` : List[torch.nn.Parameter]</span>
+<span class="sd">            - `lower_model_params` : List[jt.Var]</span>
 <span class="sd">                List of parameters for the lower-level model.</span>
+
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Dict</span>
 <span class="sd">            A dictionary containing:</span>
 
-<span class="sd">            - `upper_loss` : torch.Tensor</span>
+<span class="sd">            - `upper_loss` : jt.Var</span>
 <span class="sd">                The upper-level objective value after optimization.</span>
 <span class="sd">            - `hyper_gradient_finished` : bool</span>
 <span class="sd">                Indicates whether the hypergradient computation is complete.</span>

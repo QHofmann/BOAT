@@ -105,15 +105,16 @@ class Problem:
             if "DI" in self.boat_configs["gm_op"]:
                 opt_cls = type(self._upper_opt)
                 di_lr = float(self.boat_configs["DI"]["lr"])
-                new_groups = []
-                for g in self._lower_opt.param_groups:
-                    ng = {k: v for k, v in g.items() if k != "params"}
-                    ng["params"] = g["params"]
-                    ng["lr"] = di_lr
-                    new_groups.append(ng)
-                print(new_groups)
+                # new_groups = []
+                # for g in self._lower_opt.param_groups:
+                #     ng = {k: v for k, v in g.items() if k != "params"}
+                #     ng["params"] = g["params"]
+                #     ng["lr"] = di_lr
+                #     new_groups.append(ng)
+                # print(new_groups)
                 # FIX
-                self._lower_init_opt = opt_cls(new_groups, lr=di_lr)
+                # self._lower_init_opt = opt_cls(new_groups, lr=di_lr)
+                self._lower_init_opt = opt_cls([{'params': self._ll_var, 'lr': di_lr}])
 
         else:
             self._fo_op_solver = get_registered_operation(
@@ -222,8 +223,6 @@ class Problem:
                         backward_time = time.perf_counter() - backward_time
 
                     run_time += forward_time + backward_time
-
-                average_grad(self._ul_model, len(ll_feed_dict))
 
             else:
                 with higher.innerloop_ctx(

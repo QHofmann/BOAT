@@ -31,7 +31,7 @@ class FD(HyperGradient):
         Dictionary containing solver configurations. Expected keys include:
 
         - `r` (float): Perturbation radius for finite differences.
-        - `lower_level_opt` (torch.optim.Optimizer): Lower-level optimizer configuration.
+        - `lower_level_opt` (jittor.optim.Optimizer): Lower-level optimizer configuration.
         - `gm_op` (str): Indicates dynamic initialization type (e.g., "DI").
         - GDA-specific parameters if applicable, such as:
             - `alpha_init` (float): Initial learning rate for GDA.

@@ -59,7 +59,7 @@ class DM(DynamicalSystem):
         self.truncate_max_loss_iter = "PTT" in solver_config["na_op"]
         self.alpha = solver_config["GDA"]["alpha_init"]
         self.alpha_decay = solver_config["GDA"]["alpha_decay"]
-        self.truncate_iters = solver_config["RGT"]["truncate_iter"]
+        self.truncate_iters = solver_config["RGT"]["truncate_iter"] if "RGT" in solver_config["na_op"] else 0
         self.ll_opt = solver_config["lower_level_opt"]
         self.ul_opt = solver_config["upper_level_opt"]
         self.auxiliary_v = solver_config["DM"]["auxiliary_v"]
