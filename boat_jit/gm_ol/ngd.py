@@ -54,7 +54,7 @@ class NGD(DynamicalSystem):
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
         self.truncate_max_loss_iter = "PTT" in solver_config["na_op"]
-        self.truncate_iters = solver_config["RGT"]["truncate_iter"] if "RGT" in solver_config["na_op"] else 0
+        self.truncate_iters = solver_config["RGT"]["truncate_iter"]
         self.ll_opt = solver_config["lower_level_opt"]
         self.foa = "FOA" in solver_config["na_op"]
 
