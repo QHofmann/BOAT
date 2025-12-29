@@ -129,7 +129,6 @@ class DM(DynamicalSystem):
         [1] Liu R, Liu Y, Yao W, et al. "Averaged method of multipliers for bi-level optimization without lower-level strong convexity", in ICML, 2023.
         """
 
-        # assert next_operation is None, "NGD does not support next_operation"
         assert self.lower_loop == 1, "DM only supports one-step lower-level optimization."
         if "gda_loss" in kwargs:
             gda_loss = kwargs["gda_loss"]
@@ -175,8 +174,6 @@ class DM(DynamicalSystem):
             for params in self.ul_opt.param_groups:
                 params["lr"] = x_lr
 
-            for params in self.auxiliary_v_opt.param_groups:
-                params["lr"] = self.eta
         else:
             gda_loss = None
             if "RAD" in self.na_op:
@@ -198,7 +195,7 @@ class DM(DynamicalSystem):
                     params["lr"] = eta
                 for params in self.ul_opt.param_groups:
                     params["lr"] = x_lr
-        #############
+
         self.ll_opt.zero_grad()
         self.auxiliary_v_opt.zero_grad()
         upper_loss = self.ul_objective(ul_feed_dict, self.ul_model, auxiliary_model)
@@ -280,15 +277,6 @@ class DM(DynamicalSystem):
                 for v0, v, gow in zip(self.auxiliary_v, vsp, grad_outer_params)
             ]  # (I-ita*d2yf)v+ita*dy F)
 
-            # vsp = torch.autograd.grad(
-            #     grads_phi_params,
-            #     list(auxiliary_model.parameters()),
-            #     grad_outputs=self.auxiliary_v,
-            #     allow_unused=True,
-            # )  # dy (dy f) v=d2y f v
-            #
-            # for v0, v, gow in zip(self.auxiliary_v, vsp, grad_outer_params):
-            #     v0.grad = v - gow
             update_tensor_grads(list(self.ll_model.parameters()), grad_y_temp)
             self.ll_opt.step()
 
