@@ -184,16 +184,7 @@
             <span class="k">if</span> <span class="s2">&quot;DI&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;gm_op&quot;</span><span class="p">]:</span>
                 <span class="n">opt_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_upper_opt</span><span class="p">)</span>
                 <span class="n">di_lr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boat_configs</span><span class="p">[</span><span class="s2">&quot;DI&quot;</span><span class="p">][</span><span class="s2">&quot;lr&quot;</span><span class="p">])</span>
-                <span class="c1"># new_groups = []</span>
-                <span class="c1"># for g in self._lower_opt.param_groups:</span>
-                <span class="c1">#     ng = {k: v for k, v in g.items() if k != &quot;params&quot;}</span>
-                <span class="c1">#     ng[&quot;params&quot;] = g[&quot;params&quot;]</span>
-                <span class="c1">#     ng[&quot;lr&quot;] = di_lr</span>
-                <span class="c1">#     new_groups.append(ng)</span>
-                <span class="c1"># print(new_groups)</span>
-                <span class="c1"># FIX</span>
-                <span class="c1"># self._lower_init_opt = opt_cls(new_groups, lr=di_lr)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span> <span class="o">=</span> <span class="n">opt_cls</span><span class="p">([{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ll_var</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="n">di_lr</span><span class="p">}])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lower_init_opt</span> <span class="o">=</span> <span class="n">opt_cls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ll_var</span><span class="p">,</span> <span class="n">di_lr</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fo_op_solver</span> <span class="o">=</span> <span class="n">get_registered_operation</span><span class="p">(</span>

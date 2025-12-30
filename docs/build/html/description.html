@@ -47,13 +47,13 @@
               <p class="caption" role="heading"><span class="caption-text">Installation Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#key-features">🔑  <strong>Key Features</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-features">🔑 Key Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#why-boat">🚀 <strong>Why BOAT?</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#applications">🏭 <strong>Applications</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#applications">🌍 Applications</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#related-operations">🚩 <strong>Related Operations</strong></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gradient-mapping-operation-library-gm-ol"><strong>Gradient Mapping Operation LIBRARY (GM-OL)</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hyper-gradient-operation-library-h-ol"><strong>Hyper-Gradient Operation Library (H-OL)</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#first-order-operation-library-fo-ol"><strong>First-Order Operation Library (FO-Ol)</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gradient-mapping-operation-library-gm-ol"><strong>Gradient Mapping Operation Library (GM-OL)</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numerical-approximation-operation-library-na-ol"><strong>Numerical Approximation Operation Library (NA-OL)</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#first-order-operation-library-fo-ol"><strong>First-Order Operation Library (FO-OL)</strong></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#license">📜 <strong>License</strong></a></li>
@@ -93,17 +93,18 @@
              
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h1>
-<p><a class="reference external" href="https://badge.fury.io/py/boml"><img alt="PyPI version" src="https://badge.fury.io/py/boml.svg" /></a>
+<p><a class="reference external" href="https://badge.fury.io/py/boat-jit"><img alt="PyPI version" src="https://badge.fury.io/py/boat-jit.svg" /></a>
 <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/callous-youth/BOAT/workflow.yml" />
 <a class="reference external" href="https://codecov.io/github/callous-youth/BOAT"><img alt="codecov" src="https://codecov.io/github/callous-youth/BOAT/graph/badge.svg?token=0MKAOQ9KL3" /></a>
-<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/w/callous-youth/BOAT" />
-<img alt="Python version" src="https://img.shields.io/badge/python-3.8-blue" />
 <a class="reference external" href="https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment"><img alt="pages-build-deployment" src="https://github.com/callous-youth/BOAT/actions/workflows/pages/pages-build-deployment/badge.svg" /></a>
-<img alt="GitHub language count" src="https://img.shields.io/github/languages/count/callous-youth/BOAT" />
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/w/callous-youth/BOAT" />
 <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/callous-youth/BOAT" />
+<img alt="GitHub language count" src="https://img.shields.io/github/languages/count/callous-youth/BOAT" />
+<img alt="Python version" src="https://img.shields.io/badge/python-3.8%2B-blue" />
 <img alt="license" src="https://img.shields.io/badge/license-MIT-000000.svg" />
 <img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></p>
-<p>To enhance flexibility and efficiency, <em>BOAT</em> incorporates the <strong>Gradient Mapping Operation LIBRARY (GM-OL)</strong> and the <strong>Numerical Approximation Operation LIBRARY (NA-OL)</strong>, alongside a collection of state-of-the-art first-order optimization strategies. BOAT also provides multiple implementation versions:</p>
+<p><strong>BOAT</strong> is a compositional <strong>O</strong>per<strong>A</strong>tion-level <strong>T</strong>oolbox for gradient-based <strong>B</strong>LO.
+Unlike existing libraries that typically encapsulate fixed solver routines, BOAT factorizes the BLO workflow into <strong>atomic, reusable primitives</strong>. Through a unified constraint reconstruction perspective, it empowers researchers to <strong>automatically compose</strong> over <strong>85+ solver variants</strong> from a compact set of <strong>17 gradient operations</strong>.</p>
 <ul class="simple">
 <li><p><strong><a class="reference external" href="https://github.com/callous-youth/BOAT">PyTorch-based</a></strong>: An efficient and widely-used version.</p></li>
 <li><p><strong><a class="reference external" href="https://github.com/callous-youth/BOAT/tree/boat_jit">Jittor-based</a></strong>: An accelerated version for high-performance tasks with full implementation of the BLO algorithms in the PyTorch version of <em>BOAT</em>.</p></li>
@@ -111,16 +112,13 @@
 </ul>
 <p>BOAT is designed to offer robust computational support for a broad spectrum of BLO research and applications, enabling innovation and efficiency in machine learning and computer vision.</p>
 <section id="key-features">
-<h2>🔑  <strong>Key Features</strong><a class="headerlink" href="#key-features" title="Permalink to this heading"></a></h2>
+<h2>🔑 Key Features<a class="headerlink" href="#key-features" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Gradient Mapping Operation LIBRARY (GM-OL)</strong>: Incorporates 4 advanced dynamic system construction operations, enabling users to flexibly tailor optimization trajectories for BLO tasks.</p></li>
-<li><p><strong>Hyper-Gradient Operation Library (H-OL)</strong>: Provides 9 refined operations for hyper-gradient computation, significantly enhancing the precision and efficiency of gradient-based BLO methods.</p></li>
-<li><p><strong>First-Order Operation Library (FO-Ol)</strong>: Integrates 4 state-of-the-art first-order methods, enabling fast prototyping and validation of new BLO algorithms.</p></li>
-<li><p><strong>Modularized Design for Customization</strong>: With modularized design, BOAT allows flexible combinations of multiple upper-level and lower-level operators, leading to new dynamic sequential operations. With nearly <strong>85</strong> algorithmic combinations, <em>BOAT</em> allows for customization of the specific forms of problems, parameters, and optimizer choices, enabling seamless integration into diverse task-specific codes.</p></li>
-<li><p><strong>Comprehensive Testing &amp; Continuous Integration</strong>: Achieves <strong>99% code coverage</strong> through rigorous testing with <strong>pytest</strong> and <strong>Codecov</strong>, coupled with continuous integration via <strong>GitHub Actions</strong>, ensuring software robustness and reliability.</p></li>
-<li><p><strong>Fast Prototyping &amp; Algorithm Validation</strong>: Streamlined support for defining, testing, and benchmarking new BLO algorithms.</p></li>
-<li><p><strong>Unified Computational Analysis</strong>: Offers a comprehensive complexity analysis of gradient-based BLO techniques to guide users in selecting optimal configurations for efficiency and accuracy.</p></li>
-<li><p><strong>Detailed Documentation &amp; Community Support</strong>: Offers thorough documentation with practical examples and API references via <strong>MkDocs</strong>, ensuring accessibility and ease of use for both novice and advanced users.</p></li>
+<li><p><strong>🧩 Compositional Operation-Level Abstraction</strong>: Deconstructs BLO solvers into three modular stages: <em>Gradient Mapping (GM)</em>, <em>Numerical Approximation (NA)</em>, and <em>First-Order (FO)</em>.</p></li>
+<li><p><strong>⚡ Accelerated JIT Execution</strong>: Built on Jittor, enabling meta-operator fusion and high-performance execution on NVIDIA GPUs.</p></li>
+<li><p><strong>🏭 Generative Solver Construction</strong>: Supports dynamic serialization of operations. Users can recover classical algorithms or discover <strong>novel hybrid solvers</strong> simply by changing configurations.</p></li>
+<li><p><strong>🛠 Configuration-Driven</strong>: Define complex optimization strategies via simple <code class="docutils literal notranslate"><span class="pre">JSON</span></code> configurations, decoupling algorithmic logic from model definitions.</p></li>
+<li><p><strong>✅ Comprehensive Testing</strong>: Achieves <strong>99% code coverage</strong> through rigorous testing with <strong>pytest</strong>, ensuring software robustness.</p></li>
 </ul>
 </section>
 <section id="why-boat">
@@ -129,22 +127,18 @@
 <p>In contrast, <strong>BOAT</strong> expands the landscape of Bi-Level Optimization (BLO) applications by supporting a broader range of problem-adaptive operations. It bridges the gap between theoretical research and practical deployment, offering unparalleled flexibility to design, customize, and accelerate BLO techniques.</p>
 </section>
 <section id="applications">
-<h2>🏭 <strong>Applications</strong><a class="headerlink" href="#applications" title="Permalink to this heading"></a></h2>
-<p>BOAT enables efficient implementation and adaptation of advanced BLO techniques for key applications, including but not limited to:</p>
+<h2>🌍 Applications<a class="headerlink" href="#applications" title="Permalink to this heading"></a></h2>
+<p>BOAT covers a wide spectrum of BLO applications, categorized by the optimization target:</p>
 <ul class="simple">
-<li><p><strong>Hyperparameter Optimization (HO)</strong></p></li>
-<li><p><strong>Neural Architecture Search (NAS)</strong></p></li>
-<li><p><strong>Adversarial Training (AT)</strong></p></li>
-<li><p><strong>Few-Shot Learning (FSL)</strong></p></li>
-<li><p><strong>Generative Adversarial Learning</strong></p></li>
-<li><p><strong>Transfer Attack</strong></p></li>
-<li><p>…</p></li>
+<li><p><strong>Data-Centric</strong>: Data Hyper-Cleaning, Synthetic Data Reweighting, Diffusion Model Guidance.</p></li>
+<li><p><strong>Model-Centric</strong>: Neural Architecture Search (NAS), LLM Prompt Optimization, Parameter Efficient Fine-Tuning (PEFT).</p></li>
+<li><p><strong>Strategy-Centric</strong>: Meta-Learning, Hyperparameter Optimization (HO), Reinforcement Learning from Human Feedback (RLHF).</p></li>
 </ul>
 </section>
 <section id="related-operations">
 <h2>🚩 <strong>Related Operations</strong><a class="headerlink" href="#related-operations" title="Permalink to this heading"></a></h2>
 <section id="gradient-mapping-operation-library-gm-ol">
-<h3><strong>Gradient Mapping Operation LIBRARY (GM-OL)</strong><a class="headerlink" href="#gradient-mapping-operation-library-gm-ol" title="Permalink to this heading"></a></h3>
+<h3><strong>Gradient Mapping Operation Library (GM-OL)</strong><a class="headerlink" href="#gradient-mapping-operation-library-gm-ol" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://proceedings.neurips.cc/paper_files/paper/2021/file/48bea99c85bcbaaba618ba10a6f69e44-Paper.pdf">Towards gradient-based bilevel optimization with non-convex followers and beyond (DI)</a></p></li>
 <li><p><a class="reference external" href="https://proceedings.mlr.press/v202/liu23y/liu23y.pdf">Averaged Method of Multipliers for Bi-Level Optimization without Lower-Level Strong Convexity(DM)</a></p></li>
@@ -152,8 +146,8 @@
 <li><p><a class="reference external" href="http://export.arxiv.org/pdf/1806.04910">Bilevel Programming for Hyperparameter Optimization and Meta-Learning (NGD)</a></p></li>
 </ul>
 </section>
-<section id="hyper-gradient-operation-library-h-ol">
-<h3><strong>Hyper-Gradient Operation Library (H-OL)</strong><a class="headerlink" href="#hyper-gradient-operation-library-h-ol" title="Permalink to this heading"></a></h3>
+<section id="numerical-approximation-operation-library-na-ol">
+<h3><strong>Numerical Approximation Operation Library (NA-OL)</strong><a class="headerlink" href="#numerical-approximation-operation-library-na-ol" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://arxiv.org/abs/1602.02355">Hyperparameter optimization with approximate gradient (CG)</a></p></li>
 <li><p><a class="reference external" href="http://proceedings.mlr.press/v108/lorraine20a/lorraine20a.pdf">Optimizing millions of hyperparameters by implicit differentiation (NS)</a></p></li>
@@ -167,7 +161,7 @@
 </ul>
 </section>
 <section id="first-order-operation-library-fo-ol">
-<h3><strong>First-Order Operation Library (FO-Ol)</strong><a class="headerlink" href="#first-order-operation-library-fo-ol" title="Permalink to this heading"></a></h3>
+<h3><strong>First-Order Operation Library (FO-OL)</strong><a class="headerlink" href="#first-order-operation-library-fo-ol" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://proceedings.neurips.cc/paper_files/paper/2022/file/6dddcff5b115b40c998a08fbd1cea4d7-Paper-Conference.pdf">BOME! Bilevel Optimization Made Easy: A Simple First-Order Approach (VFO)</a></p></li>
 <li><p><a class="reference external" href="http://proceedings.mlr.press/v139/liu21o/liu21o.pdf">A Value-Function-based Interior-point Method for Non-convex Bi-level Optimization (VSO)</a></p></li>

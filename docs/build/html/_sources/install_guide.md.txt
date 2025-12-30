@@ -1,48 +1,44 @@
 # Installation and Usage Guide
 
-## 🔨 **Installation**
-BOAT-jit is built on top of **Jittor**, so please **install Jittor first**, and then install **BOAT-jit**.
+## 🔨 Installation
+
+BOAT-jit is built on top of **Jittor**. Please ensure Jittor is installed correctly before installing BOAT.
 
 ### 1. Install Jittor
-You can follow the official installation guide:
+Follow the [Official Installation Guide](https://cg.cs.tsinghua.edu.cn/jittor/download/) or use the commands below:
 
-👉 https://cg.cs.tsinghua.edu.cn/jittor/download/
-#### Linux (Ubuntu / CentOS / Arch)
+**Linux (Ubuntu / CentOS)**
 
 ```bash
-# Check if Python version is 3.7 or higher
-sudo apt install python3.7-dev libomp-dev
-python3.7 -m pip install jittor
-python3.7 -m jittor.test.test_example
-# If your computer has an NVIDIA graphics card, check the cuDNN acceleration library
-python3.7 -m jittor.test.test_cudnn_op
+sudo apt install python3.8-dev libomp-dev
+python3.8 -m pip install jittor
+# Verify installation (Optional)
+python3.8 -m jittor.test.test_example
 ```
-#### macOS
+
+**Windows**
 
 ```bash
-# Check if Python version is 3.7 or higher
-brew install libomp
-python3.7 -m pip install jittor
-python3.7 -m jittor.test.test_example
-```
-#### Windows
-
-```bash
-# Check if Python version is 3.8 or higher
-python --version
 python -m pip install jittor
 python -m jittor.test.test_core
-python -m jittor.test.test_example
-# If your computer has an NVIDIA graphics card, check the cuDNN acceleration library
-python -m jittor.test.test_cudnn_op
+```
+
+**macOS**
+
+```bash
+brew install libomp
+python3.8 -m pip install jittor
 ```
 
 ### 2. Install BOAT-jit
-To install BOAT, use the following command:
+Once Jittor is ready, install BOAT-jit via PyPI or Source:
 ```bash
-pip install boat-jit 
-or 
-git clone -b boat_jit --single-branch https://github.com/callous-youth/BOAT.git
+# Install from PyPI
+pip install boat-jit
+
+# Or install from Source (Specific Branch)
+git clone -b boat_jit --single-branch [https://github.com/callous-youth/BOAT.git](https://github.com/callous-youth/BOAT.git)
+cd BOAT
 pip install -e .
 ```
 
