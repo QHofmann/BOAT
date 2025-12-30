@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./_static/logo.jpg" alt="BOAT" width="50%" align="top">
+  <img src="https://raw.githubusercontent.com/QHofmann/BOAT/boat_jit_ttest/_static/logo.jpg" alt="BOAT" width="50%" align="top">
 </h1>
 <p align="center">
   <b>A Compositional Operation Toolbox for Gradient-based Bi-Level Optimization</b><br>

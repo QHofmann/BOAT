@@ -3,7 +3,7 @@ from os import path
 
 current_directory = path.abspath(path.dirname(__file__))
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 
@@ -18,6 +18,7 @@ setup(
     version="1.0.4",
     packages=find_packages(),
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/callous-youth/BOAT/tree/boat_jit",
     license="MIT",
     keywords=[
