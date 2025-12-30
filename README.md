@@ -38,7 +38,7 @@ BOAT supports unified execution across backends via separate branches:
 
 <p align="center">
   <a href="https://github.com/callous-youth/BOAT">
-    <img src="./_static/BOAT.png" alt="BOAT Structure" width="90%" align="top">
+    <img src="https://raw.githubusercontent.com/QHofmann/BOAT/boat_jit_ttest/_static/BOAT.png" alt="BOAT Structure" width="90%" align="top">
   </a>
 </p>
 
