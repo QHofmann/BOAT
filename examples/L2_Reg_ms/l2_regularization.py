@@ -304,8 +304,8 @@ def main():
     boat_config["upper_level_model"] = upper_model
     boat_config["lower_level_opt"] = lower_opt
     boat_config["upper_level_opt"] = upper_opt
-    boat_config["lower_level_var"] = lower_model.trainable_params()
-    boat_config["upper_level_var"] = upper_model.trainable_params()
+    boat_config["lower_level_var"] = list(lower_model.trainable_params())
+    boat_config["upper_level_var"] = list(upper_model.trainable_params())
     b_optimizer = boat.Problem(boat_config, loss_config)
     b_optimizer.build_ll_solver()
     b_optimizer.build_ul_solver()

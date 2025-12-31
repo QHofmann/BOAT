@@ -48,7 +48,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="description.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation and Usage Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">🔨 <strong>Installation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">🔨 Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#install-mindspore">1. Install MindSpore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#install-boat-ms">2. Install BOAT-ms</a></li>
 </ul>
@@ -98,40 +98,38 @@
   <section id="installation-and-usage-guide">
 <h1>Installation and Usage Guide<a class="headerlink" href="#installation-and-usage-guide" title="Permalink to this heading"></a></h1>
 <section id="installation">
-<h2>🔨 <strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<h2>🔨 Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>BOAT-ms is built on top of <strong>MindSpore</strong>. Please install a suitable version for your hardware (Ascend / GPU / CPU) first.</p>
 <section id="install-mindspore">
 <h3>1. Install MindSpore<a class="headerlink" href="#install-mindspore" title="Permalink to this heading"></a></h3>
-<p>Before installing BOAT, please install a suitable version of <strong>MindSpore</strong> according to your hardware (Ascend / GPU / CPU), operating system, and Python version.<br />
-You can follow the official installation guide:</p>
-<p>👉 https://www.mindspore.cn/install</p>
-<p>Typical examples (please refer to the official website for the latest and detailed commands):</p>
-<ul class="simple">
-<li><p><strong>CPU (Linux-x86_64)</strong>:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a dedicated conda environment with Python 3.9</span>
+<p>Follow the <a class="reference external" href="https://www.mindspore.cn/install">Official Installation Guide</a> or use the reference commands below:</p>
+<p><strong>CPU (Linux-x86_64) Example</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Create environment</span>
 conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>mindspore_py39<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9.11<span class="w"> </span>-y
 conda<span class="w"> </span>activate<span class="w"> </span>mindspore_py39
 
-<span class="c1"># (Linux only) Prepare system dependencies and install a compatible GCC version</span>
-<span class="c1"># MindSpore relies on a modern GCC toolchain for compilation and runtime support</span>
+<span class="c1"># 2. Install GCC dependencies (Linux only)</span>
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>software-properties-common<span class="w"> </span>-y
 sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>ppa:ubuntu-toolchain-r/test
 sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>gcc-9<span class="w"> </span>-y
 
-<span class="c1"># Install MindSpore from the official MindSpore PyPI mirror</span>
-<span class="c1"># MS_VERSION can be adjusted based on hardware and system compatibility</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">MS_VERSION</span><span class="o">=</span><span class="m">2</span>.7.1
-pip<span class="w"> </span>install<span class="w"> </span><span class="nv">mindspore</span><span class="o">==</span><span class="si">${</span><span class="nv">MS_VERSION</span><span class="si">}</span><span class="w"> </span>-i<span class="w"> </span>https://repo.mindspore.cn/pypi/simple<span class="w"> </span>--trusted-host<span class="w"> </span>repo.mindspore.cn<span class="w"> </span>--extra-index-url<span class="w"> </span>https://repo.huaweicloud.com/repository/pypi/simple/
+<span class="c1"># 3. Install MindSpore (Adjust MS_VERSION as needed)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MS_VERSION</span><span class="o">=</span><span class="m">2</span>.4.1
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">mindspore</span><span class="o">==</span><span class="si">${</span><span class="nv">MS_VERSION</span><span class="si">}</span><span class="w"> </span>-i<span class="w"> </span><span class="o">[</span>https://repo.mindspore.cn/pypi/simple<span class="o">](</span>https://repo.mindspore.cn/pypi/simple<span class="o">)</span><span class="w"> </span>--trusted-host<span class="w"> </span>repo.mindspore.cn
 </pre></div>
 </div>
 </section>
 <section id="install-boat-ms">
 <h3>2. Install BOAT-ms<a class="headerlink" href="#install-boat-ms" title="Permalink to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-ms
-or<span class="w"> </span>run<span class="w"> </span>
-git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>boat_ms<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/callous-youth/BOAT.git
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>
+<p>Once MindSpore is ready, install BOAT-ms via PyPI or Source:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install from PyPI</span>
+pip<span class="w"> </span>install<span class="w"> </span>boat-ms
+
+<span class="c1"># Or install from Source (Specific Branch)</span>
+git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>boat_ms<span class="w"> </span>--single-branch<span class="w"> </span><span class="o">[</span>https://github.com/callous-youth/BOAT.git<span class="o">](</span>https://github.com/callous-youth/BOAT.git<span class="o">)</span>
+<span class="nb">cd</span><span class="w"> </span>BOAT
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 </section>

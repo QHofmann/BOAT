@@ -1,40 +1,39 @@
 # Installation and Usage Guide
 
-##  🔨 **Installation**
+## 🔨 Installation
+
+BOAT-ms is built on top of **MindSpore**. Please install a suitable version for your hardware (Ascend / GPU / CPU) first.
 
 ### 1. Install MindSpore
+Follow the [Official Installation Guide](https://www.mindspore.cn/install) or use the reference commands below:
 
-Before installing BOAT, please install a suitable version of **MindSpore** according to your hardware (Ascend / GPU / CPU), operating system, and Python version.  
-You can follow the official installation guide:
-
-👉 https://www.mindspore.cn/install
-
-Typical examples (please refer to the official website for the latest and detailed commands):
-
-- **CPU (Linux-x86_64)**:
+**CPU (Linux-x86_64) Example**
 ```bash
-# Create a dedicated conda environment with Python 3.9
+# 1. Create environment
 conda create -n mindspore_py39 python=3.9.11 -y
 conda activate mindspore_py39
 
-# (Linux only) Prepare system dependencies and install a compatible GCC version
-# MindSpore relies on a modern GCC toolchain for compilation and runtime support
+# 2. Install GCC dependencies (Linux only)
 sudo apt-get install software-properties-common -y
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get install gcc-9 -y
 
-# Install MindSpore from the official MindSpore PyPI mirror
-# MS_VERSION can be adjusted based on hardware and system compatibility
-export MS_VERSION=2.7.1
-pip install mindspore==${MS_VERSION} -i https://repo.mindspore.cn/pypi/simple --trusted-host repo.mindspore.cn --extra-index-url https://repo.huaweicloud.com/repository/pypi/simple/
+# 3. Install MindSpore (Adjust MS_VERSION as needed)
+export MS_VERSION=2.4.1
+pip install mindspore==${MS_VERSION} -i [https://repo.mindspore.cn/pypi/simple](https://repo.mindspore.cn/pypi/simple) --trusted-host repo.mindspore.cn
 ```
+
 ### 2. Install BOAT-ms
+Once MindSpore is ready, install BOAT-ms via PyPI or Source:
 ```bash
+# Install from PyPI
 pip install boat-ms
-or run 
-git clone -b boat_ms --single-branch https://github.com/callous-youth/BOAT.git
-pip install -e . 
+
+# Or install from Source (Specific Branch)
+git clone -b boat_ms --single-branch [https://github.com/callous-youth/BOAT.git](https://github.com/callous-youth/BOAT.git)
+cd BOAT
+pip install -e .
 ```
 
 ##  ⚡ **How to Use BOAT**

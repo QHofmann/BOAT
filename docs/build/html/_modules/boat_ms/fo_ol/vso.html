@@ -132,11 +132,11 @@
             <span class="n">grads</span> <span class="o">=</span> <span class="n">grad_fn</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ll_opt</span><span class="p">(</span><span class="n">grads</span><span class="p">)</span>
 
-        <span class="c1"># -------- 构造 auxiliary model --------</span>
+        <span class="c1"># -------- auxiliary model --------</span>
         <span class="n">auxiliary_model</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="p">)</span>
         <span class="n">auxiliary_opt</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">auxiliary_model</span><span class="o">.</span><span class="n">trainable_params</span><span class="p">(),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z_lr</span><span class="p">)</span>
 
-        <span class="c1"># 先算一次 loss_z（常数项）</span>
+        <span class="c1"># loss_z</span>
         <span class="n">loss_l2_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_l2_reg</span> <span class="o">/</span> <span class="n">reg_decay</span> <span class="o">*</span> <span class="n">l2_reg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">trainable_params</span><span class="p">())</span>
         <span class="n">loss_z_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_objective</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="p">)</span>
         <span class="n">loss_z</span> <span class="o">=</span> <span class="n">loss_z_</span> <span class="o">+</span> <span class="n">loss_l2_z</span>
@@ -155,7 +155,7 @@
             <span class="n">grads</span> <span class="o">=</span> <span class="n">grad_fn</span><span class="p">()</span>
             <span class="n">auxiliary_opt</span><span class="p">(</span><span class="n">grads</span><span class="p">)</span>
 
-        <span class="c1"># -------- x step (更新上层模型) --------</span>
+        <span class="c1"># -------- x step --------</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">compute_loss_x</span><span class="p">():</span>
             <span class="n">loss_l2_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_l2_reg</span> <span class="o">/</span> <span class="n">reg_decay</span> <span class="o">*</span> <span class="n">l2_reg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="o">.</span><span class="n">trainable_params</span><span class="p">())</span>
             <span class="n">loss_z_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_objective</span><span class="p">(</span><span class="n">ll_feed_dict</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ul_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ll_model</span><span class="p">)</span>

@@ -229,7 +229,6 @@ class Problem:
 
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-        # 左图 - 下层 loss
         axes[0].plot(iters, ll_losses, label="Lower-level Loss", color="blue")
         axes[0].set_xlabel("Iteration")
         axes[0].set_ylabel("Loss")
@@ -237,7 +236,6 @@ class Problem:
         axes[0].legend(loc="upper left")
         axes[0].grid(True)
 
-        # 右图 - 上层 loss
         axes[1].plot(iters, ul_losses, label="Upper-level Loss", color="orange")
         axes[1].set_xlabel("Iteration")
         axes[1].set_ylabel("Loss")
@@ -245,7 +243,6 @@ class Problem:
         axes[1].legend(loc="upper left")
         axes[1].grid(True)
 
-        # 保存
         plt.tight_layout()
         save_path = os.path.join(os.path.dirname(self.loss_log_path), "loss_curve.png")
         plt.savefig(save_path)
@@ -265,6 +262,5 @@ class Problem:
             "ul_loss": ul_val
         })
 
-        # 追加写入文件（每次迭代都更新）
         with open(self.loss_log_path, "w") as f:
             json.dump(self.loss_history, f)

@@ -53,11 +53,11 @@ class VSO(DynamicalSystem):
             grads = grad_fn()
             self.ll_opt(grads)
 
-        # -------- 构造 auxiliary model --------
+        # -------- auxiliary model --------
         auxiliary_model = copy.deepcopy(self.ll_model)
         auxiliary_opt = nn.SGD(auxiliary_model.trainable_params(), learning_rate=self.z_lr)
 
-        # 先算一次 loss_z（常数项）
+        # loss_z
         loss_l2_z = self.ll_l2_reg / reg_decay * l2_reg(self.ll_model.trainable_params())
         loss_z_ = self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
         loss_z = loss_z_ + loss_l2_z
@@ -76,7 +76,7 @@ class VSO(DynamicalSystem):
             grads = grad_fn()
             auxiliary_opt(grads)
 
-        # -------- x step (更新上层模型) --------
+        # -------- x step --------
         def compute_loss_x():
             loss_l2_z = self.ll_l2_reg / reg_decay * l2_reg(self.ll_model.trainable_params())
             loss_z_ = self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
