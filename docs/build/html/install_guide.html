@@ -48,7 +48,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="description.html">BOAT Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation and Usage Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">🔨 <strong>Installation</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">🔨 Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-environment">1. Create Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2. Create Environment</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-use-boat">⚡ <strong>How to Use BOAT</strong></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#load-configuration-files"><strong>1. Load Configuration Files</strong></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#define-models-and-optimizers"><strong>2. Define Models and Optimizers</strong></a></li>
@@ -96,20 +100,28 @@
   <section id="installation-and-usage-guide">
 <h1>Installation and Usage Guide<a class="headerlink" href="#installation-and-usage-guide" title="Permalink to this heading"></a></h1>
 <section id="installation">
-<h2>🔨 <strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
-<p>To install BOAT, first create and activate the conda environment, then install the required dependencies (taking Python 3.12 as an example):</p>
+<h2>🔨 Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>To install BOAT (PyTorch version), we recommend using a virtual environment.</p>
+<section id="create-environment">
+<h3>1. Create Environment<a class="headerlink" href="#create-environment" title="Permalink to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>boat<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
 conda<span class="w"> </span>activate<span class="w"> </span>boat
 </pre></div>
 </div>
-<p>then you can install the latest version from pypi or the source code on <em>GitHub</em>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boat-torch<span class="w"> </span>
-or<span class="w"> </span>run<span class="w"> </span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/callous-youth/BOAT.git
+</section>
+<section id="id1">
+<h3>2. Create Environment<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>You can install the latest stable version from PyPI or the latest development version from <em>GitHub</em>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install from PyPI</span>
+pip<span class="w"> </span>install<span class="w"> </span>boat-torch
+
+<span class="c1"># Or install from Source</span>
+git<span class="w"> </span>clone<span class="w"> </span><span class="o">[</span>https://github.com/callous-youth/BOAT.git<span class="o">](</span>https://github.com/callous-youth/BOAT.git<span class="o">)</span>
 <span class="nb">cd</span><span class="w"> </span>BOAT
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
+</section>
 </section>
 <section id="how-to-use-boat">
 <h2>⚡ <strong>How to Use BOAT</strong><a class="headerlink" href="#how-to-use-boat" title="Permalink to this heading"></a></h2>
