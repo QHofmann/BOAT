@@ -119,7 +119,6 @@ class MESO(DynamicalSystem):
         reg = 0
         for param1, param2 in zip(list(self.ll_var), vs_param):
             diff = param1 - param2
-            # result_params.append(diff)
             reg += torch.norm(diff, p=2) ** 2
         lower_loss = (
             (1 / ck) * self.ul_objective(ul_feed_dict, self.ul_model, self.ll_model)

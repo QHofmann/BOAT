@@ -111,7 +111,7 @@ class PGDO(DynamicalSystem):
                 tr_loss = self.ll_objective(ll_feed_dict, self.ul_model, self.ll_model)
                 grads_hat = grad_unused_zero(tr_loss, list(self.ll_model.parameters()))
                 update_tensor_grads(list(self.ll_model.parameters()), grads_hat)
-                self.ll_opt.step() # meta
+                self.ll_opt.step() # meta_learning need
 
         require_model_grad(self.y_hat)
         for y_itr in range(self.lower_loop):
@@ -146,5 +146,5 @@ class PGDO(DynamicalSystem):
         self.gam += step_gam
         self.gam = min(self.gamma_max, self.gam)
         self.ll_objective(ll_feed_dict, self.ul_model, self.y_hat)
-        self.ll_opt.step()# meta
+        self.ll_opt.step() # meta_learning need
         return {"upper_loss": F_y.item()}

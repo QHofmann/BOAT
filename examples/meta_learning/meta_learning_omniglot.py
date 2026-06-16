@@ -1,16 +1,18 @@
-import os
-import sys
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 import torch
+import numpy as np
+import torch.nn.functional as F
 import boat_torch as boat
 from torch import nn
+from torch.nn import functional as F
+from torchmeta.datasets.helpers import omniglot
 from torchmeta.toy.helpers import sinusoid
 from torchmeta.utils.data import BatchMetaDataLoader
 import math
+import higher
 from tqdm import tqdm
 
 
+# print(torch.cuda.is_available())
 def get_cnn_omniglot(hidden_size, n_classes):
     def conv_layer(
         ic,
@@ -68,31 +70,55 @@ def initialize(net):
             m.bias.data.zero_()
         elif isinstance(m, nn.Linear):
             m.weight.data.normal_(0, 0.01)
+            # m.bias.data = torch.ones(m.bias.data.size())
+            # m.weight.data.zero_()
             m.bias.data.zero_()
     return net
 
 
+device = torch.device("cpu")
+dataset = omniglot(
+    "C:/Users/ASUS/Documents/GitHub/BOAT/data/",
+    ways=5,
+    shots=1,
+    test_shots=15,
+    meta_train=True,
+    download=True,
+)
+test_dataset = omniglot(
+    "C:/Users/ASUS/Documents/GitHub/BOAT/data/",
+    ways=5,
+    shots=1,
+    test_shots=15,
+    meta_test=True,
+    download=True,
+)
+
+meta_model = get_cnn_omniglot(64, 5)
+initialize(meta_model)
 
 batch_size = 4
 kwargs = {"num_workers": 1, "pin_memory": True}
-device = torch.device("cpu")
-dataset = sinusoid(shots=10, test_shots=100, seed=0)
-meta_model = get_sinuoid()
+# device = torch.device("cpu")
+# dataset = sinusoid(shots=10, test_shots=100, seed=0)
+# meta_model = get_sinuoid()
+# dataloader = BatchMetaDataLoader(dataset, batch_size=batch_size, **kwargs)
+# test_dataloader = BatchMetaDataLoader(dataset, batch_size=batch_size, **kwargs)
+
 dataloader = BatchMetaDataLoader(dataset, batch_size=batch_size, **kwargs)
-test_dataloader = BatchMetaDataLoader(dataset, batch_size=batch_size, **kwargs)
+test_dataloader = BatchMetaDataLoader(test_dataset, batch_size=batch_size, **kwargs)
 
 inner_opt = torch.optim.SGD(lr=0.1, params=meta_model.parameters())
 outer_opt = torch.optim.Adam(meta_model.parameters(), lr=0.01)
-
-import os
+y_lr_schedular = torch.optim.lr_scheduler.CosineAnnealingLR(
+    optimizer=outer_opt, T_max=80000, eta_min=0.001
+)
 import json
 
-base_folder = os.path.dirname(os.path.abspath(__file__))
-parent_folder = os.path.dirname(base_folder)
-with open(os.path.join(base_folder, "configs/boat_config_ml.json"), "r") as f:
+with open("/configs/boat_config_ml.json", "r") as f:
     boat_config = json.load(f)
 
-with open(os.path.join(base_folder, "configs/loss_config_ml.json"), "r") as f:
+with open("/configs/loss_config_ml.json", "r") as f:
     loss_config = json.load(f)
 
 
@@ -102,77 +128,56 @@ def main():
     parser = argparse.ArgumentParser(description="Data HyperCleaner")
 
     parser.add_argument(
-        "--gm_op",
+        "--dynamic_method",
         type=str,
-        default=None,
+        default="",
         help="omniglot or miniimagenet or tieredImagenet",
     )
     parser.add_argument(
-        "--na_op",
+        "--hyper_method",
         type=str,
-        default=None,
+        default="",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     parser.add_argument(
-        "--fo_op",
+        "--fo_",
         type=str,
-        default=None,
+        default="",
         help="convnet for 4 convs or resnet for Residual blocks",
     )
     args = parser.parse_args()
-
-    gm_op = args.gm_op.split(",") if args.gm_op else None
-    na_op = args.na_op.split(",") if args.na_op else None
-    print(args.gm_op)
-    print(args.na_op)
-    if args.fo_op == "MABT":
-        lower_model = get_sinuoid()
-        upper_model = get_sinuoid()
-        lower_model.load_state_dict(upper_model.state_dict())
-        lower_opt = torch.optim.SGD(lr=0.1, params=lower_model.parameters())
-        upper_opt = torch.optim.Adam(upper_model.parameters(), lr=0.01)
-    else:
-        lower_model = meta_model
-        upper_model = meta_model
-        lower_opt = inner_opt
-        upper_opt = outer_opt
-
-    boat_config["gm_op"] = gm_op
-    boat_config["na_op"] = na_op
-    boat_config["fo_op"] = args.fo_op
-    boat_config["lower_level_model"] = lower_model
-    boat_config["upper_level_model"] = upper_model
-    boat_config["lower_level_var"] = list(lower_model.parameters())
-    boat_config["upper_level_var"] = list(upper_model.parameters())
-    boat_config["lower_level_opt"] = lower_opt
-    boat_config["upper_level_opt"] = upper_opt
+    boat_config["lower_level_model"] = meta_model
+    boat_config["upper_level_model"] = meta_model
+    boat_config["lower_level_var"] = meta_model.parameters()
+    boat_config["upper_level_var"] = meta_model.parameters()
     b_optimizer = boat.Problem(boat_config, loss_config)
-    b_optimizer.build_ll_solver()
-    b_optimizer.build_ul_solver()
+    b_optimizer.build_ll_solver(inner_opt)
+    b_optimizer.build_ul_solver(outer_opt)
 
-    with tqdm(dataloader, total=1, desc="Meta Training Phase") as pbar:
+    with tqdm(dataloader, total=2, desc="Meta Training Phase") as pbar:
         for meta_iter, batch in enumerate(pbar):
             ul_feed_dict = [
                 {
-                    "data": batch["test"][0][k].float().to(device),
-                    "target": batch["test"][1][k].float().to(device),
+                    "data": batch["test"][0][k].to(device),
+                    "target": batch["test"][1][k].to(device),
                 }
                 for k in range(batch_size)
             ]
             ll_feed_dict = [
                 {
-                    "data": batch["train"][0][k].float().to(device),
-                    "target": batch["train"][1][k].float().to(device),
+                    "data": batch["train"][0][k].to(device),
+                    "target": batch["train"][1][k].to(device),
                 }
                 for k in range(batch_size)
             ]
+            # print(ll_feed_dict[0]['data'].shape,ll_feed_dict[0]['target'].shape)
             loss, run_time = b_optimizer.run_iter(
                 ll_feed_dict, ul_feed_dict, current_iter=meta_iter
             )
-
-            if meta_iter >= 1:
+            y_lr_schedular.step()
+            print("validation loss:", loss)
+            if meta_iter >= 2:
                 break
-    b_optimizer.plot_losses()
 
 
 if __name__ == "__main__":
