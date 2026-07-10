@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/callous-youth/BOAT/refs/heads/main/_static/logo.jpg" alt="BOAT" width="50%" align="top">
+  <img src="_static/logo.jpg" alt="BOAT" width="50%" align="top">
 </h1>
 <p align="center">
   <b>A Compositional Operation Toolbox for Gradient-based Bi-Level Optimization</b><br>
@@ -28,7 +28,7 @@
 
 **BOAT** (**O**per**A**tion-level **T**oolbox for gradient-based **B**LO) is a compositional, operation-level framework designed to bridge the gap between theoretical modeling and practical implementation in Bi-Level Optimization (BLO).
 
-Unlike existing libraries that typically encapsulate fixed solver routines, BOAT factorizes the BLO workflow into **atomic, reusable primitives**. Through a unified constraint reconstruction perspective, it empowers researchers to **automatically compose** over **85+ solver variants** from a compact set of **17 gradient operations**.
+Unlike existing libraries that typically encapsulate fixed solver routines, BOAT factorizes the BLO workflow into **atomic, reusable primitives**. Through a unified constraint reconstruction perspective, it empowers researchers to **automatically compose** over **85+ solver variants** from a compact set of **19 gradient operations**.
 
 This is the **PyTorch-based** version of BOAT, designed for efficiency and wide compatibility. BOAT also supports other backends via separate branches:
 - **[Jittor-based](https://github.com/callous-youth/BOAT/tree/boat_jit)**: Accelerated version with meta-operators.
@@ -53,13 +53,13 @@ This is the **PyTorch-based** version of BOAT, designed for efficiency and wide 
 
 <div align="center">
 
-BOAT implements **17 atomic gradient operations** organized into three modular libraries. These primitives can be dynamically serialized to generate over **85+ solver variants**, covering the full spectrum of BLO methodologies.
+BOAT implements **19 atomic gradient operations** organized into three modular libraries. These primitives can be dynamically serialized to generate over **85+ solver variants**, covering the full spectrum of BLO methodologies.
 
 | Library | Functional Role | Supported Atomic Operations |
 | :--- | :--- | :--- |
 | **GM-OL**<br>*(Gradient Mapping)* | **Reconstructs the LL iterative trajectory.**<br>Customizes the dynamic mapping rules ($\mathcal{T}_k$) to shape the optimization path and variable coupling. | • **[NGD](https://arxiv.org/abs/1706.02692)** (Naive Gradient Descent)<br>• **[GDA](https://arxiv.org/abs/2006.04045)** (Gradient Descent Aggregation)<br>• **[DI](https://proceedings.neurips.cc/paper/2021/hash/48bea99c85bcbaaba618ba10a6f69e44-Abstract.html)** (Dynamic Initialization)<br>• **[DM](https://proceedings.mlr.press/v202/liu23y.html)** (Dual Multiplier / KKT) |
 | **NA-OL**<br>*(Numerical Approx.)* | **Resolves the auxiliary gradient bottleneck.**<br>Approximates the implicit gradients or hyper-gradients via automatic differentiation, numerical inversion, or truncation. | • **[RAD](https://proceedings.mlr.press/v70/franceschi17a.html)** (Reverse-AD / Unrolled)<br>• **[RGT](https://arxiv.org/abs/1810.10667)** (Reverse Gradient Truncation)<br>• **[PTT](https://proceedings.neurips.cc/paper/2021/hash/48bea99c85bcbaaba618ba10a6f69e44-Abstract.html)** (Pessimistic Trajectory Truncation)<br>• **[FD](https://arxiv.org/abs/1806.09055)** (Finite Difference / DARTS)<br>• **[CG](https://arxiv.org/abs/1602.02355)** (Conjugate Gradient)<br>• **[NS](https://proceedings.mlr.press/v108/lorraine20a.html)** (Neumann Series)<br>• **[IGA](https://ieeexplore.ieee.org/document/10430445)** (Implicit Gradient Approximation)<br>• **[IAD](https://arxiv.org/abs/1703.03400)** (Init-based AD / MAML)<br>• **[FOA](https://arxiv.org/abs/1803.02999)** (First-Order Approx. / Reptile) |
-| **FO-OL**<br>*(First-Order)* | **Constructs single-level surrogates.**<br>Reformulates the nested problem into first-order objectives using value-functions or penalties, avoiding Hessian computations. | • **[VSO](http://proceedings.mlr.press/v139/liu21o.html)** (Value-Function Sequential)<br>• **[VFO](https://proceedings.neurips.cc/paper_files/paper/2022/hash/6dddcff5b115b40c998a08fbd1cea4d7-Abstract-Conference.html)** (Value-Function First-Order)<br>• **[MESO](https://arxiv.org/abs/2405.09927)** (Moreau Envelope)<br>• **[PGDO](https://proceedings.mlr.press/v202/shen23c.html)** (Penalty Gradient Descent) |
+| **FO-OL**<br>*(First-Order)* | **Constructs single-level surrogates.**<br>Reformulates the nested problem into first-order objectives using value-functions or penalties, avoiding Hessian computations. | • **[VSO](http://proceedings.mlr.press/v139/liu21o.html)** (Value-Function Sequential)<br>• **[VFO](https://proceedings.neurips.cc/paper_files/paper/2022/hash/6dddcff5b115b40c998a08fbd1cea4d7-Abstract-Conference.html)** (Value-Function First-Order)<br>• **[MESO](https://arxiv.org/abs/2405.09927)** (Moreau Envelope)<br>• **[PGDO](https://proceedings.mlr.press/v202/shen23c.html)** (Penalty Gradient Descent)<br>• **ALTO** (Alternating Optimization)<br>• **[GAFFO](https://arxiv.org/abs/2406.01992)** (Regularized Gap Function) |
 
 </div>
 
@@ -79,7 +79,7 @@ You can install the latest stable version from PyPI or the latest development ve
 pip install boat-torch
 
 # Or install from Source
-git clone [https://github.com/callous-youth/BOAT.git](https://github.com/callous-youth/BOAT.git)
+git clone https://github.com/callous-youth/BOAT.git
 cd BOAT
 pip install -e .
 ```
@@ -124,6 +124,13 @@ Inject your runtime objects (models, optimizers) into the configuration and init
 # Example gradient mapping and numerical approximation opreation Combination.
 gm_op = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
 na_op = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
+
+# NOTE:
+# - gm_op / na_op select valid GM-OL and NA-OL operator combinations.
+# - The execution order is internally resolved by BOAT priority rules.
+# - First-order methods (FO-OL), e.g., ["VSO", "VFO", "MESO", "PGDO", "ALTO", "GAFFO"],
+#   are alternative optimization strategies and should generally not be
+#   enabled together with na_op.
 
 # Add methods and model details to the configuration
 boat_config["gm_op"] = gm_op
@@ -185,7 +192,6 @@ If you find BOAT useful in your research, please consider citing our paper:
 @article{liu2025boat,
   title={BOAT: A Compositional Operation Toolbox for Gradient-based Bi-Level Optimization},
   author={Liu, Yaohua and Pan, Jibao and Jiao, Xianghao and Gao, Jiaxin and Liu, Zhu and Liu, Risheng},
-  journal={Submitted to Journal of Machine Learning Research (JMLR)},
   year={2025}
 }
 ```

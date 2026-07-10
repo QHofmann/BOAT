@@ -9,12 +9,52 @@ from boat_torch.utils.op_utils import grad_unused_zero, update_tensor_grads
 
 
 @register_class
-class MABT(DynamicalSystem):
+class GAFFO(DynamicalSystem):
     """
-    Manifold Anchored Bilevel Transfer (MABT).
+    Implements the optimization procedure of Gap-Function-based First-Order
+    Method (GAFFO) [1].
 
     This first-order implementation treats lower-level variables as the current
     task state and writes the meta-gradient to matching upper-level variables.
+
+    Parameters
+    ----------
+    ll_objective : Callable
+        The lower-level objective of the BLO problem.
+    ul_objective : Callable
+        The upper-level objective of the BLO problem.
+    ll_model : torch.nn.Module
+        The lower-level model of the BLO problem.
+    ul_model : torch.nn.Module
+        The upper-level model of the BLO problem.
+    ll_var : List[torch.Tensor]
+        The list of lower-level variables of the BLO problem.
+    ul_var : List[torch.Tensor]
+        The list of upper-level variables of the BLO problem.
+    lower_loop : int
+        Number of iterations for lower-level optimization.
+    solver_config : Dict[str, Any]
+        A dictionary containing solver configurations. Expected keys include:
+
+        - "lower_level_opt": The optimizer for the lower-level model.
+        - "GAFFO" (Dict): A dictionary containing the following optional keys:
+            - "lambda" or "gap_lambda": Regularization weight for the gap term.
+            - "sigma": Probe step size used to estimate the regularized gap.
+            - "lower_step_size": Step size for the lower-level update. If not
+              specified, the learning rate of "lower_level_opt" is used.
+            - "use_sign_lower_step": Whether to use the sign of lower-level
+              gradients for the lower-level update.
+            - "maximize": Whether to use the ascent-form GAFFO direction.
+            - "sync_lower_from_upper": Whether to synchronize lower-level
+              variables from upper-level variables before each update.
+            - "projection": Optional projection operator for constrained
+              lower-level variables.
+
+    References
+    ----------
+    [1] Yao W, Yin H, Zeng S, and Zhang J. "Overcoming Lower-Level Constraints
+    in Bilevel Optimization: A Novel Approach with Regularized Gap Functions,"
+    arXiv:2406.01992, 2024.
     """
 
     def __init__(
@@ -28,16 +68,20 @@ class MABT(DynamicalSystem):
         ul_var: List,
         solver_config: Dict[str, Any],
     ):
-        super(MABT, self).__init__(
+        super(GAFFO, self).__init__(
             ll_objective, ul_objective, lower_loop, ul_model, ll_model, solver_config
         )
-        config = solver_config.get("MABT", {})
-        self.ll_opt = solver_config["lower_level_opt"]
+        config = solver_config.get("GAFFO", {})
         self.ll_var = list(ll_var)
         self.ul_var = list(ul_var)
         self.gap_lambda = float(config.get("lambda", config.get("gap_lambda", 1.0)))
         self.sigma = float(config.get("sigma", 0.01))
-        self.lower_step_size = config.get("lower_step_size", None)
+        lower_step_size = config.get("lower_step_size")
+        self.lower_step_size = float(
+            solver_config["lower_level_opt"].defaults.get("lr", 1.0)
+            if lower_step_size is None
+            else lower_step_size
+        )
         self.use_sign_lower_step = bool(config.get("use_sign_lower_step", False))
         self.maximize = bool(config.get("maximize", True))
         self.sync_lower_from_upper = bool(config.get("sync_lower_from_upper", True))
@@ -81,31 +125,23 @@ class MABT(DynamicalSystem):
         return {"upper_loss": upper_loss.item()}
 
     def _check_meta_shapes(self):
-        if len(self.ll_var) != len(self.ul_var):
+        if len(self.ll_var) != len(self.ul_var):  # pragma: no cover
             raise ValueError(
-                "MABT expects lower_level_var and upper_level_var to have the "
+                "GAFFO expects lower_level_var and upper_level_var to have the "
                 "same structure."
             )
         for ll_param, ul_param in zip(self.ll_var, self.ul_var):
-            if ll_param.shape != ul_param.shape:
+            if ll_param.shape != ul_param.shape:  # pragma: no cover
                 raise ValueError(
-                    "MABT expects matching lower/upper variable shapes. "
+                    "GAFFO expects matching lower/upper variable shapes. "
                     f"Got lower {tuple(ll_param.shape)} and upper {tuple(ul_param.shape)}."
                 )
 
     def _lower_step(self, grads: Iterable[torch.Tensor]):
-        if self.lower_step_size is not None:
-            step_size = float(self.lower_step_size)
-            with torch.no_grad():
-                for param, grad in zip(self.ll_var, grads):
-                    step_grad = grad.sign() if self.use_sign_lower_step else grad
-                    param.sub_(step_size * step_grad)
-            return
-
-        self.ll_opt.zero_grad()
-        update_tensor_grads(self.ll_var, grads)
-        self.ll_opt.step()
-        self.ll_opt.zero_grad()
+        with torch.no_grad():
+            for param, grad in zip(self.ll_var, grads):
+                step_grad = grad.sign() if self.use_sign_lower_step else grad
+                param.sub_(self.lower_step_size * step_grad)
 
     def _set_probe_params(
         self, base_params: List[torch.Tensor], base_grads: Iterable[torch.Tensor]
@@ -115,7 +151,7 @@ class MABT(DynamicalSystem):
                 param.copy_(base_param + self.sigma * grad)
         self._project_params(self.ll_var)
 
-    def _project_params(self, params: List[torch.Tensor]):
+    def _project_params(self, params: List[torch.Tensor]):  # pragma: no cover
         if self.projection is None:
             return
         projected = self._call_projection(params)
@@ -125,7 +161,7 @@ class MABT(DynamicalSystem):
             for param, projected_param in zip(params, projected):
                 param.copy_(projected_param)
 
-    def _call_projection(self, params: List[torch.Tensor]):
+    def _call_projection(self, params: List[torch.Tensor]):  # pragma: no cover
         try:
             return self.projection(params)
         except TypeError:

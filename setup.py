@@ -15,7 +15,7 @@ def get_install_requirements():
 
 setup(
     name="boat-torch",
-    version="1.0.2",
+    version="1.0.3",
     packages=find_packages(),
     long_description=long_description,
     long_description_content_type="text/markdown",

@@ -9,14 +9,14 @@ To install BOAT (PyTorch version), we recommend using a virtual environment.
 conda create -n boat python=3.12
 conda activate boat
 ```
-### 2. Create Environment
+### 2. Install BOAT
 You can install the latest stable version from PyPI or the latest development version from *GitHub*:
 ```bash
 # Install from PyPI
 pip install boat-torch
 
 # Or install from Source
-git clone [https://github.com/callous-youth/BOAT.git](https://github.com/callous-youth/BOAT.git)
+git clone https://github.com/callous-youth/BOAT.git
 cd BOAT
 pip install -e .
 ```
@@ -60,8 +60,15 @@ Modify the boat_config to include your gradient mapping and numerical approximat
 
 ```python
 # Example gradient mapping and numerical approximation opreation Combination.
-gm_op = ["NGD", "DI", "GDA"]  # Gradient Mapping opreation (Demo Only)
-na_op = ["RGT","RAD"]          # Numerical Approximation opreation (Demo Only)
+gm_op = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
+na_op = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
+
+# NOTE:
+# - gm_op / na_op select valid GM-OL and NA-OL operator combinations.
+# - The execution order is internally resolved by BOAT priority rules.
+# - First-order methods (FO-OL), e.g., ["VSO", "VFO", "MESO", "PGDO", "ALTO", "GAFFO"],
+#   are alternative optimization strategies and should generally not be
+#   enabled together with na_op.
 
 # Add methods and model details to the configuration
 boat_config["gm_op"] = gm_op
@@ -72,6 +79,9 @@ boat_config["lower_level_opt"] = lower_opt
 boat_config["upper_level_opt"] = upper_opt
 boat_config["lower_level_var"] = list(lower_model.parameters())
 boat_config["upper_level_var"] = list(upper_model.parameters())
+
+# Initialize the BOAT core
+b_optimizer = boat.Problem(boat_config, loss_config)
 ```
 
 ### **4. Initialize the BOAT Problem**
