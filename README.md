@@ -121,7 +121,7 @@ lower_opt = torch.optim.SGD(lower_model.parameters(), lr=1e-2)
 Inject your runtime objects (models, optimizers) into the configuration and initialize the `boat.Problem` instance.
 
 ```python
-# Example gradient mapping and numerical approximation opreation Combination.
+# Example gradient mapping and numerical approximation operation Combination.
 gm_op = ["NGD", "DI", "GDA"]  # Dynamic Methods (Demo Only)
 na_op = ["RGT","RAD"]          # Hyper-Gradient Methods (Demo Only)
 
