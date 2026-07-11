@@ -19,6 +19,7 @@ pip install boat-torch
 git clone https://github.com/callous-youth/BOAT.git
 cd BOAT
 pip install -e .
+# Note: For `examples/meta_learning`, we recommend using `torchmeta==1.8.0` with `torch==1.9.1+cu111`, `python==3.8`.
 ```
 
 ##  ⚡ **How to Use BOAT**
